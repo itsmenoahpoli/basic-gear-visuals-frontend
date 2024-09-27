@@ -1,0 +1,1 @@
+export { LoadComponent } from "./LoadComponent";
