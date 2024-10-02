@@ -9,3 +9,9 @@ export const APP_ENV = {
   IS_STAGING: appEnv === "STAGING",
   IS_PROD: appEnv === "PROD",
 };
+
+export enum ROLES {
+  ADMIN = "admin",
+  TEACHER = "teacher",
+  STUDENT = "student",
+}
