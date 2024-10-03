@@ -1,7 +1,7 @@
 import React from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { LoadComponent } from "@/components/utils";
-import { AuthLayout } from "@/layouts";
+import { AuthLayout, DashboardLayout } from "@/layouts";
 
 /**
  * Error Pages
@@ -13,6 +13,11 @@ const ErrorPage = LoadComponent(React.lazy(() => import("@/views/ErrorPage")));
  */
 const SigninPage = LoadComponent(React.lazy(() => import("@/views/auth/SigninPage")));
 
+/**
+ * Dashboard Pages
+ */
+const OverviewPage = LoadComponent(React.lazy(() => import("@/views/dashboard/OverviewPage")));
+
 const router = createBrowserRouter([
   {
     path: "*",
@@ -20,7 +25,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Navigate to="/auth/login" />,
+    element: <Navigate to="/auth/signin" />,
   },
   {
     path: "/auth",
@@ -29,6 +34,16 @@ const router = createBrowserRouter([
       {
         path: "/auth/signin",
         element: SigninPage,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: "/dashboard/",
+        element: OverviewPage,
       },
     ],
   },
