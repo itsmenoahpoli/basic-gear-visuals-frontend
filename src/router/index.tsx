@@ -1,6 +1,6 @@
 import React from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { LoadComponent } from "@/components/utils";
+import { LoadComponent } from "@/components";
 import { AuthLayout, DashboardLayout } from "@/layouts";
 
 /**
