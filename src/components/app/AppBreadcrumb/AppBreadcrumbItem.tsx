@@ -9,7 +9,7 @@ type Props = {
 export const AppBreadcrumbItem: React.FC<Props> = (props) => {
   return (
     <Flex direction="row" align="center" gap="2">
-      <span className="text-xs text-gray-500 capitalize">{props.label}</span>
+      <span className="text-xs text-white capitalize">{props.label}</span>
       {!props.isLast ? "/" : null}
     </Flex>
   );

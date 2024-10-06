@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { Theme, Flex, Box, Button } from "@radix-ui/themes";
+import { AppBreadcrumb } from "@/components";
 
 export const DashboardLayout: React.FC = () => {
   return (
@@ -15,11 +16,15 @@ export const DashboardLayout: React.FC = () => {
         </Flex>
 
         <Flex direction="row" className="w-full h-[calc(100vh-50px)]">
-          <Box className="w-[300px] h-full border-r border-gray-800 px-5 pt-10">
+          <Box className="w-[300px] h-full border-r border-gray-800 px-5 pt-2">
             <p className="text-xs text-gray-400">Manage &mdash;</p>
           </Box>
           <Box className="w-full h-full px-3 pt-2">
-            <Outlet />
+            <AppBreadcrumb />
+
+            <Box className="mt-7">
+              <Outlet />
+            </Box>
           </Box>
         </Flex>
       </Flex>
