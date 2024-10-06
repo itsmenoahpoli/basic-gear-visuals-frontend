@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import router from "@/router";
 import "@/styles/app.css";
 import "@radix-ui/themes/styles.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const queryClient: QueryClient = new QueryClient({});
 

@@ -8,3 +8,10 @@ export type AuthStore = {
   IS_AUTHENTICATED: () => boolean;
   CLEAR_AUTH: () => void;
 };
+
+export type LayoutStore = {
+  sidebarCollapsed: boolean;
+  theme: "light" | "dark";
+  SET_SIDEBAR_COLLAPSED: (isCollapsed: boolean) => void;
+  SET_THEME: (theme: "light" | "dark") => void;
+};

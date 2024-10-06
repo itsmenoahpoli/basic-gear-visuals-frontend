@@ -1,8 +1,10 @@
-import { httpClient } from "@/api";
+import { toast } from "react-toastify";
+import { useHttp } from "@/hooks";
 import { useAuthStore } from "@/stores";
 import type { Credentials } from "@/types/auth";
 
 export const useAuthService = () => {
+  const { httpClient, handleApiError } = useHttp();
   const { SET_USER, SET_TOKEN } = useAuthStore();
 
   const authenticateCredentials = async (credentials: Credentials, setLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
@@ -13,13 +15,15 @@ export const useAuthService = () => {
         SET_USER(user);
         SET_TOKEN(token);
 
+        toast.success("Authenticated! Redirecting to dashboard");
+
         setTimeout(() => {
           window.location.href = "/dashboard/";
         }, 1500);
       })
       .catch((error) => {
         setLoading(false);
-        return error;
+        handleApiError(error);
       });
   };
 

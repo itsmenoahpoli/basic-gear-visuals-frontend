@@ -4,7 +4,7 @@ import { Theme, Flex, Box } from "@radix-ui/themes";
 
 export const DashboardLayout: React.FC = () => {
   return (
-    <Theme appearance="dark" scaling="90%">
+    <Theme appearance="light" scaling="90%">
       <Flex direction="column" className="w-full h-full">
         <Flex className="h-[50px] w-full border-b border-gray-800 bg-gray-950 px-7" align="center" justify="between">
           <p className="text-center font-bold">ADMIN DASHBOARD</p>
