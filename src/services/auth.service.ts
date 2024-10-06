@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import { useHttp } from "@/hooks";
 import { useAuthStore } from "@/stores";
-import type { Credentials } from "@/types/auth";
+import type { Credentials, LoginResponse } from "@/types/auth";
 
 export const useAuthService = () => {
   const { httpClient, handleApiError } = useHttp();
@@ -9,7 +9,7 @@ export const useAuthService = () => {
 
   const authenticateCredentials = async (credentials: Credentials, setLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
     return await httpClient
-      .post("auth/login", credentials)
+      .post<LoginResponse>("auth/login", credentials)
       .then((response) => {
         const { user, token } = response.data;
         SET_USER(user);
