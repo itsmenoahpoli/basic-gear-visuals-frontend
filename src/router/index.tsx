@@ -68,11 +68,11 @@ const router = createBrowserRouter([
         element: ManageLecturesPage,
       },
       {
-        path: "/dashboard/manage/sections/add",
+        path: "/dashboard/manage/lectures/add",
         element: LectureFormPage,
       },
       {
-        path: "/dashboard/manage/sections/:id/edit",
+        path: "/dashboard/manage/lectures/:id/edit",
         element: LectureFormPage,
       },
     ],

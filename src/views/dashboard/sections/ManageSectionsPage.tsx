@@ -45,28 +45,34 @@ const ManageSectionsPage: React.FC = () => {
         </Table.Header>
 
         <Table.Body>
-          {data.length
-            ? data.map((d: any) => (
-                <Table.Row key={d.id}>
-                  <Table.RowHeaderCell>{d.title}</Table.RowHeaderCell>
-                  <Table.Cell>
-                    <StatusBadge status={d.status} />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Flex direction="row" gap="2">
-                      <Link to={`/dashboard/manage/sections/${d.id}/edit`}>
-                        <Button className="text-xs" variant="soft">
-                          Update
-                        </Button>
-                      </Link>
-                      <Button className="text-xs" color="red" onClick={() => confirmDeleteSection(d.id)}>
-                        Delete
+          {data.length ? (
+            data.map((d: any) => (
+              <Table.Row key={d.id}>
+                <Table.RowHeaderCell>{d.title}</Table.RowHeaderCell>
+                <Table.Cell>
+                  <StatusBadge status={d.status} />
+                </Table.Cell>
+                <Table.Cell>
+                  <Flex direction="row" gap="2">
+                    <Link to={`/dashboard/manage/sections/${d.id}/edit`}>
+                      <Button className="text-xs" variant="soft">
+                        Update
                       </Button>
-                    </Flex>
-                  </Table.Cell>
-                </Table.Row>
-              ))
-            : null}
+                    </Link>
+                    <Button className="text-xs" color="red" onClick={() => confirmDeleteSection(d.id)}>
+                      Delete
+                    </Button>
+                  </Flex>
+                </Table.Cell>
+              </Table.Row>
+            ))
+          ) : (
+            <Table.Row>
+              <Table.Cell colSpan={4} className="text-center font-bold">
+                NO DATA
+              </Table.Cell>
+            </Table.Row>
+          )}
         </Table.Body>
       </Table.Root>
     </Flex>

@@ -1,18 +1,21 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Flex, Card, TextField, Select, Button } from "@radix-ui/themes";
+import { Flex, Card, TextField, TextArea, Select, Button } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
-import { useLecturesService } from "@/services";
+import { useLecturesService, useSubjectsService } from "@/services";
 
 const LectureFormPage: React.FC = () => {
   const { createLecture, getLecture } = useLecturesService();
+  const { getSubjects } = useSubjectsService();
   const { id } = useParams<{ id: string }>();
   const buttonLabel = window.location.pathname.includes("edit") ? `Update Lecture` : `Save Lecture`;
 
   const [formData, setFormData] = React.useState({
-    title: "",
-    status: "draft",
+    name: "",
+    description: "",
+    file: null,
   });
+  const [subjects, setSubjects] = React.useState([]);
 
   const populateForm = (data: any) => {
     setFormData(data);
@@ -35,6 +38,8 @@ const LectureFormPage: React.FC = () => {
     if (window.location.pathname.includes("edit")) {
       getLecture(+id!).then((data) => populateForm(data));
     }
+
+    getSubjects().then((data) => setSubjects(data));
   }, []);
 
   return (
@@ -45,21 +50,32 @@ const LectureFormPage: React.FC = () => {
         <Card>
           <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3">
             <Flex direction="column" gap="1">
-              <small>Name</small>
-              <TextField.Root type="text" defaultValue={formData.title} onChange={(v) => setValue("title", v.target.value)} required />
-            </Flex>
-
-            <Flex direction="column" gap="1">
-              <small>Status</small>
-              <Select.Root defaultValue={formData.status} onValueChange={(v) => setValue("status", v)}>
+              <small>Subject</small>
+              <Select.Root defaultValue="" onValueChange={(v) => setValue("subject_id", v)} required>
                 <Select.Trigger />
                 <Select.Content>
                   <Select.Group>
-                    <Select.Item value="published">Published</Select.Item>
-                    <Select.Item value="draft">Draft</Select.Item>
+                    {subjects.map((subject: any) => (
+                      <Select.Item value={subject.id}>{subject.name}</Select.Item>
+                    ))}
                   </Select.Group>
                 </Select.Content>
               </Select.Root>
+            </Flex>
+            <Flex direction="column" gap="1">
+              <small>Name</small>
+              <TextField.Root type="text" defaultValue={formData.name} onChange={(v) => setValue("name", v.target.value)} required />
+            </Flex>
+
+            <Flex direction="column" gap="1">
+              <small>Description</small>
+              <TextArea defaultValue={formData.description} rows={10} onChange={(v) => setValue("description", v.target.value)} required />
+            </Flex>
+
+            <Flex direction="column" gap="1">
+              <small>Name</small>
+              {/* @ts-ignore */}
+              <TextField.Root type="file" defaultValue={formData.title} onChange={(v) => setValue("name", v.target.value)} required />
             </Flex>
 
             <div>
