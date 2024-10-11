@@ -11,7 +11,8 @@ const LectureFormPage: React.FC = () => {
   const buttonLabel = window.location.pathname.includes("edit") ? `Update Lecture` : `Save Lecture`;
 
   const [formData, setFormData] = React.useState({
-    name: "",
+    subject_id: "",
+    title: "",
     description: "",
     file: null,
   });
@@ -51,12 +52,14 @@ const LectureFormPage: React.FC = () => {
           <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3">
             <Flex direction="column" gap="1">
               <small>Subject</small>
-              <Select.Root defaultValue="" onValueChange={(v) => setValue("subject_id", v)} required>
+              <Select.Root defaultValue={formData.subject_id.toString()} onValueChange={(v) => setValue("subject_id", v)} required>
                 <Select.Trigger />
                 <Select.Content>
                   <Select.Group>
                     {subjects.map((subject: any) => (
-                      <Select.Item value={subject.id}>{subject.name}</Select.Item>
+                      <Select.Item value={subject.id.toString()} key={subject.name}>
+                        {subject.name}
+                      </Select.Item>
                     ))}
                   </Select.Group>
                 </Select.Content>
@@ -64,7 +67,7 @@ const LectureFormPage: React.FC = () => {
             </Flex>
             <Flex direction="column" gap="1">
               <small>Name</small>
-              <TextField.Root type="text" defaultValue={formData.name} onChange={(v) => setValue("name", v.target.value)} required />
+              <TextField.Root type="text" defaultValue={formData.title} onChange={(v) => setValue("title", v.target.value)} required />
             </Flex>
 
             <Flex direction="column" gap="1">
@@ -72,11 +75,13 @@ const LectureFormPage: React.FC = () => {
               <TextArea defaultValue={formData.description} rows={10} onChange={(v) => setValue("description", v.target.value)} required />
             </Flex>
 
-            <Flex direction="column" gap="1">
-              <small>Name</small>
-              {/* @ts-ignore */}
-              <TextField.Root type="file" defaultValue={formData.title} onChange={(v) => setValue("name", v.target.value)} required />
-            </Flex>
+            {!!false ? (
+              <Flex direction="column" gap="1">
+                <small>Module File (Optional)</small>
+                {/* @ts-ignore */}
+                <TextField.Root type="file" defaultValue={formData.file} onChange={(v) => setValue("file", v.target.value)} required />
+              </Flex>
+            ) : null}
 
             <div>
               <Button type="submit" color="green" className="text-xs">
