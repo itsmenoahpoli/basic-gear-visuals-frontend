@@ -27,7 +27,19 @@ export const useAuthService = () => {
       });
   };
 
+  const unauthenticateCredentials = async () => {
+    return await httpClient
+      .post("auth/logout", null)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        handleApiError(error);
+      });
+  };
+
   return {
     authenticateCredentials,
+    unauthenticateCredentials,
   };
 };
