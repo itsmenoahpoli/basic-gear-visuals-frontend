@@ -30,7 +30,7 @@ const ManageSectionsPage: React.FC = () => {
   return (
     <Flex direction="column" gap="3" className="h-full">
       <PageHeader title="Manage Sections" subtitle="View all and manage sections">
-        <Link to="/dashboard/sections/manage/add">
+        <Link to="/dashboard/manage/sections/add">
           <Button>Add Section</Button>
         </Link>
       </PageHeader>
@@ -54,7 +54,7 @@ const ManageSectionsPage: React.FC = () => {
                   </Table.Cell>
                   <Table.Cell>
                     <Flex direction="row" gap="2">
-                      <Link to={`/dashboard/sections/manage/${d.id}/edit`}>
+                      <Link to={`/dashboard/manage/sections/${d.id}/edit`}>
                         <Button className="text-xs" variant="soft">
                           Update
                         </Button>

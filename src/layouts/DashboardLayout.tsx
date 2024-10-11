@@ -43,7 +43,10 @@ export const DashboardLayout: React.FC = () => {
               <Link to="/dashboard/manage/lecture-exams" className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2">
                 Lecture Exams
               </Link>
-              <Link to="/dashboard/lecture-laboratories" className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2">
+              <Link
+                to="/dashboard/manage/lecture-laboratories"
+                className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2"
+              >
                 Lecture Laboratories
               </Link>
             </Flex>

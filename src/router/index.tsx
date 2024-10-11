@@ -22,6 +22,7 @@ const ManageSectionsPage = LoadComponent(React.lazy(() => import("@/views/dashbo
 const SectionFormPage = LoadComponent(React.lazy(() => import("@/views/dashboard/sections/SectionFormPage")));
 
 const ManageLecturesPage = LoadComponent(React.lazy(() => import("@/views/dashboard/lectures/ManageLecturesPage")));
+const LectureFormPage = LoadComponent(React.lazy(() => import("@/views/dashboard/lectures/LectureFormPage")));
 
 const router = createBrowserRouter([
   {
@@ -55,16 +56,24 @@ const router = createBrowserRouter([
         element: ManageSectionsPage,
       },
       {
-        path: "/dashboard/sections/manage/add",
+        path: "/dashboard/manage/sections/add",
         element: SectionFormPage,
       },
       {
-        path: "/dashboard/sections/manage/:id/edit",
+        path: "/dashboard/manage/sections/:id/edit",
         element: SectionFormPage,
       },
       {
-        path: "/dashboard/lectures/manage/:id/edit",
+        path: "/dashboard/manage/lectures",
         element: ManageLecturesPage,
+      },
+      {
+        path: "/dashboard/manage/sections/add",
+        element: LectureFormPage,
+      },
+      {
+        path: "/dashboard/manage/sections/:id/edit",
+        element: LectureFormPage,
       },
     ],
   },
