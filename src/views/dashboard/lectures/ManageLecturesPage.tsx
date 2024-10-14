@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Flex, Button, Table, Badge } from "@radix-ui/themes";
+import { Flex, Button, Table } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useLecturesService } from "@/services";
+import { APP_URL } from "@/constants";
 
 const ManageLecturesPage: React.FC = () => {
   const { getLectures, deleteLecture } = useLecturesService();
@@ -17,6 +18,10 @@ const ManageLecturesPage: React.FC = () => {
     if (confirm("Do you confirm to delete this record?")) {
       await deleteLecture(id);
     }
+  };
+
+  const getModuleSrcUrl = (path: string) => {
+    return APP_URL + path;
   };
 
   React.useEffect(() => {
@@ -36,7 +41,7 @@ const ManageLecturesPage: React.FC = () => {
           <Table.Row>
             <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Module File</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Module File (Link to download)</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Actions</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
@@ -46,8 +51,12 @@ const ManageLecturesPage: React.FC = () => {
             data.map((d: any) => (
               <Table.Row key={d.id}>
                 <Table.RowHeaderCell>{d.title}</Table.RowHeaderCell>
-                <Table.Cell>Description</Table.Cell>
-                <Table.Cell>Modue File</Table.Cell>
+                <Table.Cell>{d.description}</Table.Cell>
+                <Table.Cell>
+                  <a href={getModuleSrcUrl(d.module_src)} className="text-xs text-blue-500 underline" download>
+                    Click to download
+                  </a>
+                </Table.Cell>
                 <Table.Cell>
                   <Flex direction="row" gap="2">
                     <Link to={`/dashboard/manage/lectures/${d.id}/edit`}>

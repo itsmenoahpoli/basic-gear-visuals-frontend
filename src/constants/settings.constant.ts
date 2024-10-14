@@ -1,5 +1,6 @@
 const appEnv = import.meta.env.VITE_APP_ENV;
 
+export const APP_URL = import.meta.env.VITE_APP_URL;
 export const APP_API_URL = import.meta.env.VITE_APP_API_BASEURL;
 
 export const APP_SECRET_PASSPHRASE = import.meta.env.VITE_APP_SECRET_PASSPHRASE;
