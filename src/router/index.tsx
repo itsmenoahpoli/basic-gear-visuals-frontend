@@ -24,6 +24,12 @@ const SectionFormPage = LoadComponent(React.lazy(() => import("@/views/dashboard
 const ManageLecturesPage = LoadComponent(React.lazy(() => import("@/views/dashboard/lectures/ManageLecturesPage")));
 const LectureFormPage = LoadComponent(React.lazy(() => import("@/views/dashboard/lectures/LectureFormPage")));
 
+const ManageStudentsPage = LoadComponent(React.lazy(() => import("@/views/dashboard/students/ManageStudentsPage")));
+
+const ManageLectureExamsPage = LoadComponent(React.lazy(() => import("@/views/dashboard/lecture-exams/ManageLectureExamsPage")));
+
+const ManageLectureLaboratoriesPage = LoadComponent(React.lazy(() => import("@/views/dashboard/lecture-laboratories/ManageLectureLaboratoriesPage")));
+
 const router = createBrowserRouter([
   {
     path: "*",
@@ -64,6 +70,10 @@ const router = createBrowserRouter([
         element: SectionFormPage,
       },
       {
+        path: "/dashboard/manage/students",
+        element: ManageStudentsPage,
+      },
+      {
         path: "/dashboard/manage/lectures",
         element: ManageLecturesPage,
       },
@@ -74,6 +84,14 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/manage/lectures/:id/edit",
         element: LectureFormPage,
+      },
+      {
+        path: "/dashboard/manage/lecture-exams",
+        element: ManageLectureExamsPage,
+      },
+      {
+        path: "/dashboard/manage/lecture-laboratories",
+        element: ManageLectureLaboratoriesPage,
       },
     ],
   },

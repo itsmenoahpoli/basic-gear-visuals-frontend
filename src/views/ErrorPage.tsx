@@ -1,12 +1,22 @@
 import React from "react";
-import { useRouteError } from "react-router-dom";
+import { Theme, Flex, Button } from "@radix-ui/themes";
+import { useNavigate } from "react-router-dom";
 
 const ErrorPage: React.FC = () => {
-  const routeError = useRouteError();
+  const navigate = useNavigate();
 
-  console.log(routeError);
+  const handleGoHome = () => {
+    navigate("/dashboard");
+  };
 
-  return <div>ErrorPage</div>;
+  return (
+    <Theme appearance="dark">
+      <Flex direction="column" justify="center" align="center" gap="2" className="h-screen w-screen">
+        <h1 className="text-[32px] text-white font-bold">PAGE NOT FOUND</h1>
+        <Button onClick={handleGoHome}>Back to home</Button>
+      </Flex>
+    </Theme>
+  );
 };
 
 export default ErrorPage;

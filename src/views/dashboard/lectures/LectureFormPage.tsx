@@ -10,12 +10,13 @@ const LectureFormPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const buttonLabel = window.location.pathname.includes("edit") ? `Update Lecture` : `Save Lecture`;
 
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = React.useState<any>({
     subject_id: "",
     title: "",
     description: "",
     file: null,
   });
+  const [preview, setPreview] = React.useState("");
   const [subjects, setSubjects] = React.useState([]);
 
   const populateForm = (data: any) => {
@@ -33,6 +34,18 @@ const LectureFormPage: React.FC = () => {
     e.preventDefault();
 
     return await createLecture(formData);
+  };
+
+  const onFileSelect = (file: File) => {
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+
+      setPreview(previewUrl);
+      setFormData({
+        ...formData,
+        file,
+      });
+    }
   };
 
   React.useEffect(() => {
@@ -75,13 +88,14 @@ const LectureFormPage: React.FC = () => {
               <TextArea defaultValue={formData.description} rows={10} onChange={(v) => setValue("description", v.target.value)} required />
             </Flex>
 
-            {!!false ? (
-              <Flex direction="column" gap="1">
-                <small>Module File (Optional)</small>
-                {/* @ts-ignore */}
-                <TextField.Root type="file" defaultValue={formData.file} onChange={(v) => setValue("file", v.target.value)} required />
+            <Flex direction="column" gap="1">
+              <small>Module File (Optional)</small>
+              <Flex direction="column">
+                <img src="" alt="lecture-thumbnail.png" />
               </Flex>
-            ) : null}
+              {/* @ts-ignore */}
+              <TextField.Root type="file" defaultValue={formData.file} onChange={(v) => onFileSelect(v.target.files[0])} required />
+            </Flex>
 
             <div>
               <Button type="submit" color="green" className="text-xs">
