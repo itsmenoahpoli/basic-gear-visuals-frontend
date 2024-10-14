@@ -16,7 +16,6 @@ const LectureFormPage: React.FC = () => {
     description: "",
     file: null,
   });
-  const [preview, setPreview] = React.useState("");
   const [subjects, setSubjects] = React.useState([]);
 
   const populateForm = (data: any) => {
@@ -38,9 +37,6 @@ const LectureFormPage: React.FC = () => {
 
   const onFileSelect = (file: File) => {
     if (file) {
-      const previewUrl = URL.createObjectURL(file);
-
-      setPreview(previewUrl);
       setFormData({
         ...formData,
         file,
@@ -90,9 +86,6 @@ const LectureFormPage: React.FC = () => {
 
             <Flex direction="column" gap="1">
               <small>Module File (Optional)</small>
-              <Flex direction="column">
-                <img src="" alt="lecture-thumbnail.png" />
-              </Flex>
               {/* @ts-ignore */}
               <TextField.Root type="file" defaultValue={formData.file} onChange={(v) => onFileSelect(v.target.files[0])} required />
             </Flex>

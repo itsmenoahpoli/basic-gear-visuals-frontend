@@ -1,5 +1,7 @@
+import axios from "axios";
 import { toast } from "react-toastify";
 import { useHttp } from "@/hooks";
+import { APP_API_URL } from "@/constants";
 
 export const useLecturesService = () => {
   const { httpClient, handleApiError } = useHttp();
@@ -27,8 +29,19 @@ export const useLecturesService = () => {
   };
 
   const createLecture = async (data: any) => {
-    return await httpClient
-      .post("lectures", data)
+    const url = APP_API_URL;
+    let formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value as any);
+    });
+
+    return await axios
+      .post(url + "lectures", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then(() => {
         toast.success("Lecture created!");
       })
