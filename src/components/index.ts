@@ -7,6 +7,8 @@ export { AppBreadcrumb } from "./app/AppBreadcrumb";
  * Layouts components
  */
 export { AdminSidebar } from "./layouts/AdminSidebar";
+export { TeacherSidebar } from "./layouts/TeacherSidebar";
+export { StudentSidebar } from "./layouts/StudentSidebar";
 
 /**
  * Shared components

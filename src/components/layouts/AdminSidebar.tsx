@@ -21,7 +21,7 @@ export const AdminSidebar: React.FC = () => {
         Lecture Exams
       </Link>
       <Link to="/dashboard/manage/lecture-laboratories" className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2">
-        Lecture Laboratories
+        Laboratories
       </Link>
     </Flex>
   );
