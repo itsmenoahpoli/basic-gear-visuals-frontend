@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Flex, Button, Table, Badge } from "@radix-ui/themes";
+import { Flex, Button, Table } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useStudentsService } from "@/services";
 
 const ManageLectureExamsPage: React.FC = () => {
-  const { getStudents, deleteStudent } = useStudentsService();
+  const { deleteStudent } = useStudentsService();
 
-  const [data, setData] = React.useState([]);
+  const [data] = React.useState([]);
 
   const fetchStudents = async () => {
     // await getStudents().then((data) => setData(data));

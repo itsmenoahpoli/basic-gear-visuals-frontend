@@ -41,6 +41,7 @@ const LectureFormPage: React.FC = () => {
     if (file) {
       if (file.type !== "application/pdf") {
         if (fileInputRef.current) {
+          // @ts-ignore
           fileInputRef.current.value = ""; // Reset the input field
         }
 
