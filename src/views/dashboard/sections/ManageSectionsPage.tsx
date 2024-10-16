@@ -19,7 +19,7 @@ const ManageSectionsPage: React.FC = () => {
 
   const confirmDeleteSection = async (id: number) => {
     if (confirm("Do you confirm to delete this record?")) {
-      await deleteSection(id);
+      await deleteSection(id).finally(() => getSections());
     }
   };
 

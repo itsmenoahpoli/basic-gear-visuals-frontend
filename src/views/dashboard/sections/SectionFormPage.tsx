@@ -1,13 +1,15 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Flex, Card, TextField, Select, Button } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useSectionsService } from "@/services";
 
 const SectionFormPage: React.FC = () => {
-  const { createSection, getSection } = useSectionsService();
+  const { createSection, getSection, updateSection } = useSectionsService();
   const { id } = useParams<{ id: string }>();
-  const buttonLabel = window.location.pathname.includes("edit") ? `Update Section` : `Save Section`;
+  const navigate = useNavigate();
+  const isEdit = window.location.pathname.includes("edit");
+  const buttonLabel = isEdit ? `Update Section` : `Save Section`;
 
   const [formData, setFormData] = React.useState({
     title: "",
@@ -28,11 +30,15 @@ const SectionFormPage: React.FC = () => {
   const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    return await createSection(formData);
+    if (isEdit && id) {
+      return await updateSection(+id, formData).finally(() => navigate("/dashboard/manage/sections"));
+    }
+
+    return await createSection(formData).finally(() => navigate("/dashboard/manage/sections"));
   };
 
   React.useEffect(() => {
-    if (window.location.pathname.includes("edit")) {
+    if (isEdit) {
       getSection(+id!).then((data) => populateForm(data));
     }
   }, []);

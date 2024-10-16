@@ -50,6 +50,17 @@ export const useLecturesService = () => {
       });
   };
 
+  const updateLecture = async (id: number, data: any) => {
+    return await httpClient
+      .patch("lectures/" + id, data)
+      .then(() => {
+        toast.success("Lecture updated!");
+      })
+      .catch((error) => {
+        handleApiError(error);
+      });
+  };
+
   const deleteLecture = async (id: number) => {
     return await httpClient
       .delete("lectures/" + id)
@@ -65,6 +76,7 @@ export const useLecturesService = () => {
     getLectures,
     getLecture,
     createLecture,
+    updateLecture,
     deleteLecture,
   };
 };

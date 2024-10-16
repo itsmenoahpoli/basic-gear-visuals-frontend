@@ -1,15 +1,23 @@
 import React from "react";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
-import { Flex, Card, TextField, TextArea, Select, Button } from "@radix-ui/themes";
+import { useParams, useNavigate } from "react-router-dom";
+import { TbTrashXFilled } from "react-icons/tb";
+import { Flex, Card, TextField, TextArea, Select, Callout, Button } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useLecturesService, useSubjectsService } from "@/services";
 
+type Question = {
+  question: string;
+  answer: string;
+};
+
 const LectureFormPage: React.FC = () => {
-  const { createLecture, getLecture } = useLecturesService();
+  const { createLecture, getLecture, updateLecture } = useLecturesService();
   const { getSubjects } = useSubjectsService();
   const { id } = useParams<{ id: string }>();
-  const buttonLabel = window.location.pathname.includes("edit") ? `Update Lecture` : `Save Lecture`;
+  const navigate = useNavigate();
+  const isEdit = window.location.pathname.includes("edit");
+  const buttonLabel = isEdit ? `Update Lecture` : `Save Lecture`;
   const fileInputRef = React.useRef(null);
 
   const [formData, setFormData] = React.useState<any>({
@@ -18,6 +26,7 @@ const LectureFormPage: React.FC = () => {
     description: "",
     file: null,
   });
+  const [questions, setQuestions] = React.useState<Question[]>([]);
   const [subjects, setSubjects] = React.useState([]);
 
   const populateForm = (data: any) => {
@@ -34,7 +43,11 @@ const LectureFormPage: React.FC = () => {
   const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    return await createLecture(formData);
+    if (isEdit && id) {
+      return await updateLecture(+id, formData);
+    }
+
+    return await createLecture({ ...formData, questions: JSON.stringify(questions) }).then(() => navigate("/dashboard/manage/lectures"));
   };
 
   const onFileSelect = (file: File) => {
@@ -57,8 +70,32 @@ const LectureFormPage: React.FC = () => {
     }
   };
 
+  const onAddQuestion = () => {
+    setQuestions([
+      ...questions,
+      {
+        question: "",
+        answer: "",
+      },
+    ]);
+  };
+
+  const onRemoveQuestion = (index: number) => {
+    const questionsCopy = [...questions];
+    questionsCopy.splice(index, 1);
+
+    setQuestions(questionsCopy);
+  };
+
+  const onFillQuestionValue = (index: number, key: keyof Question, value: string) => {
+    const questionsCopy = [...questions];
+    questionsCopy[index][key] = value;
+
+    setQuestions(questionsCopy);
+  };
+
   React.useEffect(() => {
-    if (window.location.pathname.includes("edit")) {
+    if (isEdit) {
       getLecture(+id!).then((data) => populateForm(data));
     }
 
@@ -108,6 +145,46 @@ const LectureFormPage: React.FC = () => {
                 onChange={(v) => onFileSelect(v.target.files![0])}
                 required
               />
+            </Flex>
+
+            <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
+              <Flex justify="between" className="w-full">
+                <h1>Lecture Assesment Quiz</h1>
+
+                <Flex justify="end" gap="2">
+                  <Button variant="outline" size="1" type="button" onClick={onAddQuestion}>
+                    Add Question
+                  </Button>
+                </Flex>
+              </Flex>
+
+              {questions.length ? (
+                questions.map((question: Question, index: number) => (
+                  <Flex gap="3" key={`question-${index}`}>
+                    <Button type="button" variant="classic" color="red" onClick={() => onRemoveQuestion(index)}>
+                      <TbTrashXFilled />
+                    </Button>
+                    <TextField.Root
+                      type="text"
+                      value={question.question}
+                      className="w-2/3"
+                      placeholder="Enter question"
+                      onChange={(e) => onFillQuestionValue(index, "question", e.target.value)}
+                    />
+                    <TextField.Root
+                      type="text"
+                      value={question.answer}
+                      className="w-1/3"
+                      placeholder="Enter answer"
+                      onChange={(e) => onFillQuestionValue(index, "answer", e.target.value)}
+                    />
+                  </Flex>
+                ))
+              ) : (
+                <Callout.Root>
+                  <Callout.Text className="text-center">No questions yet</Callout.Text>
+                </Callout.Root>
+              )}
             </Flex>
 
             <div>

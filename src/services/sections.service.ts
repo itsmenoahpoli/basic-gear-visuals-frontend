@@ -37,6 +37,17 @@ export const useSectionsService = () => {
       });
   };
 
+  const updateSection = async (id: number, data: any) => {
+    return await httpClient
+      .patch("sections/" + id, data)
+      .then(() => {
+        toast.success("Section updated!");
+      })
+      .catch((error) => {
+        handleApiError(error);
+      });
+  };
+
   const deleteSection = async (id: number) => {
     return await httpClient
       .delete("sections/" + id)
@@ -52,6 +63,7 @@ export const useSectionsService = () => {
     getSections,
     getSection,
     createSection,
+    updateSection,
     deleteSection,
   };
 };

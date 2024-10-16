@@ -24,6 +24,14 @@ const ManageLecturesPage: React.FC = () => {
     return APP_URL + path;
   };
 
+  const getQuestionsData = (questions: string) => {
+    if (!questions) return "No";
+
+    const parsedQuestions = JSON.parse(questions);
+
+    return `Yes - (${parsedQuestions.length} question(s))`;
+  };
+
   React.useEffect(() => {
     fetchLectures();
   }, []);
@@ -41,7 +49,10 @@ const ManageLecturesPage: React.FC = () => {
           <Table.Row>
             <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Module File (Link to download)</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>
+              Module File <small>(Click to view)</small>
+            </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Has Assesment Quiz?</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Actions</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
@@ -53,10 +64,11 @@ const ManageLecturesPage: React.FC = () => {
                 <Table.RowHeaderCell>{d.title}</Table.RowHeaderCell>
                 <Table.Cell>{d.description}</Table.Cell>
                 <Table.Cell>
-                  <a href={getModuleSrcUrl(d.module_src)} className="text-xs text-blue-500 underline" download>
-                    Click to download
+                  <a href={getModuleSrcUrl(d.module_src)} className="text-xs text-blue-500 underline" target="_blank">
+                    View in new tab
                   </a>
                 </Table.Cell>
+                <Table.Cell>{getQuestionsData(d.questions)}</Table.Cell>
                 <Table.Cell>
                   <Flex direction="row" gap="2">
                     <Link to={`/dashboard/manage/lectures/${d.id}/edit`}>

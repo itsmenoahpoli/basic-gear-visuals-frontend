@@ -28,7 +28,7 @@ export const AppBreadcrumb: React.FC = () => {
   return (
     <Flex gap="3" align="center">
       {paths?.map((item, index) => (
-        <AppBreadcrumbItem key={item} label={item.name} isLast={isLastItem(index)} />
+        <AppBreadcrumbItem key={item.name} label={item.name} isLast={isLastItem(index)} />
       ))}
     </Flex>
   );
