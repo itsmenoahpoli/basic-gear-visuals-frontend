@@ -14,8 +14,8 @@ export const DashboardLayout: React.FC = () => {
   }
 
   const RenderSidebar: React.FC<{ userRole: UserRoles }> = (props) => {
-    if (props.userRole === "teacher") return <TeacherSidebar />;
-    if (props.userRole === "student") return <StudentSidebar />;
+    if (props.userRole.toLowerCase() === "teacher") return <TeacherSidebar />;
+    if (props.userRole.toLowerCase() === "student") return <StudentSidebar />;
 
     return <AdminSidebar />;
   };
