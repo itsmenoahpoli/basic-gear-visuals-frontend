@@ -16,7 +16,7 @@ const ManageLecturesPage: React.FC = () => {
 
   const confirmDeleteLecture = async (id: number) => {
     if (confirm("Do you confirm to delete this record?")) {
-      await deleteLecture(id);
+      await deleteLecture(id).then(() => getLectures());
     }
   };
 

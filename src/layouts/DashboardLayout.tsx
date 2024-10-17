@@ -24,7 +24,7 @@ export const DashboardLayout: React.FC = () => {
     <Theme appearance="dark" scaling="90%">
       <Flex direction="column" className="w-full h-full">
         <Flex className="h-[50px] w-full border-b border-gray-800 bg-gray-950 px-7" align="center" justify="between">
-          <p className="text-center font-bold">BASIC GEAR VISUALS</p>
+          <p className="text-center font-bold">BGV Labs</p>
 
           <Flex gap="6" justify="center">
             <p className="text-[10px]">
