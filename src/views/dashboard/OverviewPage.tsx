@@ -24,7 +24,7 @@ const OverviewPage: React.FC = () => {
           <p className="text-[32px] text-center mt-3">-</p>
         </Card>
       </Flex>
-      <Flex gap="5">
+      <Flex gap="5" className="!hidden">
         <Card className="w-1/2 !py-3 !px-7">
           <h1 className="font-bold">TOTAL STUDENTS</h1>
           <p className="text-[32px] text-center mt-3">-</p>

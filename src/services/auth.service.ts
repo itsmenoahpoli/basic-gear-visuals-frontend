@@ -38,7 +38,22 @@ export const useAuthService = () => {
       });
   };
 
+  const createAccount = async (data: any, setLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+    return await httpClient
+      .post("auth/signup", data)
+      .then(async () => {
+        toast.success("Successfully created your account");
+
+        return await authenticateCredentials({ email: data.email, password: data.password }, setLoading);
+      })
+      .catch((error) => {
+        setLoading(false);
+        handleApiError(error);
+      });
+  };
+
   return {
+    createAccount,
     authenticateCredentials,
     unauthenticateCredentials,
   };

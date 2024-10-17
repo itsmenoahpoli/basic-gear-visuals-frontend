@@ -1,24 +1,32 @@
 import React from "react";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
-import { Card, Flex, TextField, Button } from "@radix-ui/themes";
+import { Card, Flex, TextField, Select, Button } from "@radix-ui/themes";
 import { useAuthService } from "@/services";
 import type { Credentials } from "@/types/auth";
 
 type AccountInfo = {
   name: string;
   confirmPassword: string;
+  account_type?: "teacher" | "student";
 } & Credentials;
 
 const SignupPage: React.FC = () => {
   const navigate = useNavigate();
-  const { handleSubmit, control } = useForm<AccountInfo>();
-  const { authenticateCredentials } = useAuthService();
+  const { handleSubmit, control, setValue } = useForm<AccountInfo>();
+  const { createAccount } = useAuthService();
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  const onFormSubmit: SubmitHandler<AccountInfo> = async (formData): Promise<void> => {
+  const onFormSubmit: SubmitHandler<AccountInfo> = async (formData): Promise<any> => {
     setLoading(true);
-    return await authenticateCredentials(formData, setLoading);
+
+    if (formData.password !== formData.confirmPassword) {
+      setLoading(false);
+      return toast.warning("Passwords do not match!");
+    }
+
+    return await createAccount(formData, setLoading);
   };
 
   const handleRedirectToLogin = () => {
@@ -31,6 +39,19 @@ const SignupPage: React.FC = () => {
 
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <Flex direction="column" gap="4">
+          <Flex direction="column" gap="1">
+            <small>Select Account Type</small>
+            <Select.Root defaultValue="" onValueChange={(v) => setValue("account_type", v as AccountInfo["account_type"])} required>
+              <Select.Trigger />
+              <Select.Content>
+                <Select.Group>
+                  <Select.Item value="teacher">Teacher</Select.Item>
+                  <Select.Item value="student">Student</Select.Item>
+                </Select.Group>
+              </Select.Content>
+            </Select.Root>
+          </Flex>
+
           <Controller
             name="name"
             control={control}

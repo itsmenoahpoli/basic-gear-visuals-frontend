@@ -97,10 +97,6 @@ const LectureFormPage: React.FC = () => {
   };
 
   React.useEffect(() => {
-    console.log(questions);
-  }, [questions]);
-
-  React.useEffect(() => {
     if (isEdit) {
       getLecture(+id!).then((data) => {
         populateForm(data);
