@@ -44,7 +44,7 @@ const LectureFormPage: React.FC = () => {
     e.preventDefault();
 
     if (isEdit && id) {
-      return await updateLecture(+id, formData);
+      return await updateLecture(+id, { ...formData, questions: JSON.stringify(questions) });
     }
 
     return await createLecture({ ...formData, questions: JSON.stringify(questions) }).then(() => navigate("/dashboard/manage/lectures"));
@@ -91,12 +91,24 @@ const LectureFormPage: React.FC = () => {
     const questionsCopy = [...questions];
     questionsCopy[index][key] = value;
 
+    console.log(questionsCopy[index]);
+
     setQuestions(questionsCopy);
   };
 
   React.useEffect(() => {
+    console.log(questions);
+  }, [questions]);
+
+  React.useEffect(() => {
     if (isEdit) {
-      getLecture(+id!).then((data) => populateForm(data));
+      getLecture(+id!).then((data) => {
+        populateForm(data);
+
+        if (data.questions) {
+          setQuestions(JSON.parse(data.questions));
+        }
+      });
     }
 
     getSubjects().then((data) => setSubjects(data));
@@ -135,18 +147,20 @@ const LectureFormPage: React.FC = () => {
               <TextArea defaultValue={formData.description} rows={10} onChange={(v) => setValue("description", v.target.value)} required />
             </Flex>
 
-            <Flex direction="column" gap="1">
-              <small>Module File (Optional)</small>
+            {!isEdit ? (
+              <Flex direction="column" gap="1">
+                <small>Module File (Optional)</small>
 
-              <TextField.Root
-                // @ts-ignore
-                type="file"
-                ref={fileInputRef}
-                defaultValue={formData.file}
-                onChange={(v) => onFileSelect(v.target.files![0])}
-                required
-              />
-            </Flex>
+                <TextField.Root
+                  // @ts-ignore
+                  type="file"
+                  ref={fileInputRef}
+                  defaultValue={formData.file}
+                  onChange={(v) => onFileSelect(v.target.files![0])}
+                  required
+                />
+              </Flex>
+            ) : null}
 
             <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
               <Flex justify="between" className="w-full">
