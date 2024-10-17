@@ -12,6 +12,7 @@ const ErrorPage = LoadComponent(React.lazy(() => import("@/views/ErrorPage")));
  * Auth Pages
  */
 const SigninPage = LoadComponent(React.lazy(() => import("@/views/auth/SigninPage")));
+const SignupPage = LoadComponent(React.lazy(() => import("@/views/auth/SignupPage")));
 
 /**
  * Dashboard Pages
@@ -27,6 +28,7 @@ const LectureFormPage = LoadComponent(React.lazy(() => import("@/views/dashboard
 const ManageStudentsPage = LoadComponent(React.lazy(() => import("@/views/dashboard/students/ManageStudentsPage")));
 
 const ManageLectureExamsPage = LoadComponent(React.lazy(() => import("@/views/dashboard/lecture-exams/ManageLectureExamsPage")));
+const LectureExamFormPage = LoadComponent(React.lazy(() => import("@/views/dashboard/lecture-exams/LectureExamFormPage")));
 
 const ManageLectureLaboratoriesPage = LoadComponent(React.lazy(() => import("@/views/dashboard/lecture-laboratories/ManageLectureLaboratoriesPage")));
 
@@ -46,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "/auth/signin",
         element: SigninPage,
+      },
+      {
+        path: "/auth/signup",
+        element: SignupPage,
       },
     ],
   },
@@ -88,6 +94,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/manage/lecture-exams",
         element: ManageLectureExamsPage,
+      },
+      {
+        path: "/dashboard/manage/lecture-exams/add",
+        element: LectureExamFormPage,
       },
       {
         path: "/dashboard/manage/lecture-laboratories",

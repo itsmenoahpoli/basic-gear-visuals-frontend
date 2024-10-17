@@ -1,17 +1,28 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import { Card, Flex, TextField, Button } from "@radix-ui/themes";
 import { useAuthService } from "@/services";
 import type { Credentials } from "@/types/auth";
 
+type AccountInfo = {
+  name: string;
+  confirmPassword: string;
+} & Credentials;
+
 const SignupPage: React.FC = () => {
-  const { handleSubmit, control } = useForm<Credentials>();
+  const navigate = useNavigate();
+  const { handleSubmit, control } = useForm<AccountInfo>();
   const { authenticateCredentials } = useAuthService();
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  const onFormSubmit: SubmitHandler<Credentials> = async (formData): Promise<void> => {
+  const onFormSubmit: SubmitHandler<AccountInfo> = async (formData): Promise<void> => {
     setLoading(true);
     return await authenticateCredentials(formData, setLoading);
+  };
+
+  const handleRedirectToLogin = () => {
+    navigate("/auth/signin");
   };
 
   return (
@@ -20,6 +31,12 @@ const SignupPage: React.FC = () => {
 
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <Flex direction="column" gap="4">
+          <Controller
+            name="name"
+            control={control}
+            defaultValue=""
+            render={({ field }) => <TextField.Root type="text" size="3" placeholder="Enter name" {...field} required autoFocus />}
+          />
           <Controller
             name="email"
             control={control}
@@ -32,12 +49,18 @@ const SignupPage: React.FC = () => {
             defaultValue=""
             render={({ field }) => <TextField.Root type="password" size="3" placeholder="Enter password" {...field} required />}
           />
+          <Controller
+            name="confirmPassword"
+            control={control}
+            defaultValue=""
+            render={({ field }) => <TextField.Root type="password" size="3" placeholder="Enter confirmed password" {...field} required />}
+          />
           <Button type="submit" size="3" loading={loading}>
-            Log In
+            Create Account
           </Button>
           <div className="!w-full px-3">
-            <Button size="3" variant="ghost" className="!w-full">
-              Forgot your password?
+            <Button size="3" variant="ghost" className="!w-full" onClick={handleRedirectToLogin}>
+              Already have an account? Log in
             </Button>
           </div>
         </Flex>

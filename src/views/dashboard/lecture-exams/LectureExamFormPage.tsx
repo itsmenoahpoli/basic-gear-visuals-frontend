@@ -1,33 +1,43 @@
 import React from "react";
-import { toast } from "react-toastify";
 import { useParams, useNavigate } from "react-router-dom";
 import { TbTrashXFilled } from "react-icons/tb";
-import { Flex, Card, TextField, TextArea, Select, Callout, Button } from "@radix-ui/themes";
+import { Flex, Card, TextField, Callout, Button, Select } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
-import { useLecturesService, useSubjectsService } from "@/services";
+import { useLectureExamsService, useLecturesService } from "@/services";
 
 type Question = {
   question: string;
+  choices?: {
+    c1: {
+      q: string;
+      a: string;
+    };
+    c2: {
+      q: string;
+      a: string;
+    };
+    c3: {
+      q: string;
+      a: string;
+    };
+  };
   answer: string;
 };
 
 const LectureFormPage: React.FC = () => {
-  const { createLecture, getLecture, updateLecture } = useLecturesService();
-  const { getSubjects } = useSubjectsService();
+  const { createLectureExam, getLectureExam, updateLectureExam } = useLectureExamsService();
+  const { getLectures } = useLecturesService();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isEdit = window.location.pathname.includes("edit");
   const buttonLabel = isEdit ? `Update Lecture` : `Save Lecture`;
-  const fileInputRef = React.useRef(null);
 
   const [formData, setFormData] = React.useState<any>({
-    subject_id: "",
-    title: "",
-    description: "",
-    file: null,
+    lecture_id: "",
+    name: "",
   });
   const [questions, setQuestions] = React.useState<Question[]>([]);
-  const [subjects, setSubjects] = React.useState([]);
+  const [lectures, setLectures] = React.useState<any>([]);
 
   const populateForm = (data: any) => {
     setFormData(data);
@@ -44,30 +54,10 @@ const LectureFormPage: React.FC = () => {
     e.preventDefault();
 
     if (isEdit && id) {
-      return await updateLecture(+id, formData);
+      return await updateLectureExam(+id, formData);
     }
 
-    return await createLecture({ ...formData, questions: JSON.stringify(questions) }).then(() => navigate("/dashboard/manage/lectures"));
-  };
-
-  const onFileSelect = (file: File) => {
-    if (file) {
-      if (file.type !== "application/pdf") {
-        if (fileInputRef.current) {
-          // @ts-ignore
-          fileInputRef.current.value = ""; // Reset the input field
-        }
-
-        toast.error("Only PDF file is accepted");
-
-        return;
-      }
-
-      setFormData({
-        ...formData,
-        file,
-      });
-    }
+    return await createLectureExam({ ...formData, questions: JSON.stringify(questions) }).then(() => navigate("/dashboard/manage/lectures"));
   };
 
   const onAddQuestion = () => {
@@ -89,6 +79,7 @@ const LectureFormPage: React.FC = () => {
 
   const onFillQuestionValue = (index: number, key: keyof Question, value: string) => {
     const questionsCopy = [...questions];
+    // @ts-ignore
     questionsCopy[index][key] = value;
 
     setQuestions(questionsCopy);
@@ -96,28 +87,32 @@ const LectureFormPage: React.FC = () => {
 
   React.useEffect(() => {
     if (isEdit) {
-      getLecture(+id!).then((data) => populateForm(data));
+      getLectureExam(+id!).then((data) => populateForm(data));
     }
 
-    getSubjects().then((data) => setSubjects(data));
+    getLectures().then((data) => setLectures(data));
+  }, []);
+
+  React.useEffect(() => {
+    onAddQuestion();
   }, []);
 
   return (
     <Flex direction="column" gap="3" className="h-full">
-      <PageHeader title="Lecture Details" subtitle="Manage details of the lecture" />
+      <PageHeader title="Lecture Exam Details" subtitle="Manage details of the lecture exam" />
 
       <div className="px-3 mt-8">
         <Card>
           <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3">
             <Flex direction="column" gap="1">
-              <small>Subject</small>
-              <Select.Root defaultValue={formData.subject_id.toString()} onValueChange={(v) => setValue("subject_id", v)} required>
+              <small>Lecture</small>
+              <Select.Root defaultValue={formData.lecture_id.toString()} onValueChange={(v) => setValue("lecture_id", v)} required>
                 <Select.Trigger />
                 <Select.Content>
                   <Select.Group>
-                    {subjects.map((subject: any) => (
-                      <Select.Item value={subject.id.toString()} key={subject.name}>
-                        {subject.name}
+                    {lectures.map((lecture: any) => (
+                      <Select.Item value={lecture.id.toString()} key={lecture.title}>
+                        {lecture.title}
                       </Select.Item>
                     ))}
                   </Select.Group>
@@ -126,35 +121,20 @@ const LectureFormPage: React.FC = () => {
             </Flex>
 
             <Flex direction="column" gap="1">
-              <small>Name</small>
-              <TextField.Root type="text" defaultValue={formData.title} onChange={(v) => setValue("title", v.target.value)} required />
-            </Flex>
-
-            <Flex direction="column" gap="1">
-              <small>Description</small>
-              <TextArea defaultValue={formData.description} rows={10} onChange={(v) => setValue("description", v.target.value)} required />
-            </Flex>
-
-            <Flex direction="column" gap="1">
-              <small>Module File (Optional)</small>
-
-              <TextField.Root
-                // @ts-ignore
-                type="file"
-                ref={fileInputRef}
-                defaultValue={formData.file}
-                onChange={(v) => onFileSelect(v.target.files![0])}
-                required
-              />
+              <small>Title</small>
+              <TextField.Root type="text" defaultValue={formData.name} onChange={(v) => setValue("name", v.target.value)} required />
             </Flex>
 
             <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
               <Flex justify="between" className="w-full">
-                <h1>Lecture Assesment Quiz</h1>
+                <h1>Exam Questions</h1>
 
                 <Flex justify="end" gap="2">
                   <Button variant="outline" size="1" type="button" onClick={onAddQuestion}>
-                    Add Question
+                    Add Question (Enumeration)
+                  </Button>
+                  <Button variant="outline" size="1" type="button" onClick={onAddQuestion}>
+                    Add Question (Multiple Choices)
                   </Button>
                 </Flex>
               </Flex>
@@ -172,6 +152,7 @@ const LectureFormPage: React.FC = () => {
                       placeholder="Enter question"
                       onChange={(e) => onFillQuestionValue(index, "question", e.target.value)}
                     />
+                    <Flex gap="3"></Flex>
                     <TextField.Root
                       type="text"
                       value={question.answer}

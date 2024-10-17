@@ -85,7 +85,7 @@ const ManageLecturesPage: React.FC = () => {
             ))
           ) : (
             <Table.Row>
-              <Table.Cell colSpan={4} className="text-center font-bold">
+              <Table.Cell colSpan={5} className="text-center font-bold">
                 NO DATA
               </Table.Cell>
             </Table.Row>

@@ -2,30 +2,34 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Flex, Button, Table } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
-import { useStudentsService } from "@/services";
+import { useLectureExamsService } from "@/services";
 
 const ManageLectureExamsPage: React.FC = () => {
-  const { deleteStudent } = useStudentsService();
+  const { getLectureExams, deleteLectureExam } = useLectureExamsService();
 
-  const [data] = React.useState([]);
+  const [data, setData] = React.useState([]);
 
-  const fetchStudents = async () => {
-    // await getStudents().then((data) => setData(data));
+  const fetchExams = async () => {
+    await getLectureExams().then((data) => setData(data));
   };
 
   const confirmDeleteStudent = async (id: number) => {
     if (confirm("Do you confirm to delete this record?")) {
-      await deleteStudent(id);
+      await deleteLectureExam(id);
     }
   };
 
   React.useEffect(() => {
-    fetchStudents();
+    fetchExams();
   }, []);
 
   return (
     <Flex direction="column" gap="3" className="h-full">
-      <PageHeader title="Manage Exams" subtitle="View all and manage exams" />
+      <PageHeader title="Manage Exams" subtitle="View all and manage exams">
+        <Link to="/dashboard/manage/lecture-exams/add">
+          <Button>Add Exam</Button>
+        </Link>
+      </PageHeader>
 
       <Table.Root>
         <Table.Header>

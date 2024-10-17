@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import { Card, Flex, TextField, Button } from "@radix-ui/themes";
 import { useAuthService } from "@/services";
 import type { Credentials } from "@/types/auth";
 
 const SigninPage: React.FC = () => {
+  const navigate = useNavigate();
   const { handleSubmit, control } = useForm<Credentials>();
   const { authenticateCredentials } = useAuthService();
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -12,6 +14,10 @@ const SigninPage: React.FC = () => {
   const onFormSubmit: SubmitHandler<Credentials> = async (formData): Promise<void> => {
     setLoading(true);
     return await authenticateCredentials(formData, setLoading);
+  };
+
+  const handleRedirectToSignup = () => {
+    navigate("/auth/signup");
   };
 
   return (
@@ -35,11 +41,15 @@ const SigninPage: React.FC = () => {
           <Button type="submit" size="3" loading={loading}>
             Log In
           </Button>
-          <div className="!w-full px-3">
-            <Button size="3" variant="ghost" className="!w-full">
+
+          <Flex direction="column" gap="4" className="!w-full px-3 mt-4">
+            <Button size="3" variant="ghost" className="!w-full py-3">
               Forgot your password?
             </Button>
-          </div>
+            <Button size="3" variant="ghost" className="!w-full py-3" onClick={handleRedirectToSignup}>
+              Create Account
+            </Button>
+          </Flex>
         </Flex>
       </form>
     </Card>
