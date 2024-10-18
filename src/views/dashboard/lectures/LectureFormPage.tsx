@@ -160,6 +160,18 @@ const LectureFormPage: React.FC = () => {
 
             <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
               <Flex justify="between" className="w-full">
+                <h1>Lecture Laboratory</h1>
+
+                <Flex justify="end" gap="2">
+                  <Button variant="outline" size="1" type="button" onClick={onAddQuestion}>
+                    Add Question
+                  </Button>
+                </Flex>
+              </Flex>
+            </Flex>
+
+            <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
+              <Flex justify="between" className="w-full">
                 <h1>Lecture Assesment Quiz</h1>
 
                 <Flex justify="end" gap="2">

@@ -23,14 +23,17 @@ export const DashboardLayout: React.FC = () => {
   return (
     <Theme appearance="dark" scaling="90%">
       <Flex direction="column" className="w-full h-full">
-        <Flex className="h-[50px] w-full border-b border-gray-800 bg-gray-950 px-7" align="center" justify="between">
-          <p className="text-center font-bold">BGV Labs</p>
+        <Flex className="h-[60px] w-full border-b border-gray-800 bg-gray-950 px-7" align="center" justify="between">
+        <Flex align="center">
+        <img src="/logo.png" alt="Logo" className="h-10 w-10"/> 
+        
+        </Flex>
 
           <Flex gap="6" justify="center">
-            <p className="text-[10px]">
+            <p className="text-[12px]">
               Account Type <Badge color="amber">{userRole}</Badge>
             </p>
-            <Button variant="ghost" className="!text-red-200" onClick={logout}>
+            <Button variant="ghost" className="!text-red-200 text-lg font-bold" onClick={logout}>
               LOGOUT
             </Button>
           </Flex>

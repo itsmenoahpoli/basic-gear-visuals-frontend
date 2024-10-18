@@ -23,6 +23,10 @@ const SigninPage: React.FC = () => {
   return (
     <Card className="w-[400px] !p-5">
       <h1 className="text-center mb-5">LOGIN TO YOUR ACCOUNT</h1>
+      <Flex justify="center">
+        <img src="/logo.png" alt="Logo" className="h-20 w-20 mb-6"/>
+
+      </Flex>
 
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <Flex direction="column" gap="4">
