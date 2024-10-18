@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Flex, Button, Table } from "@radix-ui/themes";
+import { Flex, Button, Card } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useLecturesService } from "@/services";
 import { APP_URL } from "@/constants";
 
 const ManageLecturesPage: React.FC = () => {
   const { getLectures, deleteLecture } = useLecturesService();
-
+  
   const [data, setData] = React.useState([]);
 
   const fetchLectures = async () => {
@@ -26,9 +26,7 @@ const ManageLecturesPage: React.FC = () => {
 
   const getQuestionsData = (questions: string) => {
     if (!questions) return "No";
-
     const parsedQuestions = JSON.parse(questions);
-
     return `Yes - (${parsedQuestions.length} question(s))`;
   };
 
@@ -44,54 +42,47 @@ const ManageLecturesPage: React.FC = () => {
         </Link>
       </PageHeader>
 
-      <Table.Root>
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>
-              Module File <small>(Click to view)</small>
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Has Assesment Quiz?</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Actions</Table.ColumnHeaderCell>
-          </Table.Row>
-        </Table.Header>
 
-        <Table.Body>
-          {data.length ? (
-            data.map((d: any) => (
-              <Table.Row key={d.id}>
-                <Table.RowHeaderCell>{d.title}</Table.RowHeaderCell>
-                <Table.Cell>{d.description}</Table.Cell>
-                <Table.Cell>
-                  <a href={getModuleSrcUrl(d.module_src)} className="text-xs text-blue-500 underline" target="_blank">
-                    View in new tab
-                  </a>
-                </Table.Cell>
-                <Table.Cell>{getQuestionsData(d.questions)}</Table.Cell>
-                <Table.Cell>
-                  <Flex direction="row" gap="2">
-                    <Link to={`/dashboard/manage/lectures/${d.id}/edit`}>
-                      <Button className="text-xs" variant="soft">
-                        Update
-                      </Button>
-                    </Link>
-                    <Button className="text-xs" color="red" onClick={() => confirmDeleteLecture(d.id)}>
-                      Delete
-                    </Button>
-                  </Flex>
-                </Table.Cell>
-              </Table.Row>
-            ))
-          ) : (
-            <Table.Row>
-              <Table.Cell colSpan={5} className="text-center font-bold">
-                NO DATA
-              </Table.Cell>
-            </Table.Row>
-          )}
-        </Table.Body>
-      </Table.Root>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {data.length ? (
+          data.map((d: any) => (
+            <Card key={d.id} className="w-full !py-4 !px-5 border border-gray-200 shadow-md">
+              <h1 className="font-bold">{d.title}</h1>
+              <p className="text-[14px] mt-2">{d.description}</p>
+              <div className="mt-3">
+                <a
+                  href={getModuleSrcUrl(d.module_src)}
+                  className="text-xs text-blue-500 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Module File (Click to view)
+                </a>
+              </div>
+              <p className="mt-2 justify-center">Has Assessment Quiz? {getQuestionsData(d.questions)}</p>
+              <div className="mt-3 flex justify-center gap-2">
+                <Link to={`/dashboard/manage/lectures/${d.id}/edit`}>
+                  <Button 
+                    className="text-xs" 
+                    variant="soft"
+                  >
+                    Update
+                  </Button>
+                </Link>
+                  <Button
+                    className="text-xs"
+                    color="red"
+                    onClick={() => confirmDeleteLecture(d.id)}
+                  >
+                    Delete
+                  </Button>
+              </div>
+            </Card>
+          ))
+        ) : (
+          <Card className="col-span-2 text-center font-bold">NO DATA</Card>
+        )}
+      </div>
     </Flex>
   );
 };
