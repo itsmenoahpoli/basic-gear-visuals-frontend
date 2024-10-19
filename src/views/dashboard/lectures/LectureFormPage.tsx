@@ -159,15 +159,20 @@ const LectureFormPage: React.FC = () => {
             ) : null}
 
             <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
-              <Flex justify="between" className="w-full">
-                <h1>Lecture Laboratory</h1>
-
-                <Flex justify="end" gap="2">
-                  <Button variant="outline" size="1" type="button" onClick={onAddQuestion}>
-                    Add Question
-                  </Button>
+              {!isEdit ? (
+                <Flex direction="column" gap="1">
+                  <h1>Lecture Laboratory</h1>
+                  <small>Add the Unity WebGL Build here in a zip file.</small>
+                  <TextField.Root
+                    // @ts-ignore
+                    type="file"
+                    ref={fileInputRef}
+                    defaultValue={formData.file}
+                    onChange={(v) => onFileSelect(v.target.files![0])}
+                    required
+                  />
                 </Flex>
-              </Flex>
+              ) : null}
             </Flex>
 
             <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
