@@ -6,9 +6,9 @@ export const AdminSidebar: React.FC = () => {
   return (
     <Flex direction="column" gap="1" className="mt-5">
       <Link to="/dashboard/overview" className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2">
-        Dashboard Overview
+        Dashboard
       </Link>
-      <Link to="/dashboard/manage/sections" className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2">
+            <Link to="/dashboard/manage/sections" className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2">
         Sections
       </Link>
       <Link to="/dashboard/manage/students" className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2">
