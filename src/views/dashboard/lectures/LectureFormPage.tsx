@@ -159,20 +159,43 @@ const LectureFormPage: React.FC = () => {
             ) : null}
 
             <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
-              {!isEdit ? (
-                <Flex direction="column" gap="1">
-                  <h1>Lecture Laboratory</h1>
-                  <small>Add the Unity WebGL Build here in a zip file.</small>
-                  <TextField.Root
-                    // @ts-ignore
-                    type="file"
-                    ref={fileInputRef}
-                    defaultValue={formData.file}
-                    onChange={(v) => onFileSelect(v.target.files![0])}
-                    required
-                  />
+              <Flex justify="between" className="w-full">
+                <h1>Lecture Laboratory</h1>
+
+                <Flex justify="end" gap="2">
+                  <Button variant="outline" size="1" type="button" onClick={onAddQuestion}>
+                    Add 
+                  </Button>
                 </Flex>
-              ) : null}
+              </Flex>
+
+              {questions.length ? (
+                questions.map((question: Question, index: number) => (
+                  <Flex gap="3" key={`question-${index}`}>
+                    <Button type="button" variant="classic" color="red" onClick={() => onRemoveQuestion(index)}>
+                      <TbTrashXFilled />
+                    </Button>
+                    <TextField.Root
+                      type="text"
+                      value={question.question}
+                      className="w-2/3"
+                      placeholder="Enter question"
+                      onChange={(e) => onFillQuestionValue(index, "question", e.target.value)}
+                    />
+                    <TextField.Root
+                      type="text"
+                      value={question.answer}
+                      className="w-1/3"
+                      placeholder="Enter answer"
+                      onChange={(e) => onFillQuestionValue(index, "answer", e.target.value)}
+                    />
+                  </Flex>
+                ))
+              ) : (
+                <Callout.Root>
+                  <Callout.Text className="text-center">No labs yet</Callout.Text>
+                </Callout.Root>
+              )}
             </Flex>
 
             <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
