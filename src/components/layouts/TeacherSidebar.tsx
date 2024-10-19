@@ -9,7 +9,7 @@ export const TeacherSidebar: React.FC = () => {
         Dashboard
       </Link>
       <Link to="/dashboard/manage/lectures" className="h-[35px] flex items-center text-sm text-left rounded-lg hover:bg-slate-800 !pl-2">
-        Lectures
+        Labs
       </Link> 
       <Link to="/dashboard/manage/sections" className="h-[35px] flex items-center text-sm text-left rounded-lg hover:bg-slate-800 !pl-2">
         Sections

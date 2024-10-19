@@ -118,7 +118,7 @@ const LectureFormPage: React.FC = () => {
         <Card>
           <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3">
             <Flex direction="column" gap="1">
-              <small>Subject</small>
+              <small>Laboratory Number</small>
               <Select.Root defaultValue={formData.subject_id.toString()} onValueChange={(v) => setValue("subject_id", v)} required>
                 <Select.Trigger />
                 <Select.Content>
@@ -134,7 +134,7 @@ const LectureFormPage: React.FC = () => {
             </Flex>
 
             <Flex direction="column" gap="1">
-              <small>Name</small>
+              <small>Laboratory Name</small>
               <TextField.Root type="text" defaultValue={formData.title} onChange={(v) => setValue("title", v.target.value)} required />
             </Flex>
 
@@ -145,7 +145,7 @@ const LectureFormPage: React.FC = () => {
 
             {!isEdit ? (
               <Flex direction="column" gap="1">
-                <small>Module File (Optional)</small>
+                <small>Laboratory Instructions</small>
 
                 <TextField.Root
                   // @ts-ignore
@@ -160,7 +160,7 @@ const LectureFormPage: React.FC = () => {
 
             <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
               <Flex justify="between" className="w-full">
-                <h1>Lecture Laboratory</h1>
+                <h1>Laboratory Environment</h1>
 
                 <Flex justify="end" gap="2">
                   <Button variant="outline" size="1" type="button" onClick={onAddQuestion}>
@@ -201,7 +201,7 @@ const LectureFormPage: React.FC = () => {
 
             <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
               <Flex justify="between" className="w-full">
-                <h1>Lecture Assesment Quiz</h1>
+                <h1>Short Quiz</h1>
 
                 <Flex justify="end" gap="2">
                   <Button variant="outline" size="1" type="button" onClick={onAddQuestion}>
