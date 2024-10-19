@@ -52,7 +52,7 @@ export const AuthLayout: React.FC = () => {
           }}
         >
           <h1 className="text-2xl font-bold">BGV LABS</h1>
-          <p className="mb-5">Learning Management Platform</p>
+          <p className="mb-5">Learning Management System</p>
 
           <Outlet />
 

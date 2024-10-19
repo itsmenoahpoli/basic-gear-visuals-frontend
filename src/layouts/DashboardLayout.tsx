@@ -24,12 +24,12 @@ export const DashboardLayout: React.FC = () => {
     <Theme appearance="dark" scaling="90%">
       <Flex direction="column" className="w-full h-full max-w-screen overflow-hidden">
         {/* Header Section */}
-        <Flex className="h-[60px] w-full border-b border-gray-800 bg-gray-950 px-7" align="center" justify="between">
+        <Flex className="h-[60px] w-full border-b border-zinc-800 bg-zinc-950 px-7" align="center" justify="between">
           <Flex align="center">
             <img src="/logo.png" alt="Logo" className="h-10 w-10" />
-            <div className="ml-3">
+            <div className="ml-2">
               <h1 className="text-xl font-bold">BGV LABS</h1>
-              <h1 className="text-xs">Learning Management Platform</h1>
+              <h1 className="text-xs">Learning Management System</h1>
             </div>
           </Flex>
 
@@ -46,13 +46,13 @@ export const DashboardLayout: React.FC = () => {
         {/* Main Content Section */}
         <Flex direction="row" className="w-full h-[calc(100vh-60px)] overflow-hidden">
           {/* Sidebar */}
-          <Box className="w-[150px] h-[300px] border-r border-gray-800 px-5 pt-2 overflow-y-auto">
-            <p className="text-xs text-gray-400">Manage &mdash;</p>
+          <Box className="w-[200px] h-[300px] border-r border-zinc-800 px-5 pt-2 overflow-y-auto">
+            <p className="text-m text-gray-400 ">Manage &mdash;</p>
             <RenderSidebar userRole={userRole as UserRoles} />
           </Box>
 
           {/* Main Content Area */}
-          <Box className="flex-1 h-full px-3 pt-2 overflow-y-auto">
+          <Box className="flex-1 h-full px-3 pt-2 overflow-y-auto bg-zinc-300 border-zinc-950 text-zinc-800 ">
             <AppBreadcrumb />
             <Box className="mt-7 overflow-hidden">
               <Outlet />
