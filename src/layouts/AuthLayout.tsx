@@ -5,37 +5,20 @@ import { Outlet } from "react-router-dom";
 export const AuthLayout: React.FC = () => {
   return (
     <Theme appearance="dark">
-      <div style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
+      <div className="relative h-screen overflow-hidden">
         {/* Background Video */}
         <video
           autoPlay
           muted
           loop
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            zIndex: -1, // Keep video behind content
-            objectFit: 'cover', // Cover the entire background
-            pointerEvents: 'none', // Prevent interaction with the video
-          }}
+          className="absolute top-0 left-0 w-full h-full z-[-1] object-cover pointer-events-none"
         >
           <source src="/bg.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
         {/* Dark Overlay */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.8)', // Adjust opacity for darkness
-          zIndex: 0, // Ensure it is above the video but below the content
-        }} />
+        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-80 z-0"></div>
 
         {/* Foreground Content */}
         <Flex
@@ -43,14 +26,10 @@ export const AuthLayout: React.FC = () => {
           align="center"
           direction="column"
           gap="2"
-          className="h-screen"
-          style={{
-            zoom: 0.75,
-            zIndex: 1,
-            color: "#ffffff",
-            backdropFilter: "blur(5px)",
-          }}
+          className="h-screen z-10 text-white backdrop-blur-sm"
+          style={{ zoom: 0.75 }}
         >
+
           <h1 className="text-2xl font-bold">BGV LABS</h1>
           <p className="mb-5">Learning Management System</p>
 

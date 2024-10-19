@@ -38,9 +38,9 @@ const ManageSectionsPage: React.FC = () => {
       <Table.Root>
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Actions</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-zinc-900">Title</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-zinc-900">Status</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-zinc-900">Actions</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -68,7 +68,7 @@ const ManageSectionsPage: React.FC = () => {
             ))
           ) : (
             <Table.Row>
-              <Table.Cell colSpan={4} className="text-center font-bold">
+              <Table.Cell colSpan={4} className="text-center font-bold text-zinc-900">
                 NO DATA
               </Table.Cell>
             </Table.Row>

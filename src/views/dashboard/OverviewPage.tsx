@@ -10,8 +10,7 @@ const OverviewPage: React.FC = () => {
   const items = lectures.map((lecture: any) => (
     <Card
       key={lecture.id}
-      className="p-2 mx-auto flex flex-col"
-      style={{ minWidth: '300px', maxWidth: '400px', flex: '1 0 auto', margin: '0 auto'}} 
+      className="p-2 flex flex-col min-w-[300px] max-w-[400px] flex-1 flex-shrink-0 flex-grow-0 mx-auto"
     >
       <h2 className="font-bold text-xl sm:text-2xl text-center">{lecture.subject_id}</h2>
       <p className="text-m sm:text-lg text-center">Name: {lecture.name}</p>
@@ -44,7 +43,7 @@ const OverviewPage: React.FC = () => {
 
       <Flex direction="column" className="w-full mt-5">
       <h1 className="font-bold text-lg mb-2">Lectures</h1>
-      <div className="mx-auto" style={{ width: '100%', maxWidth: '1000px'}}> 
+      <div className="mx-auto w-full max-w-[1000px]"> 
         <AliceCarousel
           mouseTracking
           items={items}

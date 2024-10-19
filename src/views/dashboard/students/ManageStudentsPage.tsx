@@ -30,9 +30,9 @@ const ManageStudentsPage: React.FC = () => {
       <Table.Root>
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Section</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Actions</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-zinc-900">Name</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-zinc-900">Section</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-zinc-900">Actions</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -45,11 +45,11 @@ const ManageStudentsPage: React.FC = () => {
                 <Table.Cell>
                   <Flex direction="row" gap="2">
                     <Link to={`/dashboard/manage/lectures/${d.id}/edit`}>
-                      <Button className="text-xs" variant="soft">
+                      <Button variant="outline" className="text-xs" >
                         Update
                       </Button>
                     </Link>
-                    <Button className="text-xs" color="red" onClick={() => confirmDeleteStudent(d.id)}>
+                    <Button variant="outline" className="text-xs" color="red" onClick={() => confirmDeleteStudent(d.id)}>
                       Delete
                     </Button>
                   </Flex>
@@ -58,7 +58,7 @@ const ManageStudentsPage: React.FC = () => {
             ))
           ) : (
             <Table.Row>
-              <Table.Cell colSpan={4} className="text-center font-bold">
+              <Table.Cell colSpan={4} className="text-center font-bold text-zinc-900">
                 NO DATA
               </Table.Cell>
             </Table.Row>

@@ -46,7 +46,7 @@ const ManageLecturesPage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {data.length ? (
           data.map((d: any) => (
-            <Card key={d.id} className="w-full !py-4 !px-5 border border-gray-200 shadow-md">
+            <Card key={d.id} className="w-full !py-4 !px-5 border border-gray-800 shadow-md">
               <h1 className="font-bold">{d.title}</h1>
               <p className="text-[14px] mt-2">{d.description}</p>
               <div className="mt-3">
@@ -64,7 +64,6 @@ const ManageLecturesPage: React.FC = () => {
                 <Link to={`/dashboard/manage/lectures/${d.id}/edit`}>
                   <Button 
                     className="text-xs" 
-                    variant="soft"
                   >
                     Update
                   </Button>
