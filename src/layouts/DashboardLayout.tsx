@@ -27,6 +27,10 @@ export const DashboardLayout: React.FC = () => {
         <Flex className="h-[60px] w-full border-b border-gray-800 bg-gray-950 px-7" align="center" justify="between">
           <Flex align="center">
             <img src="/logo.png" alt="Logo" className="h-10 w-10" />
+            <div className="ml-3">
+              <h1 className="text-xl font-bold">BGV LABS</h1>
+              <h1 className="text-xs">Learning Management Platform</h1>
+            </div>
           </Flex>
 
           <Flex gap="6" justify="center">
