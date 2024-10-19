@@ -164,11 +164,12 @@ const LectureFormPage: React.FC = () => {
 
                 <Flex justify="end" gap="2">
                   <Button variant="outline" size="1" type="button" onClick={onAddQuestion}>
-                    Add 
+                    Add Lab
                   </Button>
                 </Flex>
               </Flex>
 
+              {/* Display the lecture labs (questions) section even if there are no existing questions */}
               {questions.length ? (
                 questions.map((question: Question, index: number) => (
                   <Flex gap="3" key={`question-${index}`}>
