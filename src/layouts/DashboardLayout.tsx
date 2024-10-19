@@ -52,7 +52,7 @@ export const DashboardLayout: React.FC = () => {
           </Box>
 
           {/* Main Content Area */}
-          <Box className="flex-1 h-full px-3 pt-2 overflow-y-auto bg-zinc-300 border-zinc-950 text-zinc-800 ">
+          <Box className="flex-1 h-full px-3 pt-2 overflow-y-auto bg-zinc-100 border-zinc-950 text-zinc-800 ">
             <AppBreadcrumb />
             <Box className="mt-7 overflow-hidden">
               <Outlet />
