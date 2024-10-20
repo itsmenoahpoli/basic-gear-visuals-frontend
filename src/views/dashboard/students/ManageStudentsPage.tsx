@@ -27,9 +27,9 @@ const ManageStudentsPage: React.FC = () => {
     <Flex direction="column" gap="3" className="h-full">
       <PageHeader title="Manage Students" subtitle="View all and manage students" />
 
-      <Table.Root>
+      <Table.Root >
         <Table.Header>
-          <Table.Row>
+          <Table.Row className="border-t border-b border-zinc-900">
             <Table.ColumnHeaderCell className="text-zinc-900">Name</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className="text-zinc-900">Section</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className="text-zinc-900">Actions</Table.ColumnHeaderCell>

@@ -37,7 +37,7 @@ const ManageSectionsPage: React.FC = () => {
 
       <Table.Root>
         <Table.Header>
-          <Table.Row>
+          <Table.Row className="border-t border-b border-zinc-900">
             <Table.ColumnHeaderCell className="text-zinc-900">Title</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className="text-zinc-900">Status</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className="text-zinc-900">Actions</Table.ColumnHeaderCell>
@@ -48,14 +48,14 @@ const ManageSectionsPage: React.FC = () => {
           {data.length ? (
             data.map((d: any) => (
               <Table.Row key={d.id}>
-                <Table.RowHeaderCell>{d.title}</Table.RowHeaderCell>
+                <Table.RowHeaderCell className ="text-zinc-900">{d.title}</Table.RowHeaderCell>
                 <Table.Cell>
                   <StatusBadge status={d.status} />
                 </Table.Cell>
                 <Table.Cell>
                   <Flex direction="row" gap="2">
                     <Link to={`/dashboard/manage/sections/${d.id}/edit`}>
-                      <Button className="text-xs" variant="soft">
+                      <Button className="text-xs" color="indigo">
                         Update
                       </Button>
                     </Link>
