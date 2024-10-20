@@ -26,7 +26,7 @@ const OverviewPage: React.FC = () => {
           <p className="text-[32px] text-center mt-3">-</p>
         </Card>
         <Card className="w-full !py-3 !px-7">
-          <h1 className="font-bold">TOTAL LECTURES</h1>
+          <h1 className="font-bold">TOTAL LABS</h1>
           <p className="text-[32px] text-center mt-3">{totalLectures}</p>
         </Card>
       </Flex>
@@ -36,7 +36,7 @@ const OverviewPage: React.FC = () => {
           <p className="text-[32px] text-center mt-3">-</p>
         </Card>
         <Card className="w-full !py-3 !px-7">
-          <h1 className="font-bold">TOTAL LABS</h1>
+          <h1 className="font-bold">TOTAL LECTURES</h1>
           <p className="text-[32px] text-center mt-3">-</p>
         </Card>
       </Flex>
