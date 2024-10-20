@@ -114,11 +114,11 @@ const LectureFormPage: React.FC = () => {
     <Flex direction="column" gap="3" className="h-full">
       <PageHeader title="Lecture Details" subtitle="Manage details of the lecture" />
 
-      <div className="px-3 mt-8">
-        <Card>
-          <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3">
+      <div className="px-3 mt-8 ">
+        <Card className="bg-zinc-950">
+          <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3 ">
             <Flex direction="column" gap="1">
-              <small>Laboratory Number</small>
+              <small className="text-zinc-50">Laboratory Number</small>
               <Select.Root defaultValue={formData.subject_id.toString()} onValueChange={(v) => setValue("subject_id", v)} required>
                 <Select.Trigger />
                 <Select.Content>
@@ -134,42 +134,41 @@ const LectureFormPage: React.FC = () => {
             </Flex>
 
             <Flex direction="column" gap="1">
-              <small>Laboratory Name</small>
+              <small className="text-zinc-50">Laboratory Name</small>
               <TextField.Root type="text" defaultValue={formData.title} onChange={(v) => setValue("title", v.target.value)} required />
             </Flex>
 
             <Flex direction="column" gap="1">
-              <small>Description</small>
+              <small className="text-zinc-50">Description</small>
               <TextArea defaultValue={formData.description} rows={10} onChange={(v) => setValue("description", v.target.value)} required />
             </Flex>
 
-            {!isEdit ? (
-              <Flex direction="column" gap="1">
-                <small>Laboratory Instructions</small>
 
-                <TextField.Root
-                  // @ts-ignore
-                  type="file"
-                  ref={fileInputRef}
-                  defaultValue={formData.file}
-                  onChange={(v) => onFileSelect(v.target.files![0])}
-                  required
-                />
-              </Flex>
-            ) : null}
+            <Flex direction="column" gap="1">
+              <small className="text-zinc-50">Laboratory Instructions</small>
+
+              <TextField.Root
+                // @ts-ignore
+                type="file"
+                ref={fileInputRef}
+                defaultValue={formData.file}
+                onChange={(v) => onFileSelect(v.target.files![0])}
+                required
+              />
+            </Flex>
+ 
 
             <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
               <Flex justify="between" className="w-full">
-                <h1>Laboratory Environment</h1>
+                <h1 className="text-zinc-50">Laboratory Environment</h1>
 
                 <Flex justify="end" gap="2">
-                  <Button variant="outline" size="1" type="button" onClick={onAddQuestion}>
+                  <Button color="iris" size="1" type="button" onClick={onAddQuestion}>
                     Add Lab
                   </Button>
                 </Flex>
               </Flex>
 
-              {/* Display the lecture labs (questions) section even if there are no existing questions */}
               {questions.length ? (
                 questions.map((question: Question, index: number) => (
                   <Flex gap="3" key={`question-${index}`}>
@@ -201,10 +200,10 @@ const LectureFormPage: React.FC = () => {
 
             <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
               <Flex justify="between" className="w-full">
-                <h1>Short Quiz</h1>
+                <h1 className="text-zinc-50">Short Quiz</h1>
 
                 <Flex justify="end" gap="2">
-                  <Button variant="outline" size="1" type="button" onClick={onAddQuestion}>
+                  <Button color="iris" size="1" type="button" onClick={onAddQuestion}>
                     Add Question
                   </Button>
                 </Flex>

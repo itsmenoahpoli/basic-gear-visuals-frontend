@@ -46,7 +46,7 @@ const ManageLecturesPage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {data.length ? (
           data.map((d: any) => (
-            <Card key={d.id} className="w-full !py-4 !px-5 border border-gray-800 shadow-md">
+            <Card key={d.id} className="w-full !py-4 !px-5 border border-gray-800 text-zinc-50 bg-zinc-950 shadow-md">
               <h1 className="font-bold">{d.title}</h1>
               <p className="text-[14px] mt-2">{d.description}</p>
               <div className="mt-3">

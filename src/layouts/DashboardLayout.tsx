@@ -46,7 +46,7 @@ export const DashboardLayout: React.FC = () => {
         {/* Main Content Section */}
         <Flex direction="row" className="w-full h-[calc(100vh-60px)] overflow-hidden">
           {/* Sidebar */}
-          <Box className="w-[200px] h-[300px] border-r border-zinc-800 px-5 pt-2 overflow-y-auto">
+          <Box className="w-[200px] h-[300px] border-r border-zinc-950 px-5 pt-2 overflow-y-auto">
             <p className="text-m text-gray-400 ">Manage &mdash;</p>
             <RenderSidebar userRole={userRole as UserRoles} />
           </Box>
@@ -54,7 +54,7 @@ export const DashboardLayout: React.FC = () => {
           {/* Main Content Area */}
           <Box className="flex-1 h-full px-3 pt-2 overflow-y-auto bg-zinc-100 border-zinc-950 text-zinc-800 ">
             <AppBreadcrumb />
-            <Box className="mt-7 overflow-hidden">
+            <Box className="mt-7 overflow-hidden ">
               <Outlet />
             </Box>
           </Box>

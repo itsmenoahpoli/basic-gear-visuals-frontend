@@ -45,11 +45,11 @@ const ManageStudentsPage: React.FC = () => {
                 <Table.Cell>
                   <Flex direction="row" gap="2">
                     <Link to={`/dashboard/manage/lectures/${d.id}/edit`}>
-                      <Button variant="outline" className="text-xs" >
+                      <Button className="text-xs" color="iris">
                         Update
                       </Button>
                     </Link>
-                    <Button variant="outline" className="text-xs" color="red" onClick={() => confirmDeleteStudent(d.id)}>
+                    <Button  className="text-xs" color="red" onClick={() => confirmDeleteStudent(d.id)}>
                       Delete
                     </Button>
                   </Flex>
