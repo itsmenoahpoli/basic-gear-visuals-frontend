@@ -2,10 +2,12 @@ import React from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { Flex, Card } from "@radix-ui/themes";
-import { useLectureCount } from "@/hooks/use-lecture.count.hook";
+import { useAuth, useLectureCount } from "@/hooks";
 
 const OverviewPage: React.FC = () => {
   const { totalLectures, lectures } = useLectureCount();
+  const { userRole } = useAuth();
+  const IS_TEACHER = userRole === "TEACHER";
 
   const items = lectures.map((lecture: any) => (
     <Card
@@ -41,31 +43,32 @@ const OverviewPage: React.FC = () => {
         </Card>
       </Flex>
 
-      <Flex direction="column" className="w-full mt-5">
-      <h1 className="font-bold text-lg mb-2 ">Lectures</h1>
-      <div className="mx-auto w-full max-w-[1000px]"> 
-        
-        <AliceCarousel
-          renderPrevButton={() => <button className="text-zinc-950 text-5xl">‹</button>}
-          renderNextButton={() => <button className="text-zinc-950 text-5xl">›</button>}
-          mouseTracking
-          items={items}
-          responsive={{
-            0: { items: 1 },
-            600: { items: 1 },
-            800: { items: 2 },
-            1024: { items: 3 }, 
-            1200: { items: 3 },
-            1980: { items: 3 }, 
-          }}
-          controlsStrategy="responsive"
-          disableDotsControls
-          infinite
-          autoPlay
-          autoPlayInterval={2000}          
-        />
-      </div>
-    </Flex>
+      {IS_TEACHER ? (
+        <Flex direction="column" className="w-full mt-5">
+          <h1 className="font-bold text-lg mb-2 ">Lectures</h1>
+          <div className="mx-auto w-full max-w-[1000px]">
+            <AliceCarousel
+              renderPrevButton={() => <button className="text-zinc-950 text-5xl">‹</button>}
+              renderNextButton={() => <button className="text-zinc-950 text-5xl">›</button>}
+              mouseTracking
+              items={items}
+              responsive={{
+                0: { items: 1 },
+                600: { items: 1 },
+                800: { items: 2 },
+                1024: { items: 3 },
+                1200: { items: 3 },
+                1980: { items: 3 },
+              }}
+              controlsStrategy="responsive"
+              disableDotsControls
+              infinite
+              autoPlay
+              autoPlayInterval={2000}
+            />
+          </div>
+        </Flex>
+      ) : null}
 
       <Flex gap="5" className="!hidden">
         <Card className="w-1/2 !py-3 !px-7">
