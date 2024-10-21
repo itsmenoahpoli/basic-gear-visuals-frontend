@@ -4,7 +4,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { TbTrashXFilled } from "react-icons/tb";
 import { Flex, Card, TextField, TextArea, Select, Callout, Button } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
-import { useLecturesService, useSubjectsService } from "@/services";
+import { useLecturesService } from "@/services";
+import { APP_URL } from "@/constants";
 
 type Question = {
   question: string;
@@ -17,7 +18,6 @@ type Lab = {
 
 const LectureFormPage: React.FC = () => {
   const { createLecture, getLecture, updateLecture } = useLecturesService();
-  const { getSubjects } = useSubjectsService();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isEdit = window.location.pathname.includes("edit");
@@ -33,7 +33,6 @@ const LectureFormPage: React.FC = () => {
   });
   const [questions, setQuestions] = React.useState<Question[]>([]);
   const [labs, setLabs] = React.useState<Lab[]>([]);
-  const [subjects, setSubjects] = React.useState([]);
 
   const populateForm = (data: any) => {
     setFormData(data);
@@ -50,10 +49,18 @@ const LectureFormPage: React.FC = () => {
     e.preventDefault();
 
     if (isEdit && id) {
-      return await updateLecture(+id, { ...formData, questions: JSON.stringify(questions) });
+      return await updateLecture(+id, {
+        ...formData,
+        questions: JSON.stringify(questions),
+        labs: JSON.stringify(labs),
+      });
     }
 
-    return await createLecture({ ...formData, questions: JSON.stringify(questions) }).then(() => navigate("/dashboard/manage/lectures"));
+    return await createLecture({
+      ...formData,
+      questions: JSON.stringify(questions),
+      labs: JSON.stringify(labs),
+    }).then(() => navigate("/dashboard/manage/laboratories"));
   };
 
   const onFileSelect = (file: File) => {
@@ -92,6 +99,13 @@ const LectureFormPage: React.FC = () => {
     setLabs(labsCopy);
   };
 
+  const onFillLabValue = (index: number, key: keyof Lab, value: string) => {
+    const labsCopy = [...labs];
+    labsCopy[index][key] = value;
+
+    setLabs(labsCopy);
+  };
+
   const onAddQuestion = () => {
     setQuestions([
       ...questions,
@@ -109,13 +123,19 @@ const LectureFormPage: React.FC = () => {
     setQuestions(questionsCopy);
   };
 
-  const onFillQuestionValue = (index: number, key: keyof Question, value: string) => {
+  const onFillQuestionValue = (
+    index: number,
+    key: keyof Question,
+    value: string
+  ) => {
     const questionsCopy = [...questions];
     questionsCopy[index][key] = value;
 
-    console.log(questionsCopy[index]);
-
     setQuestions(questionsCopy);
+  };
+
+  const getModuleSrcUrl = (path: string) => {
+    return APP_URL + path;
   };
 
   React.useEffect(() => {
@@ -123,72 +143,111 @@ const LectureFormPage: React.FC = () => {
       getLecture(+id!).then((data) => {
         populateForm(data);
 
+        console.log(data);
+
         if (data.questions) {
           setQuestions(JSON.parse(data.questions));
         }
+
+        if (data.labs) {
+          setLabs(JSON.parse(data.labs));
+        }
       });
     }
-
-    getSubjects().then((data) => setSubjects(data));
   }, []);
 
   return (
     <Flex direction="column" gap="2" className="h-full">
-      <PageHeader title="Lecture Details" subtitle="Manage details of the lecture" />
+      <PageHeader
+        title="Laboratory Details"
+        subtitle="Manage details of the laboratory"
+      />
 
       <div className="px-3">
         <Card className="bg-zinc-950 mb-4">
           <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3 ">
             <Flex direction="column" gap="1">
-              <small className="text-zinc-50">Subject</small>
-              <Select.Root defaultValue={formData.subject_id.toString()} onValueChange={(v) => setValue("subject_id", v)} required>
+              <small className="text-zinc-50">Laboratory Number (week #)</small>
+              <Select.Root
+                defaultValue={formData.week_no.toString()}
+                onValueChange={(v) => setValue("week_no", v)}
+                required
+              >
                 <Select.Trigger />
                 <Select.Content color="blue">
                   <Select.Group>
-                    {subjects.map((subject: any) => (
-                      <Select.Item value={subject.id.toString()} key={subject.name}>
-                        {subject.name}
-                      </Select.Item>
-                    ))}
+                    <Select.Item value="1">1</Select.Item>
+                    <Select.Item value="2">2</Select.Item>
+                    <Select.Item value="3">3</Select.Item>
+                    <Select.Item value="4">4</Select.Item>
+                    <Select.Item value="5">5</Select.Item>
+                    <Select.Item value="6">6</Select.Item>
                   </Select.Group>
                 </Select.Content>
               </Select.Root>
             </Flex>
 
             <Flex direction="column" gap="1">
-              <small className="text-zinc-50">Laboratory Week Number</small>
-              <TextField.Root type="number" defaultValue={formData.week_no} onChange={(v) => setValue("title", v.target.value)} required />
-            </Flex>
-
-            <Flex direction="column" gap="1">
               <small className="text-zinc-50">Laboratory Name</small>
-              <TextField.Root type="text" defaultValue={formData.title} onChange={(v) => setValue("title", v.target.value)} required />
+              <TextField.Root
+                type="text"
+                defaultValue={formData.title}
+                onChange={(v) => setValue("title", v.target.value)}
+                required
+              />
             </Flex>
 
             <Flex direction="column" gap="1">
               <small className="text-zinc-50">Description</small>
-              <TextArea defaultValue={formData.description} rows={10} onChange={(v) => setValue("description", v.target.value)} required />
+              <TextArea
+                defaultValue={formData.description}
+                rows={10}
+                onChange={(v) => setValue("description", v.target.value)}
+                required
+              />
             </Flex>
 
             <Flex direction="column" gap="1">
               <small className="text-zinc-50">Laboratory Instructions</small>
 
-              <TextField.Root
-                // @ts-ignore
-                type="file"
-                ref={fileInputRef}
-                defaultValue={formData.file}
-                onChange={(v) => onFileSelect(v.target.files![0])}
-                required
-              />
+              {isEdit ? (
+                <div>
+                  <a
+                    href={getModuleSrcUrl(formData.module_src)}
+                    target="_blank"
+                    className="text-blue-500 underline"
+                  >
+                    View laboratory instruction PDF file (new tab)
+                  </a>
+                </div>
+              ) : (
+                <TextField.Root
+                  // @ts-ignore
+                  type="file"
+                  ref={fileInputRef}
+                  defaultValue={formData.file}
+                  onChange={(v) => onFileSelect(v.target.files![0])}
+                  required
+                />
+              )}
             </Flex>
 
-            <Flex direction="column" gap="3" className="border-t-2 border-zinc-700 py-5 mt-4">
+            <Flex
+              direction="column"
+              gap="3"
+              className="border-t-2 border-zinc-700 py-5 mt-4"
+            >
               <Flex justify="between" className="w-full">
                 <h1 className="text-zinc-50">Laboratory Environment</h1>
 
                 <Flex justify="end" gap="2">
-                  <Button color="blue" variant="soft" size="1" type="button" onClick={onAddLab}>
+                  <Button
+                    color="blue"
+                    variant="soft"
+                    size="1"
+                    type="button"
+                    onClick={onAddLab}
+                  >
                     Add Lab
                   </Button>
                 </Flex>
@@ -197,32 +256,51 @@ const LectureFormPage: React.FC = () => {
               {labs.length ? (
                 labs.map((lab: Lab, index: number) => (
                   <Flex gap="3" key={`lab-${index}`}>
-                    <Button type="button" variant="classic" color="red" onClick={() => onRemoveLab(index)}>
+                    <Button
+                      type="button"
+                      variant="classic"
+                      color="red"
+                      onClick={() => onRemoveLab(index)}
+                    >
                       <TbTrashXFilled />
                     </Button>
                     <TextField.Root
                       color="blue"
                       type="text"
                       value={lab.url}
-                      className="w-2/3"
+                      className="w-full"
                       placeholder="Enter lab url"
-                      // onChange={(e) => onFilllabValue(index, "lab", e.target.value)}
+                      onChange={(e) =>
+                        onFillLabValue(index, "url", e.target.value)
+                      }
                     />
                   </Flex>
                 ))
               ) : (
                 <Callout.Root color="blue" variant="soft">
-                  <Callout.Text className="text-center">No labs yet</Callout.Text>
+                  <Callout.Text className="text-center">
+                    No labs yet
+                  </Callout.Text>
                 </Callout.Root>
               )}
             </Flex>
 
-            <Flex direction="column" gap="3" className="border-t-2 border-zinc-700 py-5 mt-4">
+            <Flex
+              direction="column"
+              gap="3"
+              className="border-t-2 border-zinc-700 py-5 mt-4"
+            >
               <Flex justify="between" className="w-full">
                 <h1 className="text-zinc-50">Short Quiz</h1>
 
                 <Flex justify="end" gap="2">
-                  <Button color="blue" variant="soft" size="1" type="button" onClick={onAddQuestion}>
+                  <Button
+                    color="blue"
+                    variant="soft"
+                    size="1"
+                    type="button"
+                    onClick={onAddQuestion}
+                  >
                     Add Question
                   </Button>
                 </Flex>
@@ -231,7 +309,12 @@ const LectureFormPage: React.FC = () => {
               {questions.length ? (
                 questions.map((question: Question, index: number) => (
                   <Flex gap="3" key={`question-${index}`}>
-                    <Button type="button" variant="classic" color="red" onClick={() => onRemoveQuestion(index)}>
+                    <Button
+                      type="button"
+                      variant="classic"
+                      color="red"
+                      onClick={() => onRemoveQuestion(index)}
+                    >
                       <TbTrashXFilled />
                     </Button>
                     <TextField.Root
@@ -240,7 +323,9 @@ const LectureFormPage: React.FC = () => {
                       value={question.question}
                       className="w-2/3"
                       placeholder="Enter question"
-                      onChange={(e) => onFillQuestionValue(index, "question", e.target.value)}
+                      onChange={(e) =>
+                        onFillQuestionValue(index, "question", e.target.value)
+                      }
                     />
                     <TextField.Root
                       color="blue"
@@ -248,19 +333,28 @@ const LectureFormPage: React.FC = () => {
                       value={question.answer}
                       className="w-1/3"
                       placeholder="Enter answer"
-                      onChange={(e) => onFillQuestionValue(index, "answer", e.target.value)}
+                      onChange={(e) =>
+                        onFillQuestionValue(index, "answer", e.target.value)
+                      }
                     />
                   </Flex>
                 ))
               ) : (
                 <Callout.Root color="blue" variant="soft">
-                  <Callout.Text className="text-center">No questions yet</Callout.Text>
+                  <Callout.Text className="text-center">
+                    No questions yet
+                  </Callout.Text>
                 </Callout.Root>
               )}
             </Flex>
 
             <div>
-              <Button type="submit" color="green" variant="soft" className="text-xs">
+              <Button
+                type="submit"
+                color="green"
+                variant="soft"
+                className="text-xs"
+              >
                 {buttonLabel}
               </Button>
             </div>

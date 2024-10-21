@@ -8,15 +8,15 @@ export const TeacherSidebar: React.FC = () => {
       <Link to="/dashboard/overview" className="h-[35px] flex items-center text-sm text-left rounded-lg hover:bg-slate-800 !pl-2">
         Dashboard
       </Link>
-      <Link to="/dashboard/manage/lectures" className="h-[35px] flex items-center text-sm text-left rounded-lg hover:bg-slate-800 !pl-2">
-        Lectures
+      <Link to="/dashboard/manage/laboratories" className="h-[35px] flex items-center text-sm text-left rounded-lg hover:bg-slate-800 !pl-2">
+        Laboratories
       </Link> 
-      <Link to="/dashboard/manage/sections" className="h-[35px] flex items-center text-sm text-left rounded-lg hover:bg-slate-800 !pl-2">
+      {/* <Link to="/dashboard/manage/sections" className="h-[35px] flex items-center text-sm text-left rounded-lg hover:bg-slate-800 !pl-2">
         Sections
       </Link>
       <Link to="/dashboard/manage/students" className="h-[35px] flex items-center text-sm text-left rounded-lg hover:bg-slate-800 !pl-2">
         Students
-      </Link>
+      </Link> */}
     </Flex>
   );
 };

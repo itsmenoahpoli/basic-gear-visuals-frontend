@@ -27,8 +27,6 @@ const LectureFormPage = LoadComponent(React.lazy(() => import("@/views/dashboard
 
 const ManageStudentsPage = LoadComponent(React.lazy(() => import("@/views/dashboard/students/ManageStudentsPage")));
 
-const ManageLectureLaboratoriesPage = LoadComponent(React.lazy(() => import("@/views/dashboard/lecture-laboratories/ManageLectureLaboratoriesPage")));
-
 
 const router = createBrowserRouter([
   {
@@ -78,20 +76,16 @@ const router = createBrowserRouter([
         element: ManageStudentsPage,
       },
       {
-        path: "/dashboard/manage/lectures",
+        path: "/dashboard/manage/laboratories",
         element: ManageLecturesPage,
       },
       {
-        path: "/dashboard/manage/lectures/add",
+        path: "/dashboard/manage/laboratories/add",
         element: LectureFormPage,
       },
       {
-        path: "/dashboard/manage/lectures/:id/edit",
+        path: "/dashboard/manage/laboratories/:id/edit",
         element: LectureFormPage,
-      },
-      {
-        path: "/dashboard/manage/lecture-laboratories",
-        element: ManageLectureLaboratoriesPage,
       },
     ],
   },
