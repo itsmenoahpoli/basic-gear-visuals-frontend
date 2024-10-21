@@ -38,12 +38,12 @@ const ManageLecturesPage: React.FC = () => {
     <Flex direction="column" gap="3" className="h-full">
       <PageHeader title="Manage Lectures" subtitle="View all and manage lectures">
         <Link to="/dashboard/manage/lectures/add">
-          <Button>Add Lecture</Button>
+          <Button color ="blue">Add Lecture</Button>
         </Link>
       </PageHeader>
 
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         {data.length ? (
           data.map((d: any) => (
             <Card key={d.id} className="w-full !py-4 !px-5 border border-gray-800 text-zinc-50 bg-zinc-950 shadow-md">
@@ -63,7 +63,7 @@ const ManageLecturesPage: React.FC = () => {
               <div className="mt-3 flex justify-center gap-2">
                 <Link to={`/dashboard/manage/lectures/${d.id}/edit`}>
                   <Button 
-                    className="text-xs" 
+                    className="text-xs" color="blue" variant ="soft" 
                   >
                     Update
                   </Button>

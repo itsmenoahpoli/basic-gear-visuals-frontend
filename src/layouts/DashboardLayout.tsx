@@ -37,9 +37,11 @@ export const DashboardLayout: React.FC = () => {
             <p className="text-[12px]">
               Account Type <Badge color="amber">{userRole}</Badge>
             </p>
-            <Button variant="ghost" className="!text-red-200 text-lg font-bold" onClick={logout}>
-              LOGOUT
-            </Button>
+            <Badge color="red">
+              <Button variant="ghost" className="!text-red-200 text-lg font-bold" onClick={logout}>
+                LOGOUT
+              </Button>
+            </Badge>
           </Flex>
         </Flex>
 

@@ -45,7 +45,7 @@ const ManageStudentsPage: React.FC = () => {
                 <Table.Cell>
                   <Flex direction="row" gap="2">
                     <Link to={`/dashboard/manage/lectures/${d.id}/edit`}>
-                      <Button className="text-xs" color="iris">
+                      <Button className="text-xs" color="blue">
                         Update
                       </Button>
                     </Link>

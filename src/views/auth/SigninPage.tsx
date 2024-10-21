@@ -34,23 +34,23 @@ const SigninPage: React.FC = () => {
             name="email"
             control={control}
             defaultValue=""
-            render={({ field }) => <TextField.Root type="email" size="3" placeholder="Enter e-mail" {...field} required autoFocus />}
+            render={({ field }) => <TextField.Root color="blue" type="email" size="3" placeholder="Enter e-mail" {...field} required autoFocus />}
           />
           <Controller
             name="password"
             control={control}
             defaultValue=""
-            render={({ field }) => <TextField.Root type="password" size="3" placeholder="Enter password" {...field} required />}
+            render={({ field }) => <TextField.Root color="blue" type="password" size="3" placeholder="Enter password" {...field} required />}
           />
-          <Button type="submit" size="3" loading={loading}>
+          <Button color ="blue" type="submit" size="3" loading={loading}>
             Log In
           </Button>
 
-          <Flex direction="column" gap="4" className="!w-full px-3 mt-4">
-            <Button size="3" variant="ghost" className="!w-full py-3">
+          <Flex direction="column" gap="4"  className="!w-full px-3 mt-4">
+            <Button size="3" variant="ghost" color="blue" className="!w-full py-3">
               Forgot your password?
             </Button>
-            <Button size="3" variant="ghost" className="!w-full py-3" onClick={handleRedirectToSignup}>
+            <Button size="3" variant="ghost" color="blue" className="!w-full py-3" onClick={handleRedirectToSignup}>
               Create Account
             </Button>
           </Flex>

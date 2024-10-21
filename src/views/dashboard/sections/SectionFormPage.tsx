@@ -48,15 +48,15 @@ const SectionFormPage: React.FC = () => {
       <PageHeader title="Section Details" subtitle="Manage details of the section" />
 
       <div className="px-3 mt-8">
-        <Card>
+        <Card className="bg-zinc-950 mb-4">
           <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3">
             <Flex direction="column" gap="1">
-              <small>Name</small>
+              <small className="text-zinc-50">Name</small>
               <TextField.Root type="text" defaultValue={formData.title} onChange={(v) => setValue("title", v.target.value)} required />
             </Flex>
 
             <Flex direction="column" gap="1">
-              <small>Status</small>
+              <small className="text-zinc-50">Status</small>
               <Select.Root defaultValue={formData.status} onValueChange={(v) => setValue("status", v)}>
                 <Select.Trigger />
                 <Select.Content>
@@ -69,7 +69,7 @@ const SectionFormPage: React.FC = () => {
             </Flex>
 
             <div>
-              <Button type="submit" color="green" className="text-xs">
+              <Button type="submit" color="green" variant="soft" className="text-xs">
                 {buttonLabel}
               </Button>
             </div>

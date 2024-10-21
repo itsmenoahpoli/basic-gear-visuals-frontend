@@ -133,17 +133,17 @@ const LectureFormPage: React.FC = () => {
   }, []);
 
   return (
-    <Flex direction="column" gap="3" className="h-full">
+    <Flex direction="column" gap="2" className="h-full">
       <PageHeader title="Lecture Details" subtitle="Manage details of the lecture" />
 
-      <div className="px-3 mt-8 ">
-        <Card className="bg-zinc-950">
+      <div className="px-3">
+        <Card className="bg-zinc-950 mb-4">
           <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3 ">
             <Flex direction="column" gap="1">
               <small className="text-zinc-50">Subject</small>
               <Select.Root defaultValue={formData.subject_id.toString()} onValueChange={(v) => setValue("subject_id", v)} required>
                 <Select.Trigger />
-                <Select.Content>
+                <Select.Content color="blue">
                   <Select.Group>
                     {subjects.map((subject: any) => (
                       <Select.Item value={subject.id.toString()} key={subject.name}>
@@ -156,7 +156,7 @@ const LectureFormPage: React.FC = () => {
             </Flex>
 
             <Flex direction="column" gap="1">
-              <small className="text-zinc-50">Laboratory Wekk Number</small>
+              <small className="text-zinc-50">Laboratory Week Number</small>
               <TextField.Root type="number" defaultValue={formData.week_no} onChange={(v) => setValue("title", v.target.value)} required />
             </Flex>
 
@@ -183,12 +183,12 @@ const LectureFormPage: React.FC = () => {
               />
             </Flex>
 
-            <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
+            <Flex direction="column" gap="3" className="border-t-2 border-zinc-700 py-5 mt-4">
               <Flex justify="between" className="w-full">
                 <h1 className="text-zinc-50">Laboratory Environment</h1>
 
                 <Flex justify="end" gap="2">
-                  <Button color="iris" size="1" type="button" onClick={onAddLab}>
+                  <Button color="blue" variant="soft" size="1" type="button" onClick={onAddLab}>
                     Add Lab
                   </Button>
                 </Flex>
@@ -201,6 +201,7 @@ const LectureFormPage: React.FC = () => {
                       <TbTrashXFilled />
                     </Button>
                     <TextField.Root
+                      color="blue"
                       type="text"
                       value={lab.url}
                       className="w-2/3"
@@ -210,18 +211,18 @@ const LectureFormPage: React.FC = () => {
                   </Flex>
                 ))
               ) : (
-                <Callout.Root>
+                <Callout.Root color="blue" variant="soft">
                   <Callout.Text className="text-center">No labs yet</Callout.Text>
                 </Callout.Root>
               )}
             </Flex>
 
-            <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
+            <Flex direction="column" gap="3" className="border-t-2 border-zinc-700 py-5 mt-4">
               <Flex justify="between" className="w-full">
                 <h1 className="text-zinc-50">Short Quiz</h1>
 
                 <Flex justify="end" gap="2">
-                  <Button color="iris" size="1" type="button" onClick={onAddQuestion}>
+                  <Button color="blue" variant="soft" size="1" type="button" onClick={onAddQuestion}>
                     Add Question
                   </Button>
                 </Flex>
@@ -234,6 +235,7 @@ const LectureFormPage: React.FC = () => {
                       <TbTrashXFilled />
                     </Button>
                     <TextField.Root
+                      color="blue"
                       type="text"
                       value={question.question}
                       className="w-2/3"
@@ -241,6 +243,7 @@ const LectureFormPage: React.FC = () => {
                       onChange={(e) => onFillQuestionValue(index, "question", e.target.value)}
                     />
                     <TextField.Root
+                      color="blue"
                       type="text"
                       value={question.answer}
                       className="w-1/3"
@@ -250,14 +253,14 @@ const LectureFormPage: React.FC = () => {
                   </Flex>
                 ))
               ) : (
-                <Callout.Root>
+                <Callout.Root color="blue" variant="soft">
                   <Callout.Text className="text-center">No questions yet</Callout.Text>
                 </Callout.Root>
               )}
             </Flex>
 
             <div>
-              <Button type="submit" color="green" className="text-xs">
+              <Button type="submit" color="green" variant="soft" className="text-xs">
                 {buttonLabel}
               </Button>
             </div>
