@@ -52,14 +52,14 @@ const SectionFormPage: React.FC = () => {
           <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3">
             <Flex direction="column" gap="1">
               <small className="text-zinc-50">Name</small>
-              <TextField.Root type="text" defaultValue={formData.title} onChange={(v) => setValue("title", v.target.value)} required />
+              <TextField.Root color="blue" type="text" defaultValue={formData.title} onChange={(v) => setValue("title", v.target.value)} required />
             </Flex>
 
             <Flex direction="column" gap="1">
               <small className="text-zinc-50">Status</small>
               <Select.Root defaultValue={formData.status} onValueChange={(v) => setValue("status", v)}>
                 <Select.Trigger />
-                <Select.Content>
+                <Select.Content color="blue">
                   <Select.Group>
                     <Select.Item value="published">Published</Select.Item>
                     <Select.Item value="draft">Draft</Select.Item>
