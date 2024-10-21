@@ -11,6 +11,10 @@ type Question = {
   answer: string;
 };
 
+type Lab = {
+  url: string;
+};
+
 const LectureFormPage: React.FC = () => {
   const { createLecture, getLecture, updateLecture } = useLecturesService();
   const { getSubjects } = useSubjectsService();
@@ -22,11 +26,13 @@ const LectureFormPage: React.FC = () => {
 
   const [formData, setFormData] = React.useState<any>({
     subject_id: "",
+    week_no: 0,
     title: "",
     description: "",
     file: null,
   });
   const [questions, setQuestions] = React.useState<Question[]>([]);
+  const [labs, setLabs] = React.useState<Lab[]>([]);
   const [subjects, setSubjects] = React.useState([]);
 
   const populateForm = (data: any) => {
@@ -68,6 +74,22 @@ const LectureFormPage: React.FC = () => {
         file,
       });
     }
+  };
+
+  const onAddLab = () => {
+    setLabs([
+      ...labs,
+      {
+        url: "",
+      },
+    ]);
+  };
+
+  const onRemoveLab = (index: number) => {
+    const labsCopy = [...labs];
+    labsCopy.splice(index, 1);
+
+    setLabs(labsCopy);
   };
 
   const onAddQuestion = () => {
@@ -118,7 +140,7 @@ const LectureFormPage: React.FC = () => {
         <Card className="bg-zinc-950">
           <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3 ">
             <Flex direction="column" gap="1">
-              <small className="text-zinc-50">Laboratory Number</small>
+              <small className="text-zinc-50">Subject</small>
               <Select.Root defaultValue={formData.subject_id.toString()} onValueChange={(v) => setValue("subject_id", v)} required>
                 <Select.Trigger />
                 <Select.Content>
@@ -134,6 +156,11 @@ const LectureFormPage: React.FC = () => {
             </Flex>
 
             <Flex direction="column" gap="1">
+              <small className="text-zinc-50">Laboratory Wekk Number</small>
+              <TextField.Root type="number" defaultValue={formData.week_no} onChange={(v) => setValue("title", v.target.value)} required />
+            </Flex>
+
+            <Flex direction="column" gap="1">
               <small className="text-zinc-50">Laboratory Name</small>
               <TextField.Root type="text" defaultValue={formData.title} onChange={(v) => setValue("title", v.target.value)} required />
             </Flex>
@@ -142,7 +169,6 @@ const LectureFormPage: React.FC = () => {
               <small className="text-zinc-50">Description</small>
               <TextArea defaultValue={formData.description} rows={10} onChange={(v) => setValue("description", v.target.value)} required />
             </Flex>
-
 
             <Flex direction="column" gap="1">
               <small className="text-zinc-50">Laboratory Instructions</small>
@@ -156,38 +182,30 @@ const LectureFormPage: React.FC = () => {
                 required
               />
             </Flex>
- 
 
             <Flex direction="column" gap="3" className="border-t-2 border-gray-700 py-5 mt-4">
               <Flex justify="between" className="w-full">
                 <h1 className="text-zinc-50">Laboratory Environment</h1>
 
                 <Flex justify="end" gap="2">
-                  <Button color="iris" size="1" type="button" onClick={onAddQuestion}>
+                  <Button color="iris" size="1" type="button" onClick={onAddLab}>
                     Add Lab
                   </Button>
                 </Flex>
               </Flex>
 
-              {questions.length ? (
-                questions.map((question: Question, index: number) => (
-                  <Flex gap="3" key={`question-${index}`}>
-                    <Button type="button" variant="classic" color="red" onClick={() => onRemoveQuestion(index)}>
+              {labs.length ? (
+                labs.map((lab: Lab, index: number) => (
+                  <Flex gap="3" key={`lab-${index}`}>
+                    <Button type="button" variant="classic" color="red" onClick={() => onRemoveLab(index)}>
                       <TbTrashXFilled />
                     </Button>
                     <TextField.Root
                       type="text"
-                      value={question.question}
+                      value={lab.url}
                       className="w-2/3"
-                      placeholder="Enter question"
-                      onChange={(e) => onFillQuestionValue(index, "question", e.target.value)}
-                    />
-                    <TextField.Root
-                      type="text"
-                      value={question.answer}
-                      className="w-1/3"
-                      placeholder="Enter answer"
-                      onChange={(e) => onFillQuestionValue(index, "answer", e.target.value)}
+                      placeholder="Enter lab url"
+                      // onChange={(e) => onFilllabValue(index, "lab", e.target.value)}
                     />
                   </Flex>
                 ))
