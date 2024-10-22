@@ -33,6 +33,7 @@ const LectureFormPage: React.FC = () => {
   });
   const [questions, setQuestions] = React.useState<Question[]>([]);
   const [labs, setLabs] = React.useState<Lab[]>([]);
+  const [replaceInstruction, setReplaceInstruction] = React.useState(false);
 
   const populateForm = (data: any) => {
     setFormData(data);
@@ -80,6 +81,23 @@ const LectureFormPage: React.FC = () => {
         ...formData,
         file,
       });
+    }
+  };
+
+  const onReplaceFileSelect = (file: File) => {
+    if (file) {
+      if (file.type !== "application/pdf") {
+        if (fileInputRef.current) {
+          // @ts-ignore
+          fileInputRef.current.value = ""; // Reset the input field
+        }
+
+        toast.error("Only PDF file is accepted");
+
+        return;
+      }
+
+      console.log(file);
     }
   };
 
@@ -165,7 +183,6 @@ const LectureFormPage: React.FC = () => {
                 <Select.Trigger />
                 <Select.Content color="blue">
                   <Select.Group>
-                    <Select.Item value="0">Choose</Select.Item>
                     <Select.Item value="1">1</Select.Item>
                     <Select.Item value="2">2</Select.Item>
                     <Select.Item value="3">3</Select.Item>
@@ -191,11 +208,32 @@ const LectureFormPage: React.FC = () => {
               <small className="text-zinc-50">Laboratory Instructions</small>
 
               {isEdit ? (
-                <div>
-                  <a href={getModuleSrcUrl(formData.module_src)} target="_blank" className="text-blue-500 underline">
-                    View laboratory instruction PDF file (new tab)
-                  </a>
-                </div>
+                <Flex gap="2">
+                  {replaceInstruction ? (
+                    <TextField.Root
+                      // @ts-ignore
+                      type="file"
+                      ref={fileInputRef}
+                      defaultValue={undefined}
+                      onChange={(v) => onReplaceFileSelect(v.target.files![0])}
+                      required
+                    />
+                  ) : (
+                    <a href={getModuleSrcUrl(formData.module_src)} target="_blank" className="text-blue-500 underline">
+                      View laboratory instruction PDF file (new tab)
+                    </a>
+                  )}
+
+                  {!replaceInstruction ? (
+                    <Button size="1" color="yellow" variant="soft" type="button" onClick={() => setReplaceInstruction(true)}>
+                      Update Instructions
+                    </Button>
+                  ) : (
+                    <Button size="1" color="orange" variant="soft" type="button" onClick={() => setReplaceInstruction(false)}>
+                      Cancel
+                    </Button>
+                  )}
+                </Flex>
               ) : (
                 <TextField.Root
                   // @ts-ignore

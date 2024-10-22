@@ -3,14 +3,22 @@ import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { Flex, Card, Button } from "@radix-ui/themes";
 import { useAuth, useLectureCount } from "@/hooks";
+import { useAccountsService } from "@/services";
 import { useNavigate } from "react-router-dom";
 
 const OverviewPage: React.FC = () => {
   const { totalLectures, lectures } = useLectureCount();
+  const { getAccounts } = useAccountsService();
   const { userRole } = useAuth();
   const navigate = useNavigate();
   const IS_TEACHER = userRole === "TEACHER";
   const IS_STUDENT = userRole === "STUDENT";
+
+  const [studentsCount, setStudentsCount] = React.useState(0);
+
+  React.useEffect(() => {
+    getAccounts("student").then((data) => setStudentsCount(data.count));
+  }, []);
 
   const items = lectures.map((lecture: any) => (
     <Card
@@ -21,14 +29,16 @@ const OverviewPage: React.FC = () => {
       <p className="text-m sm:text-md text-center">{lecture.title}</p>
       <p className="mt-1 text-xs sm:text-xs text-center">{lecture.description}</p>
       <Flex justify="center" className="mt-2">
-        <Button color="blue" variant="soft"
+        <Button
+          color="blue"
+          variant="soft"
           className="mt-2 text-blue-500 underline contents-center mx-auto justify-center"
-          onClick={() => navigate(`/dashboard/manage/laboratories/${lecture.id}/edit`)}>
+          onClick={() => navigate(`/dashboard/manage/laboratories/${lecture.id}/edit`)}
+        >
           View
         </Button>
       </Flex>
     </Card>
-
   ));
 
   if (IS_STUDENT) {
@@ -39,22 +49,12 @@ const OverviewPage: React.FC = () => {
     <Flex direction="column" gap="5">
       <Flex gap="5">
         <Card className="w-full !py-3 !px-7 bg-zinc-950">
-          <h1 className="font-bold text-zinc-50">TOTAL SUBJECTS</h1>
-          <p className="text-[32px] text-center text-zinc-50  mt-3">-</p>
+          <h1 className="font-bold text-zinc-50">TOTAL STUDENTS</h1>
+          <p className="text-[32px] text-center text-zinc-50  mt-3">{studentsCount}</p>
         </Card>
         <Card className="w-full !py-3 !px-7 bg-zinc-950">
-          <h1 className="font-bold text-zinc-50">TOTAL LABS</h1>
+          <h1 className="font-bold text-zinc-50">TOTAL LABORATORIES</h1>
           <p className="text-[32px] text-center text-zinc-50 mt-3">{totalLectures}</p>
-        </Card>
-      </Flex>
-      <Flex gap="5">
-        <Card className="w-full !py-3 !px-7 bg-zinc-950">
-          <h1 className="font-bold text-zinc-50">TOTAL EXAMS</h1>
-          <p className="text-[32px] text-center text-zinc-50 mt-3">-</p>
-        </Card>
-        <Card className="w-full !py-3 !px-7 bg-zinc-950">
-          <h1 className="font-bold text-zinc-50">TOTAL LECTURES</h1>
-          <p className="text-[32px] text-center text-zinc-50 mt-3">-</p>
         </Card>
       </Flex>
 
