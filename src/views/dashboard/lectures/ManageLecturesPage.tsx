@@ -26,7 +26,9 @@ const ManageLecturesPage: React.FC = () => {
 
   const getQuestionsData = (questions: string) => {
     if (!questions) return "No";
+
     const parsedQuestions = JSON.parse(questions);
+
     return `Yes - (${parsedQuestions.length} question(s))`;
   };
 
