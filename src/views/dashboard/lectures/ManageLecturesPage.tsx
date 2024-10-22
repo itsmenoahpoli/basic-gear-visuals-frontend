@@ -35,7 +35,7 @@ const ManageLecturesPage: React.FC = () => {
       const parsedLabs = JSON.parse(labs);
 
       return parsedLabs.map((lab: any) => (
-        <a href={lab.url} key={`lab-link-${lab.url}`} className="text-blue-600 underline text-xs">
+        <a href={lab.url} key={`lab-link-${lab.url}`} className="text-blue-600 underline text-xs" target="_blank">
           {lab.url}
         </a>
       ));
