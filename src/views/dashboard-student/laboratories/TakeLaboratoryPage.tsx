@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { Flex, Card, Button, TextArea, TextField, Callout } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
@@ -17,10 +18,47 @@ const TakeLaboratoryPage: React.FC = () => {
     return APP_URL + path;
   };
 
+  const onAddLabSubmission = (index: number, key: string, value: any) => {
+    const labsCopy = [...labs];
+
+    labsCopy[index][key] = value;
+
+    setLabs(labsCopy);
+  };
+
+  const onAddQuestionAnswer = (index: number, key: string, value: any) => {
+    const questionsCopy = [...questions];
+    questionsCopy[index][key] = value;
+
+    if (questionsCopy[index].answer.toLowerCase() === value.toLowerCase()) {
+      questionsCopy[index].isCorrect = true;
+    } else {
+      questionsCopy[index].isCorrect = false;
+    }
+
+    setQuestions(questionsCopy);
+  };
+
+  const checkLabSubmissionContent = () => {
+    const flagError = labs.find((lab: any) => !lab.file) || questions.find((question: any) => !question.file);
+
+    if (flagError) {
+      toast.warning("Laboratory submission must be complete");
+    }
+  };
+
+  const onSubmitLaboratory = () => {
+    checkLabSubmissionContent();
+  };
+
+  React.useEffect(() => {
+    console.log("labs", labs);
+    console.log("questions", questions);
+  }, [labs, questions]);
+
   React.useEffect(() => {
     if (id) {
       getLecture(+id!).then((data) => {
-        console.log(data);
         setData(data);
 
         if (data.questions) {
@@ -77,7 +115,7 @@ const TakeLaboratoryPage: React.FC = () => {
                       </Flex>
                       <Flex direction="column" gap="2" className="!w-2/3">
                         <small>Your Answer</small>
-                        <TextArea value={question.answer} placeholder="Enter answer" />
+                        <TextArea placeholder="Enter your answer" onChange={(e) => onAddQuestionAnswer(index, "submittedAnswer", e.target.value)} />
                       </Flex>
                     </Flex>
                   ))
@@ -101,11 +139,22 @@ const TakeLaboratoryPage: React.FC = () => {
 
                       <Flex direction="column" gap="3" className="!w-2/3">
                         <small>Add laboratory build link (optional)</small>
-                        <TextField.Root type="text" className="w-full" placeholder="Add laboratory build link (optional)" />
+                        <TextField.Root
+                          type="text"
+                          className="w-full"
+                          placeholder="Add laboratory build link (optional)"
+                          onChange={(e) => onAddLabSubmission(index, "link", e.target.value)}
+                        />
 
                         <small>Upload output screenshot (required)</small>
-                        {/* @ts-ignore */}
-                        <TextField.Root type="file" className="w-full" required />
+                        <TextField.Root
+                          // @ts-ignore
+                          type="file"
+                          className="w-full"
+                          // @ts-ignore
+                          onChange={(e) => onAddLabSubmission(index, "file", e.target.files[0])}
+                          required
+                        />
                       </Flex>
                     </Flex>
                   ))
@@ -120,7 +169,7 @@ const TakeLaboratoryPage: React.FC = () => {
         ) : null}
 
         <Flex justify="center" className="mt-8">
-          <Button color="green" size="3">
+          <Button color="green" size="3" onClick={onSubmitLaboratory}>
             Submit My Laboratory
           </Button>
         </Flex>

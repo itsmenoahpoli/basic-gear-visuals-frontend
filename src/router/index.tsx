@@ -6,8 +6,6 @@ import { useAuthStore } from "@/stores";
 
 const { authUser = null } = useAuthStore.getState();
 
-console.log(authUser);
-
 /**
  * Error Pages
  */
