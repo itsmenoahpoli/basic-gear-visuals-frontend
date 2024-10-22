@@ -2,6 +2,11 @@ import React from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { LoadComponent } from "@/components";
 import { AuthLayout, DashboardLayout } from "@/layouts";
+import { useAuthStore } from "@/stores";
+
+const { authUser = null } = useAuthStore.getState();
+
+console.log(authUser);
 
 /**
  * Error Pages
@@ -30,6 +35,73 @@ const ManageStudentsPage = LoadComponent(React.lazy(() => import("@/views/dashbo
 const ManageAccountsPage = LoadComponent(React.lazy(() => import("@/views/dashboard-admin/accounts/ManageAccountsPage")));
 
 const BrowseLaboratoriesPage = LoadComponent(React.lazy(() => import("@/views/dashboard-student/laboratories/BrowseLaboratoriesPage")));
+const TakeLaboratoryPage = LoadComponent(React.lazy(() => import("@/views/dashboard-student/laboratories/TakeLaboratoryPage")));
+
+const routes = {
+  admin: [
+    /**
+     * Admin
+     */
+
+    {
+      path: "/dashboard/manage/accounts",
+      element: ManageAccountsPage,
+    },
+  ],
+  teacher: [
+    /**
+     * Teacher
+     */
+    {
+      path: "/dashboard/manage/sections",
+      element: ManageSectionsPage,
+    },
+    {
+      path: "/dashboard/manage/sections/add",
+      element: SectionFormPage,
+    },
+    {
+      path: "/dashboard/manage/sections/:id/edit",
+      element: SectionFormPage,
+    },
+    {
+      path: "/dashboard/manage/students",
+      element: ManageStudentsPage,
+    },
+    {
+      path: "/dashboard/manage/laboratories",
+      element: ManageLecturesPage,
+    },
+    {
+      path: "/dashboard/manage/laboratories/add",
+      element: LectureFormPage,
+    },
+    {
+      path: "/dashboard/manage/laboratories/:id/edit",
+      element: LectureFormPage,
+    },
+  ],
+  student: [
+    /**
+     * Studemt
+     */
+    {
+      path: "/dashboard/laboratories/browse",
+      element: BrowseLaboratoriesPage,
+    },
+    {
+      path: "/dashboard/laboratories/:id",
+      element: TakeLaboratoryPage,
+    },
+  ],
+};
+
+const getRoutes = (accountType?: string) => {
+  // @ts-ignore
+  if (accountType) return routes[accountType];
+
+  return [];
+};
 
 const router = createBrowserRouter([
   {
@@ -62,55 +134,7 @@ const router = createBrowserRouter([
         path: "/dashboard/",
         element: OverviewPage,
       },
-
-      /**
-       * Admin
-       */
-
-      {
-        path: "/dashboard/manage/accounts",
-        element: ManageAccountsPage,
-      },
-
-      /**
-       * Teacher
-       */
-      {
-        path: "/dashboard/manage/sections",
-        element: ManageSectionsPage,
-      },
-      {
-        path: "/dashboard/manage/sections/add",
-        element: SectionFormPage,
-      },
-      {
-        path: "/dashboard/manage/sections/:id/edit",
-        element: SectionFormPage,
-      },
-      {
-        path: "/dashboard/manage/students",
-        element: ManageStudentsPage,
-      },
-      {
-        path: "/dashboard/manage/laboratories",
-        element: ManageLecturesPage,
-      },
-      {
-        path: "/dashboard/manage/laboratories/add",
-        element: LectureFormPage,
-      },
-      {
-        path: "/dashboard/manage/laboratories/:id/edit",
-        element: LectureFormPage,
-      },
-
-      /**
-       * Studemt
-       */
-      {
-        path: "/dashboard/laboratories/browse",
-        element: BrowseLaboratoriesPage,
-      },
+      ...getRoutes(authUser?.account_type),
     ],
   },
 ]);

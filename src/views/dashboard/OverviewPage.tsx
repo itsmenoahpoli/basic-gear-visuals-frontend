@@ -8,6 +8,7 @@ const OverviewPage: React.FC = () => {
   const { totalLectures, lectures } = useLectureCount();
   const { userRole } = useAuth();
   const IS_TEACHER = userRole === "TEACHER";
+  const IS_STUDENT = userRole === "STUDENT";
 
   const items = lectures.map((lecture: any) => (
     <Card
@@ -19,6 +20,10 @@ const OverviewPage: React.FC = () => {
       <p className="mt-1 text-xs sm:text-sm text-center">{lecture.description}</p>
     </Card>
   ));
+
+  if (IS_STUDENT) {
+    return <></>;
+  }
 
   return (
     <Flex direction="column" gap="5">

@@ -123,11 +123,7 @@ const LectureFormPage: React.FC = () => {
     setQuestions(questionsCopy);
   };
 
-  const onFillQuestionValue = (
-    index: number,
-    key: keyof Question,
-    value: string
-  ) => {
+  const onFillQuestionValue = (index: number, key: keyof Question, value: string) => {
     const questionsCopy = [...questions];
     questionsCopy[index][key] = value;
 
@@ -158,24 +154,18 @@ const LectureFormPage: React.FC = () => {
 
   return (
     <Flex direction="column" gap="2" className="h-full">
-      <PageHeader
-        title="Laboratory Details"
-        subtitle="Manage details of the laboratory"
-      />
+      <PageHeader title="Laboratory Details" subtitle="Manage details of the laboratory" />
 
       <div className="px-3">
         <Card className="bg-zinc-950 mb-4">
           <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3 ">
             <Flex direction="column" gap="1">
-              <small className="text-zinc-50">Laboratory Number (week #)</small>
-              <Select.Root
-                defaultValue={formData.week_no.toString()}
-                onValueChange={(v) => setValue("week_no", v)}
-                required
-              >
+              <small className="text-zinc-50">Laboratory Number (week #) </small>
+              <Select.Root value={formData.week_no.toString()} onValueChange={(v) => setValue("week_no", v)} required>
                 <Select.Trigger />
                 <Select.Content color="blue">
                   <Select.Group>
+                    <Select.Item value="0">Choose</Select.Item>
                     <Select.Item value="1">1</Select.Item>
                     <Select.Item value="2">2</Select.Item>
                     <Select.Item value="3">3</Select.Item>
@@ -189,22 +179,12 @@ const LectureFormPage: React.FC = () => {
 
             <Flex direction="column" gap="1">
               <small className="text-zinc-50">Laboratory Name</small>
-              <TextField.Root
-                type="text"
-                defaultValue={formData.title}
-                onChange={(v) => setValue("title", v.target.value)}
-                required
-              />
+              <TextField.Root type="text" defaultValue={formData.title} onChange={(v) => setValue("title", v.target.value)} required />
             </Flex>
 
             <Flex direction="column" gap="1">
               <small className="text-zinc-50">Description</small>
-              <TextArea
-                defaultValue={formData.description}
-                rows={10}
-                onChange={(v) => setValue("description", v.target.value)}
-                required
-              />
+              <TextArea defaultValue={formData.description} rows={10} onChange={(v) => setValue("description", v.target.value)} required />
             </Flex>
 
             <Flex direction="column" gap="1">
@@ -212,11 +192,7 @@ const LectureFormPage: React.FC = () => {
 
               {isEdit ? (
                 <div>
-                  <a
-                    href={getModuleSrcUrl(formData.module_src)}
-                    target="_blank"
-                    className="text-blue-500 underline"
-                  >
+                  <a href={getModuleSrcUrl(formData.module_src)} target="_blank" className="text-blue-500 underline">
                     View laboratory instruction PDF file (new tab)
                   </a>
                 </div>
@@ -232,22 +208,12 @@ const LectureFormPage: React.FC = () => {
               )}
             </Flex>
 
-            <Flex
-              direction="column"
-              gap="3"
-              className="border-t-2 border-zinc-700 py-5 mt-4"
-            >
+            <Flex direction="column" gap="3" className="border-t-2 border-zinc-700 py-5 mt-4">
               <Flex justify="between" className="w-full">
                 <h1 className="text-zinc-50">Laboratory Environment</h1>
 
                 <Flex justify="end" gap="2">
-                  <Button
-                    color="blue"
-                    variant="soft"
-                    size="1"
-                    type="button"
-                    onClick={onAddLab}
-                  >
+                  <Button color="blue" variant="soft" size="1" type="button" onClick={onAddLab}>
                     Add Lab
                   </Button>
                 </Flex>
@@ -256,12 +222,7 @@ const LectureFormPage: React.FC = () => {
               {labs.length ? (
                 labs.map((lab: Lab, index: number) => (
                   <Flex gap="3" key={`lab-${index}`}>
-                    <Button
-                      type="button"
-                      variant="classic"
-                      color="red"
-                      onClick={() => onRemoveLab(index)}
-                    >
+                    <Button type="button" variant="classic" color="red" onClick={() => onRemoveLab(index)}>
                       <TbTrashXFilled />
                     </Button>
                     <TextField.Root
@@ -270,37 +231,23 @@ const LectureFormPage: React.FC = () => {
                       value={lab.url}
                       className="w-full"
                       placeholder="Enter lab url"
-                      onChange={(e) =>
-                        onFillLabValue(index, "url", e.target.value)
-                      }
+                      onChange={(e) => onFillLabValue(index, "url", e.target.value)}
                     />
                   </Flex>
                 ))
               ) : (
                 <Callout.Root color="blue" variant="soft">
-                  <Callout.Text className="text-center">
-                    No labs yet
-                  </Callout.Text>
+                  <Callout.Text className="text-center">No labs yet</Callout.Text>
                 </Callout.Root>
               )}
             </Flex>
 
-            <Flex
-              direction="column"
-              gap="3"
-              className="border-t-2 border-zinc-700 py-5 mt-4"
-            >
+            <Flex direction="column" gap="3" className="border-t-2 border-zinc-700 py-5 mt-4">
               <Flex justify="between" className="w-full">
                 <h1 className="text-zinc-50">Short Quiz</h1>
 
                 <Flex justify="end" gap="2">
-                  <Button
-                    color="blue"
-                    variant="soft"
-                    size="1"
-                    type="button"
-                    onClick={onAddQuestion}
-                  >
+                  <Button color="blue" variant="soft" size="1" type="button" onClick={onAddQuestion}>
                     Add Question
                   </Button>
                 </Flex>
@@ -309,12 +256,7 @@ const LectureFormPage: React.FC = () => {
               {questions.length ? (
                 questions.map((question: Question, index: number) => (
                   <Flex gap="3" key={`question-${index}`}>
-                    <Button
-                      type="button"
-                      variant="classic"
-                      color="red"
-                      onClick={() => onRemoveQuestion(index)}
-                    >
+                    <Button type="button" variant="classic" color="red" onClick={() => onRemoveQuestion(index)}>
                       <TbTrashXFilled />
                     </Button>
                     <TextField.Root
@@ -323,9 +265,7 @@ const LectureFormPage: React.FC = () => {
                       value={question.question}
                       className="w-2/3"
                       placeholder="Enter question"
-                      onChange={(e) =>
-                        onFillQuestionValue(index, "question", e.target.value)
-                      }
+                      onChange={(e) => onFillQuestionValue(index, "question", e.target.value)}
                     />
                     <TextField.Root
                       color="blue"
@@ -333,28 +273,19 @@ const LectureFormPage: React.FC = () => {
                       value={question.answer}
                       className="w-1/3"
                       placeholder="Enter answer"
-                      onChange={(e) =>
-                        onFillQuestionValue(index, "answer", e.target.value)
-                      }
+                      onChange={(e) => onFillQuestionValue(index, "answer", e.target.value)}
                     />
                   </Flex>
                 ))
               ) : (
                 <Callout.Root color="blue" variant="soft">
-                  <Callout.Text className="text-center">
-                    No questions yet
-                  </Callout.Text>
+                  <Callout.Text className="text-center">No questions yet</Callout.Text>
                 </Callout.Root>
               )}
             </Flex>
 
             <div>
-              <Button
-                type="submit"
-                color="green"
-                variant="soft"
-                className="text-xs"
-              >
+              <Button type="submit" color="green" variant="soft" className="text-xs">
                 {buttonLabel}
               </Button>
             </div>
