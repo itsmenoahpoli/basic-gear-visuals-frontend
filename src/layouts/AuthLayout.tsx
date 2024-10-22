@@ -7,11 +7,10 @@ export const AuthLayout: React.FC = () => {
     <Theme appearance="dark">
       <div className="relative h-screen overflow-hidden">
         {/* Background Video */}
-        <video autoPlay muted loop className="absolute -top-[50px] left-0 w-full h-full z-[-1] object-cover pointer-events-none">
+        <video autoPlay muted loop className="absolute top-0 left-0 w-full h-full z-[-1] object-cover pointer-events-none zoom object-bottom scale-150">
           <source src="/bg.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-
         {/* Dark Overlay */}
         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-80 z-0"></div>
 
