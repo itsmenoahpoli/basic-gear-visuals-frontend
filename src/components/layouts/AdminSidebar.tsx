@@ -8,21 +8,12 @@ export const AdminSidebar: React.FC = () => {
       <Link to="/dashboard" className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2">
         Dashboard
       </Link>
-      <Link
-        to="/dashboard/manage/accounts?accountType=teacher"
-        className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2"
-      >
+      <Link to="/dashboard/manage/accounts/teacher" className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2">
         Accounts (Teachers)
       </Link>
-      <Link
-        to="/dashboard/manage/accounts?accountType=student"
-        className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2"
-      >
+      <Link to="/dashboard/manage/accounts/student" className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2">
         Accounts (Students)
       </Link>
-      {/* <Link to="/dashboard/manage/students" className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2">
-        Students
-      </Link> */}
     </Flex>
   );
 };

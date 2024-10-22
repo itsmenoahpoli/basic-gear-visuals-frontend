@@ -44,7 +44,7 @@ const routes = {
      */
 
     {
-      path: "/dashboard/manage/accounts",
+      path: "/dashboard/manage/accounts/:accountType",
       element: ManageAccountsPage,
     },
   ],
