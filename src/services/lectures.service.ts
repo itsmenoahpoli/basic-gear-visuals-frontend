@@ -43,7 +43,7 @@ export const useLecturesService = () => {
         },
       })
       .then(() => {
-        toast.success("Lecture created!");
+        toast.success("Laboratory created!");
       })
       .catch((error) => {
         handleApiError(error);
@@ -54,7 +54,7 @@ export const useLecturesService = () => {
     return await httpClient
       .patch("lectures/" + id, data)
       .then(() => {
-        toast.success("Lecture updated!");
+        toast.success("Laboratory updated!");
       })
       .catch((error) => {
         handleApiError(error);
