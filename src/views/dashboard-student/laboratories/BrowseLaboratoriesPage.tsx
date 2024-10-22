@@ -1,10 +1,10 @@
 import React from "react";
-import { format, parseISO } from "date-fns";
+// import { format, parseISO } from "date-fns";
 import { Link } from "react-router-dom";
-import { Flex, Card, Button, Badge } from "@radix-ui/themes";
+import { Flex, Card, Button } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useLecturesService } from "@/services";
-import { APP_URL } from "@/constants";
+// import { APP_URL } from "@/constants";
 
 const BrowseLaboratoriesPage: React.FC = () => {
   const { getLectures } = useLecturesService();
@@ -15,9 +15,9 @@ const BrowseLaboratoriesPage: React.FC = () => {
     await getLectures().then((data) => setData(data));
   };
 
-  const getModuleSrcUrl = (path: string) => {
-    return APP_URL + path;
-  };
+  // const getModuleSrcUrl = (path: string) => {
+  //   return APP_URL + path;
+  // };
 
   const getQuestionsData = (questions: string) => {
     if (!questions) return "No";
@@ -26,23 +26,23 @@ const BrowseLaboratoriesPage: React.FC = () => {
     return `Yes - (${parsedQuestions.length} question(s))`;
   };
 
-  const formatDate = (dateStr: string) => {
-    return format(parseISO(dateStr), "MMMM dd, yyyy hh:mm a");
-  };
+  // const formatDate = (dateStr: string) => {
+  //   return format(parseISO(dateStr), "MMMM dd, yyyy hh:mm a");
+  // };
 
-  const renderLabLinks = (labs: any) => {
-    if (labs) {
-      const parsedLabs = JSON.parse(labs);
+  // const renderLabLinks = (labs: any) => {
+  //   if (labs) {
+  //     const parsedLabs = JSON.parse(labs);
 
-      return parsedLabs.map((lab: any) => (
-        <a href={lab.url} key={`lab-link-${lab.url}`} className="text-blue-600 underline text-xs" target="_blank">
-          {lab.url}
-        </a>
-      ));
-    }
+  //     return parsedLabs.map((lab: any) => (
+  //       <a href={lab.url} key={`lab-link-${lab.url}`} className="text-blue-600 underline text-xs" target="_blank">
+  //         {lab.url}
+  //       </a>
+  //     ));
+  //   }
 
-    return <></>;
-  };
+  //   return <></>;
+  // };
 
   React.useEffect(() => {
     fetchLectures();

@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Flex, Card, TextField, Callout } from "@radix-ui/themes";
+import { Flex, Card, Callout } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useLecturesService } from "@/services";
 import { APP_URL } from "@/constants";
@@ -12,6 +12,8 @@ const TakeLaboratoryPage: React.FC = () => {
   const [data, setData] = React.useState<any>(null);
   const [questions, setQuestions] = React.useState<any>(null);
   const [labs, setLabs] = React.useState<any>(null);
+
+  console.log(questions);
 
   const getModuleSrcUrl = (path: string) => {
     return APP_URL + path;
