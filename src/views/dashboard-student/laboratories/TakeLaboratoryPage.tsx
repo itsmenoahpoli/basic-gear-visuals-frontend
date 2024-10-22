@@ -26,7 +26,7 @@ const TakeLaboratoryPage: React.FC = () => {
 
   return (
     <Flex direction="column" gap="3" className="h-full">
-      <PageHeader title="Browse Laboratories" subtitle="View all available laboratories" />
+      <PageHeader title="View Laboratory Details" subtitle="View laboratory detail" />
 
       <Card className="w-full !py-4 !px-5 border border-gray-800 text-zinc-50 bg-zinc-950 shadow-md">
         {data ? (
