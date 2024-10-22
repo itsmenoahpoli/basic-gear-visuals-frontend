@@ -11,6 +11,8 @@ const ManageAccountsPage: React.FC = () => {
           <Button color="blue">Add Account</Button>
         </Link>
       </PageHeader>
+
+      <Flex direction="column" gap="2"></Flex>
     </Flex>
   );
 };

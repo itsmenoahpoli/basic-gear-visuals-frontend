@@ -4,3 +4,4 @@ export { useLecturesService } from "./lectures.service";
 export { useLectureExamsService } from "./lecture-exams.service";
 export { useSubjectsService } from "./subjects.service";
 export { useStudentsService } from "./students.service";
+export { useAccountsService } from "./accounts.service";
