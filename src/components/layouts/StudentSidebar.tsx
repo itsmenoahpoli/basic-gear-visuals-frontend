@@ -8,7 +8,7 @@ export const StudentSidebar: React.FC = () => {
       <Link to="/dashboard/laboratories/browse" className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2">
         Browse Laboratories
       </Link>
-      <Link to="/dashboard/" className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2">
+      <Link to="/dashboard/my-laboratories" className="h-[35px] flex items-center text-xs text-left rounded-lg hover:bg-slate-800 !pl-2">
         My Laboratories
       </Link>
     </Flex>

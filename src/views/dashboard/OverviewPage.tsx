@@ -42,7 +42,11 @@ const OverviewPage: React.FC = () => {
   ));
 
   if (IS_STUDENT) {
-    return <></>;
+    return (
+      <Flex>
+        <h1>Student Dashboard Home</h1>
+      </Flex>
+    );
   }
 
   return (

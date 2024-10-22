@@ -36,6 +36,7 @@ const ManageAccountsPage = LoadComponent(React.lazy(() => import("@/views/dashbo
 
 const BrowseLaboratoriesPage = LoadComponent(React.lazy(() => import("@/views/dashboard-student/laboratories/BrowseLaboratoriesPage")));
 const TakeLaboratoryPage = LoadComponent(React.lazy(() => import("@/views/dashboard-student/laboratories/TakeLaboratoryPage")));
+const MyLaboratoriesPage = LoadComponent(React.lazy(() => import("@/views/dashboard-student/laboratories/MyLaboratoriesPage")));
 
 const routes = {
   admin: [
@@ -92,6 +93,10 @@ const routes = {
     {
       path: "/dashboard/laboratories/:id",
       element: TakeLaboratoryPage,
+    },
+    {
+      path: "/dashboard/my-laboratories",
+      element: MyLaboratoriesPage,
     },
   ],
 };
