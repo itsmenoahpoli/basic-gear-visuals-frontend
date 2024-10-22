@@ -1,6 +1,7 @@
 import React from "react";
+import { format, parseISO } from "date-fns";
 import { Link } from "react-router-dom";
-import { Flex, Card, Button } from "@radix-ui/themes";
+import { Flex, Card, Button, Badge } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useLecturesService } from "@/services";
 import { APP_URL } from "@/constants";
@@ -25,6 +26,10 @@ const BrowseLaboratoriesPage: React.FC = () => {
     return `Yes - (${parsedQuestions.length} question(s))`;
   };
 
+  const formatDate = (dateStr: string) => {
+    return format(parseISO(dateStr), "MMMM dd, yyyy hh:mm a");
+  };
+
   React.useEffect(() => {
     fetchLectures();
   }, []);
@@ -37,7 +42,8 @@ const BrowseLaboratoriesPage: React.FC = () => {
         {data.length ? (
           data.map((d: any) => (
             <Card key={d.id} className="w-full !py-4 !px-5 border border-gray-800 text-zinc-50 bg-zinc-950 shadow-md">
-              <h1 className="font-bold">{d.title}</h1>
+              <Badge>{formatDate(d.created_at)}</Badge>
+              <h1 className="font-bold text-xl mt-2">{d.title}</h1>
               <p className="text-[14px] mt-2">{d.description}</p>
               <div className="mt-3">
                 <a href={getModuleSrcUrl(d.module_src)} className="text-xs text-blue-500 underline" target="_blank" rel="noopener noreferrer">
