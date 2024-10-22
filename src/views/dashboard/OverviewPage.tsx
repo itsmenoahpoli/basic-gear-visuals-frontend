@@ -11,14 +11,20 @@ const OverviewPage: React.FC = () => {
   const { getAccounts } = useAccountsService();
   const { userRole } = useAuth();
   const navigate = useNavigate();
+  const IS_ADMIN = userRole === "ADMIN";
   const IS_TEACHER = userRole === "TEACHER";
   const IS_STUDENT = userRole === "STUDENT";
 
+  const [teachersCount, setTeachersCount] = React.useState(0);
   const [studentsCount, setStudentsCount] = React.useState(0);
 
   React.useEffect(() => {
     getAccounts("student").then((data) => {
       setStudentsCount(data.length);
+    });
+
+    getAccounts("teacher").then((data) => {
+      setTeachersCount(data.length);
     });
   }, []);
 
@@ -58,10 +64,18 @@ const OverviewPage: React.FC = () => {
           <h1 className="font-bold text-zinc-50">TOTAL STUDENTS</h1>
           <p className="text-[32px] text-center text-zinc-50  mt-3">{studentsCount}</p>
         </Card>
-        <Card className="w-full !py-3 !px-7 bg-zinc-950">
-          <h1 className="font-bold text-zinc-50">TOTAL LABORATORIES</h1>
-          <p className="text-[32px] text-center text-zinc-50 mt-3">{totalLectures}</p>
-        </Card>
+        {IS_ADMIN ? (
+          <Card className="w-full !py-3 !px-7 bg-zinc-950">
+            <h1 className="font-bold text-zinc-50">TOTAL TEACHERS</h1>
+            <p className="text-[32px] text-center text-zinc-50  mt-3">{teachersCount}</p>
+          </Card>
+        ) : null}
+        {IS_TEACHER ? (
+          <Card className="w-full !py-3 !px-7 bg-zinc-950">
+            <h1 className="font-bold text-zinc-50">TOTAL LABORATORIES</h1>
+            <p className="text-[32px] text-center text-zinc-50 mt-3">{totalLectures}</p>
+          </Card>
+        ) : null}
       </Flex>
 
       {IS_TEACHER ? (

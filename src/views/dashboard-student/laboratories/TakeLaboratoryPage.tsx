@@ -66,13 +66,18 @@ const TakeLaboratoryPage: React.FC = () => {
 
             <hr />
 
-            <Flex gap="2">
+            <Flex gap="2" className="!h-full">
               <Flex direction="column"></Flex>
-              <Flex direction="column">
+              <Flex direction="column" gap="3">
                 {labs.length ? (
                   labs.map((lab: any, index: number) => (
-                    <Flex gap="3" key={`lab-${index}`}>
-                      <a href={lab.url}>{lab.url}</a>
+                    <Flex gap="5" key={`lab-${index}`}>
+                      <div>
+                        <p className="text-[11px]">Laboratory environment # {index + 1}</p>
+                        <a href={lab.url} className="text-blue-600 underline">
+                          {lab.url}
+                        </a>
+                      </div>
                     </Flex>
                   ))
                 ) : (

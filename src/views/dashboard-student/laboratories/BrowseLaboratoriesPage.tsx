@@ -68,7 +68,7 @@ const BrowseLaboratoriesPage: React.FC = () => {
                 <small>Links for laboratories</small>
                 <Flex gap="2">{d.labs ? renderLabLinks(d.labs) : null}</Flex>
               </div> */}
-              <p className="mt-2 justify-center">Has Assessment Quiz? {getQuestionsData(d.questions)}</p>
+              <p className="text-[12px] justify-center mt-2">Has Assessment Quiz? {getQuestionsData(d.questions)}</p>
               <div className="mt-3 flex justify-end gap-2">
                 <Link to={`/dashboard/laboratories/${d.id}`}>
                   <Button className="text-xs" color="blue" variant="soft">
