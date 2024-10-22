@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Flex, Card, Callout } from "@radix-ui/themes";
+import { Flex, Card, Button, TextArea, TextField, Callout } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useLecturesService } from "@/services";
 import { APP_URL } from "@/constants";
@@ -12,8 +12,6 @@ const TakeLaboratoryPage: React.FC = () => {
   const [data, setData] = React.useState<any>(null);
   const [questions, setQuestions] = React.useState<any>(null);
   const [labs, setLabs] = React.useState<any>(null);
-
-  console.log(questions);
 
   const getModuleSrcUrl = (path: string) => {
     return APP_URL + path;
@@ -68,18 +66,47 @@ const TakeLaboratoryPage: React.FC = () => {
 
             <hr />
 
-            <Flex gap="2" className="!h-full">
-              <Flex direction="column"></Flex>
-              <Flex direction="column" gap="3">
+            <Flex gap="7" className="!h-full">
+              <Flex direction="column" gap="3" className="!w-full border-r border-gray-700 pr-8">
+                {questions.length ? (
+                  questions.map((question: any, index: number) => (
+                    <Flex gap="3" key={`question-${index}`} className="!w-full">
+                      <Flex direction="column" gap="2" className="!w-1/3">
+                        <small>Question</small>
+                        <p>{question.question}</p>
+                      </Flex>
+                      <Flex direction="column" gap="2" className="!w-2/3">
+                        <small>Your Answer</small>
+                        <TextArea value={question.answer} placeholder="Enter answer" />
+                      </Flex>
+                    </Flex>
+                  ))
+                ) : (
+                  <Callout.Root color="blue" variant="soft">
+                    <Callout.Text className="text-center">No questions content</Callout.Text>
+                  </Callout.Root>
+                )}
+              </Flex>
+
+              <Flex direction="column" gap="8" className="!w-full">
                 {labs.length ? (
                   labs.map((lab: any, index: number) => (
-                    <Flex gap="5" key={`lab-${index}`}>
-                      <div>
+                    <Flex gap="3" key={`lab-${index}`} className="!w-full">
+                      <div className="!w-1/3">
                         <p className="text-[11px]">Laboratory environment # {index + 1}</p>
                         <a href={lab.url} className="text-blue-600 underline">
                           {lab.url}
                         </a>
                       </div>
+
+                      <Flex direction="column" gap="3" className="!w-2/3">
+                        <small>Add laboratory build link (optional)</small>
+                        <TextField.Root type="text" className="w-full" placeholder="Add laboratory build link (optional)" />
+
+                        <small>Upload output screenshot (required)</small>
+                        {/* @ts-ignore */}
+                        <TextField.Root type="file" className="w-full" required />
+                      </Flex>
                     </Flex>
                   ))
                 ) : (
@@ -91,6 +118,12 @@ const TakeLaboratoryPage: React.FC = () => {
             </Flex>
           </Flex>
         ) : null}
+
+        <Flex justify="center" className="mt-8">
+          <Button color="green" size="3">
+            Submit My Laboratory
+          </Button>
+        </Flex>
       </Card>
     </Flex>
   );
