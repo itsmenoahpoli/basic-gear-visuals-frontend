@@ -50,6 +50,8 @@ const LectureFormPage: React.FC = () => {
     e.preventDefault();
 
     if (isEdit && id) {
+      setReplaceInstruction(false);
+
       return await updateLecture(+id, {
         ...formData,
         questions: JSON.stringify(questions),
