@@ -30,6 +30,20 @@ const ManageLecturesPage: React.FC = () => {
     return `Yes - (${parsedQuestions.length} question(s))`;
   };
 
+  const renderLabLinks = (labs: any) => {
+    if (labs) {
+      const parsedLabs = JSON.parse(labs);
+
+      return parsedLabs.map((lab: any) => (
+        <a href={lab.url} key={`lab-link-${lab.url}`} className="text-blue-600 underline text-xs">
+          {lab.url}
+        </a>
+      ));
+    }
+
+    return <></>;
+  };
+
   React.useEffect(() => {
     fetchLectures();
   }, []);
@@ -50,8 +64,12 @@ const ManageLecturesPage: React.FC = () => {
               <p className="text-[14px] mt-2">{d.description}</p>
               <div className="mt-3">
                 <a href={getModuleSrcUrl(d.module_src)} className="text-xs text-blue-500 underline" target="_blank" rel="noopener noreferrer">
-                  Module File (Click to view)
+                  Laboratory Instruction (Click to view)
                 </a>
+              </div>
+              <div className="mt-3">
+                <small>Links for laboratories</small>
+                <Flex gap="2">{d.labs ? renderLabLinks(d.labs) : null}</Flex>
               </div>
               <p className="mt-2 justify-center">Has Assessment Quiz? {getQuestionsData(d.questions)}</p>
               <div className="mt-3 flex justify-center gap-2">
