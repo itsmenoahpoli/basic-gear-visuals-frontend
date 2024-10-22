@@ -17,7 +17,7 @@ type Lab = {
 };
 
 const LectureFormPage: React.FC = () => {
-  const { createLecture, getLecture, updateLecture } = useLecturesService();
+  const { createLecture, getLecture, updateLecture, updateLectureModule } = useLecturesService();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isEdit = window.location.pathname.includes("edit");
@@ -33,7 +33,8 @@ const LectureFormPage: React.FC = () => {
   });
   const [questions, setQuestions] = React.useState<Question[]>([]);
   const [labs, setLabs] = React.useState<Lab[]>([]);
-  const [replaceInstruction, setReplaceInstruction] = React.useState(false);
+  const [replaceInstruction, setReplaceInstruction] = React.useState<boolean>(false);
+  const [replaceInstructionFile, setReplaceInstructionFile] = React.useState<any>(null);
 
   const populateForm = (data: any) => {
     setFormData(data);
@@ -64,6 +65,14 @@ const LectureFormPage: React.FC = () => {
       questions: JSON.stringify(questions),
       labs: JSON.stringify(labs),
     }).then(() => navigate("/dashboard/manage/laboratories"));
+  };
+
+  const onUpdateInstruction = async () => {
+    if (isEdit && id) {
+      setReplaceInstruction(false);
+      setReplaceInstructionFile(false);
+      return await updateLectureModule(+id, replaceInstructionFile);
+    }
   };
 
   const onFileSelect = (file: File) => {
@@ -99,7 +108,7 @@ const LectureFormPage: React.FC = () => {
         return;
       }
 
-      console.log(file);
+      setReplaceInstructionFile(file);
     }
   };
 
@@ -212,14 +221,21 @@ const LectureFormPage: React.FC = () => {
               {isEdit ? (
                 <Flex gap="2">
                   {replaceInstruction ? (
-                    <TextField.Root
-                      // @ts-ignore
-                      type="file"
-                      ref={fileInputRef}
-                      defaultValue={undefined}
-                      onChange={(v) => onReplaceFileSelect(v.target.files![0])}
-                      required
-                    />
+                    <Flex gap="2">
+                      <TextField.Root
+                        // @ts-ignore
+                        type="file"
+                        ref={fileInputRef}
+                        defaultValue={undefined}
+                        onChange={(v) => onReplaceFileSelect(v.target.files![0])}
+                        required
+                      />
+                      {replaceInstructionFile ? (
+                        <Button size="1" color="green" variant="soft" type="button" onClick={onUpdateInstruction}>
+                          Upload new instruction
+                        </Button>
+                      ) : null}
+                    </Flex>
                   ) : (
                     <a href={getModuleSrcUrl(formData.module_src)} target="_blank" className="text-blue-500 underline">
                       View laboratory instruction PDF file (new tab)

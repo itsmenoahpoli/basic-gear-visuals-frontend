@@ -50,6 +50,27 @@ export const useLecturesService = () => {
       });
   };
 
+  const updateLectureModule = async (id: number, file: any) => {
+    console.log("updateLectureModule", file);
+    const url = APP_API_URL;
+    let formData = new FormData();
+
+    formData.append("module", file);
+
+    return await axios
+      .post(url + "lecture-update-module/" + id, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => {
+        toast.success("Laboratory instruction updated!");
+      })
+      .catch((error) => {
+        handleApiError(error);
+      });
+  };
+
   const updateLecture = async (id: number, data: any) => {
     return await httpClient
       .patch("lectures/" + id, data)
@@ -76,6 +97,7 @@ export const useLecturesService = () => {
     getLectures,
     getLecture,
     createLecture,
+    updateLectureModule,
     updateLecture,
     deleteLecture,
   };
