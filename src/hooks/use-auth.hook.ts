@@ -19,6 +19,7 @@ export const useAuth = () => {
   return {
     userFullname: authUser?.name,
     userRole: authUser?.account_type.toUpperCase(),
+    currentUserId: authUser?.id,
     checkAuth,
     logout,
   };

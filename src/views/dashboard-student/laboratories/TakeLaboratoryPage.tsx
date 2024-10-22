@@ -4,11 +4,13 @@ import { useParams } from "react-router-dom";
 import { Flex, Card, Button, TextArea, TextField, Callout } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useLecturesService } from "@/services";
+import { useAuth } from "@/hooks";
 import { APP_URL } from "@/constants";
 
 const TakeLaboratoryPage: React.FC = () => {
   const { getLecture } = useLecturesService();
   const { id } = useParams<{ id: string }>();
+  const { currentUserId } = useAuth();
 
   const [data, setData] = React.useState<any>(null);
   const [questions, setQuestions] = React.useState<any>(null);
@@ -16,6 +18,10 @@ const TakeLaboratoryPage: React.FC = () => {
 
   const getModuleSrcUrl = (path: string) => {
     return APP_URL + path;
+  };
+
+  const checkQuizScore = () => {
+    return questions.filter((question: any) => question.isCorrect);
   };
 
   const onAddLabSubmission = (index: number, key: string, value: any) => {
@@ -42,13 +48,25 @@ const TakeLaboratoryPage: React.FC = () => {
   const checkLabSubmissionContent = () => {
     const flagError = labs.find((lab: any) => !lab.file) || questions.find((question: any) => !question.file);
 
-    if (flagError) {
-      toast.warning("Laboratory submission must be complete");
-    }
+    return flagError;
   };
 
   const onSubmitLaboratory = () => {
-    checkLabSubmissionContent();
+    if (checkLabSubmissionContent()) {
+      toast.warning("Laboratory submission contents/data must be complete");
+      return;
+    }
+
+    const quizScore = checkQuizScore();
+    const formData = {
+      user_id: currentUserId,
+      lecture_id: +id!,
+      questions,
+      labs,
+      quizScore,
+    };
+
+    console.log(formData);
   };
 
   React.useEffect(() => {
