@@ -13,6 +13,7 @@ const TakeLaboratoryPage: React.FC = () => {
   React.useEffect(() => {
     if (id) {
       getLecture(+id!).then((data) => {
+        console.log(data);
         setData(data);
       });
     }
@@ -22,7 +23,9 @@ const TakeLaboratoryPage: React.FC = () => {
     <Flex direction="column" gap="3" className="h-full">
       <PageHeader title="Browse Laboratories" subtitle="View all available laboratories" />
 
-      <Card className="w-full !py-4 !px-5 border border-gray-800 text-zinc-50 bg-zinc-950 shadow-md"></Card>
+      <Card className="w-full !py-4 !px-5 border border-gray-800 text-zinc-50 bg-zinc-950 shadow-md">
+        <Flex direction="column" gap="2"></Flex>
+      </Card>
     </Flex>
   );
 };
