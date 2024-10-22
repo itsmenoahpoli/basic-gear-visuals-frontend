@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Flex, Card } from "@radix-ui/themes";
+import { Flex, Card, TextField, Callout } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useLecturesService } from "@/services";
 import { APP_URL } from "@/constants";
@@ -10,6 +10,8 @@ const TakeLaboratoryPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const [data, setData] = React.useState<any>(null);
+  const [questions, setQuestions] = React.useState<any>(null);
+  const [labs, setLabs] = React.useState<any>(null);
 
   const getModuleSrcUrl = (path: string) => {
     return APP_URL + path;
@@ -20,6 +22,14 @@ const TakeLaboratoryPage: React.FC = () => {
       getLecture(+id!).then((data) => {
         console.log(data);
         setData(data);
+
+        if (data.questions) {
+          setQuestions(JSON.parse(data.questions));
+        }
+
+        if (data.labs) {
+          setLabs(JSON.parse(data.labs));
+        }
       });
     }
   }, []);
@@ -55,6 +65,23 @@ const TakeLaboratoryPage: React.FC = () => {
             </Flex>
 
             <hr />
+
+            <Flex gap="2">
+              <Flex direction="column"></Flex>
+              <Flex direction="column">
+                {labs.length ? (
+                  labs.map((lab: any, index: number) => (
+                    <Flex gap="3" key={`lab-${index}`}>
+                      <a href={lab.url}>{lab.url}</a>
+                    </Flex>
+                  ))
+                ) : (
+                  <Callout.Root color="blue" variant="soft">
+                    <Callout.Text className="text-center">No labs yet</Callout.Text>
+                  </Callout.Root>
+                )}
+              </Flex>
+            </Flex>
           </Flex>
         ) : null}
       </Card>

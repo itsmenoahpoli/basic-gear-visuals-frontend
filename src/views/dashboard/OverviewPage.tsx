@@ -17,7 +17,9 @@ const OverviewPage: React.FC = () => {
   const [studentsCount, setStudentsCount] = React.useState(0);
 
   React.useEffect(() => {
-    getAccounts("student").then((data) => setStudentsCount(data.count));
+    getAccounts("student").then((data) => {
+      setStudentsCount(data.length);
+    });
   }, []);
 
   const items = lectures.map((lecture: any) => (
