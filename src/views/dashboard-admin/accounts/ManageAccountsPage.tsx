@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { Flex, Button, Table } from "@radix-ui/themes";
+import { Flex, Button, Table, Badge } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useAccountsService } from "@/services";
 
@@ -39,7 +39,11 @@ const ManageAccountsPage: React.FC = () => {
             {data.length ? (
               data.map((d: any) => (
                 <Table.Row key={d.id}>
-                  <Table.RowHeaderCell className="text-zinc-900">{d.account_type}</Table.RowHeaderCell>
+                  <Table.RowHeaderCell className="text-zinc-900">
+                    <Badge color="blue" variant="solid" className="!uppercase">
+                      {d.account_type}
+                    </Badge>
+                  </Table.RowHeaderCell>
                   <Table.RowHeaderCell className="text-zinc-900">{d.name}</Table.RowHeaderCell>
                   <Table.RowHeaderCell className="text-zinc-900">{d.email}</Table.RowHeaderCell>
                   <Table.Cell>
