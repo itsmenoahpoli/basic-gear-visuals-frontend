@@ -69,7 +69,9 @@ const TakeLaboratoryPage: React.FC = () => {
       labs,
     };
 
-    return await submitLaboratory(formData, setLoading);
+    console.log(formData);
+
+    // return await submitLaboratory(formData, setLoading);
   };
 
   React.useEffect(() => {
@@ -159,13 +161,13 @@ const TakeLaboratoryPage: React.FC = () => {
                       </div>
 
                       <Flex direction="column" gap="3" className="!w-2/3">
-                        <small>Add laboratory build link (optional)</small>
+                        {/* <small>Add laboratory build link (optional)</small>
                         <TextField.Root
                           type="text"
                           className="w-full"
                           placeholder="Add laboratory build link (optional)"
                           onChange={(e) => onAddLabSubmission(index, "link", e.target.value)}
-                        />
+                        /> */}
 
                         <small>Upload output screenshot (required)</small>
                         <TextField.Root
