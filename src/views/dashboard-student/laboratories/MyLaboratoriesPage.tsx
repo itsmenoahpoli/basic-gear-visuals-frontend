@@ -43,6 +43,11 @@ const MyLaboratoriesPage: React.FC = () => {
                   <p className="text-[12px]">Quiz Score</p>
                   <h1>{d.quiz_score}</h1>
                 </Flex>
+
+                <Flex direction="column" gap="2" className="!w-full">
+                  <p className="text-[12px]">Laboratory Scores</p>
+                  <h1>-</h1>
+                </Flex>
               </Flex>
             </Card>
           ))
