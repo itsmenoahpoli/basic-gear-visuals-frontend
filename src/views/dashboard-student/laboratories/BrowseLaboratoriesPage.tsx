@@ -1,16 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Flex, Card, Button } from "@radix-ui/themes";
+import { Flex, Card, Button, Callout } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useLecturesService } from "@/services";
+import { useAuth } from "@/hooks";
 
 const BrowseLaboratoriesPage: React.FC = () => {
-  const { getLectures } = useLecturesService();
+  const { getLectures, getMyLaboratories } = useLecturesService();
+  const { currentUserId } = useAuth();
 
   const [data, setData] = React.useState([]);
 
   const fetchLectures = async () => {
-    await getLectures().then((data) => setData(data));
+    await getLectures().then(async (data) => {
+      const myLabs = await getMyLaboratories(+currentUserId!);
+
+      console.log(myLabs);
+
+      const dataCopy = data.filter((lecture: any) => !myLabs.some((lab: any) => lab.id === lecture.id));
+
+      setData(dataCopy);
+    });
   };
 
   const getQuestionsData = (questions: string) => {
@@ -45,7 +55,9 @@ const BrowseLaboratoriesPage: React.FC = () => {
             </Card>
           ))
         ) : (
-          <Card className="col-span-2 text-center font-bold shadow">NO DATA</Card>
+          <Callout.Root color="red">
+            <Callout.Text className="text-center">No laboratories available, or you may have taken all the laboratories posted</Callout.Text>
+          </Callout.Root>
         )}
       </div>
     </Flex>
