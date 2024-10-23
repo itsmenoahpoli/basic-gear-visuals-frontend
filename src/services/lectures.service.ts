@@ -32,9 +32,9 @@ export const useLecturesService = () => {
           text: "Great! You have submitted for this laboratory, record created!",
         });
 
-        // setTimeout(() => {
-        //   window.location.pathname = "/dashboard/laboratories/browse";
-        // }, 2000);
+        setTimeout(() => {
+          window.location.pathname = "/dashboard/laboratories/browse";
+        }, 2000);
       })
       .catch((error) => {
         setLoading(false);
