@@ -60,6 +60,11 @@ const LectureFormPage: React.FC = () => {
       });
     }
 
+    if (!questions.length || !labs.length) {
+      toast.warning("Questions and/or laboratories cannot be empty!");
+      return;
+    }
+
     return await createLecture({
       ...formData,
       questions: JSON.stringify(questions),
