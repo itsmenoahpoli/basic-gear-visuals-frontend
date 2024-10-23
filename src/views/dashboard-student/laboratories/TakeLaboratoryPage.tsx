@@ -56,6 +56,9 @@ const TakeLaboratoryPage: React.FC = () => {
   const checkLabSubmissionContent = () => {
     const flagError = labFiles.length === 0 || questions.filter((question: any) => !question.submittedAnswer).length > 0;
 
+    console.log(labFiles.length === 0);
+    console.log(questions.filter((question: any) => !question.submittedAnswer).length > 0);
+
     return flagError;
   };
 
@@ -67,13 +70,13 @@ const TakeLaboratoryPage: React.FC = () => {
 
     // setLoading(true);
 
-    const quizScore = checkQuizScore();
+    const quiz_score = checkQuizScore();
     const formData = {
       user_id: currentUserId,
       lecture_id: +id!,
       questions,
-      quizScore,
-      labFiles,
+      quiz_score,
+      lab_files: labFiles,
     };
 
     console.log(formData);

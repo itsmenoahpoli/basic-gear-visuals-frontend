@@ -1,4 +1,5 @@
 import axios from "axios";
+import swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useHttp } from "@/hooks";
 import { APP_API_URL } from "@/constants";
@@ -15,18 +16,24 @@ export const useLecturesService = () => {
     formData.append("questions", data.questions);
     formData.append("quiz_score", data.quiz_score);
 
+    data.lab_files.forEach((labFile: any, index: number) => formData.append(`file-${index}`, labFile));
+
     return await axios
-      .post(url + "lectures", formData, {
+      .post(url + "lab-submit", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then(() => {
-        toast.success("Great! You have submitted for this laboratory, record created!");
+        swal.fire({
+          icon: "success",
+          title: "Submitted",
+          text: "Great! You have submitted for this laboratory, record created!",
+        });
 
-        setTimeout(() => {
-          window.location.pathname = "/dashboard/laboratories/browse";
-        }, 2000);
+        // setTimeout(() => {
+        //   window.location.pathname = "/dashboard/laboratories/browse";
+        // }, 2000);
       })
       .catch((error) => {
         setLoading(false);
