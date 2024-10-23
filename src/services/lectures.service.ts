@@ -6,6 +6,34 @@ import { APP_API_URL } from "@/constants";
 export const useLecturesService = () => {
   const { httpClient, handleApiError } = useHttp();
 
+  const submitLaboratory = async (data: any, setLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const url = APP_API_URL;
+    let formData = new FormData();
+
+    formData.append("user_id", data.user_id);
+    formData.append("user_id", data.user_id);
+    formData.append("questions", data.questions);
+    formData.append("quiz_score", data.quiz_score);
+
+    return await axios
+      .post(url + "lectures", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => {
+        toast.success("Great! You have submitted for this laboratory, record created!");
+
+        setTimeout(() => {
+          window.location.pathname = "/dashboard/laboratories/browse";
+        }, 2000);
+      })
+      .catch((error) => {
+        setLoading(false);
+        handleApiError(error);
+      });
+  };
+
   const getLectures = async () => {
     return await httpClient
       .get("lectures")
@@ -94,6 +122,7 @@ export const useLecturesService = () => {
   };
 
   return {
+    submitLaboratory,
     getLectures,
     getLecture,
     createLecture,

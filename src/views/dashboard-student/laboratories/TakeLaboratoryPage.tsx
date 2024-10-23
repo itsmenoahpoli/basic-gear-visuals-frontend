@@ -8,13 +8,14 @@ import { useAuth } from "@/hooks";
 import { APP_URL } from "@/constants";
 
 const TakeLaboratoryPage: React.FC = () => {
-  const { getLecture } = useLecturesService();
+  const { getLecture, submitLaboratory } = useLecturesService();
   const { id } = useParams<{ id: string }>();
   const { currentUserId } = useAuth();
 
   const [data, setData] = React.useState<any>(null);
   const [questions, setQuestions] = React.useState<any>(null);
   const [labs, setLabs] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const getModuleSrcUrl = (path: string) => {
     return APP_URL + path;
@@ -46,27 +47,29 @@ const TakeLaboratoryPage: React.FC = () => {
   };
 
   const checkLabSubmissionContent = () => {
-    const flagError = labs.find((lab: any) => !lab.file) || questions.find((question: any) => !question.file);
+    const flagError = labs.filter((lab: any) => !lab.file).length > 0 || questions.filter((question: any) => !question.submittedAnswer).length > 0;
 
     return flagError;
   };
 
-  const onSubmitLaboratory = () => {
+  const onSubmitLaboratory = async () => {
     if (checkLabSubmissionContent()) {
       toast.warning("Laboratory submission contents/data must be complete");
       return;
     }
+
+    setLoading(true);
 
     const quizScore = checkQuizScore();
     const formData = {
       user_id: currentUserId,
       lecture_id: +id!,
       questions,
-      labs,
       quizScore,
+      labs,
     };
 
-    console.log(formData);
+    return await submitLaboratory(formData, setLoading);
   };
 
   React.useEffect(() => {
