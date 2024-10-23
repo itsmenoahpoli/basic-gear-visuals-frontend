@@ -75,6 +75,11 @@ const ManageLecturesPage: React.FC = () => {
               </div>
               <p className="mt-2 justify-center">Has Assessment Quiz? {getQuestionsData(d.questions)}</p>
               <div className="mt-3 flex justify-center gap-2">
+                <Link to={`/dashboard/manage/laboratories`}>
+                  <Button className="text-xs" color="green" variant="soft">
+                    View Submissions
+                  </Button>
+                </Link>
                 <Link to={`/dashboard/manage/laboratories/${d.id}/edit`}>
                   <Button className="text-xs" color="blue" variant="soft">
                     Update

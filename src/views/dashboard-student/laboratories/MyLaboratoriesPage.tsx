@@ -31,12 +31,12 @@ const MyLaboratoriesPage: React.FC = () => {
                 <Flex direction="column" gap="5" className="!w-full">
                   <Flex direction="column" gap="0">
                     <small>Title</small>
-                    <h1 className="font-bold text-xl">{d.lecture.title}</h1>
+                    <h1 className="font-bold text-xl">{d.lecture?.title}</h1>
                   </Flex>
 
                   <Flex direction="column" gap="0">
                     <small>Description</small>
-                    <p className="text-[12px]">{d.lecture.description}</p>
+                    <p className="text-[12px]">{d.lecture?.description}</p>
                   </Flex>
                 </Flex>
                 <Flex direction="column" gap="2" className="!w-full">
