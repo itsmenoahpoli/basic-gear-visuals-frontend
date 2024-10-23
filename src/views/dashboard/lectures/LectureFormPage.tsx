@@ -36,12 +36,14 @@ const LectureFormPage: React.FC = () => {
   const [replaceInstruction, setReplaceInstruction] = React.useState<boolean>(false);
   const [replaceInstructionFile, setReplaceInstructionFile] = React.useState<any>(null);
 
-  const validateLabLinks = () => {
+  const checkHasInvalidLabLinks = () => {
     const validUrlHost = "https://play.unity.com/en/games/";
 
     const flagError = labs.filter((lab: Lab) => {
       return !lab.url.includes(validUrlHost);
     });
+
+    console.log(flagError.length > 0);
 
     return flagError.length > 0;
   };
@@ -60,7 +62,7 @@ const LectureFormPage: React.FC = () => {
   const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateLabLinks()) {
+    if (checkHasInvalidLabLinks()) {
       toast.error("Added laboratory links must be from https://play.unity.com/en/games/");
       return;
     }
