@@ -28,8 +28,16 @@ const TakeLaboratoryPage: React.FC = () => {
     return `${correctAnswers}/${questions.length}`;
   };
 
-  const onAddLabSubmission = (file: File) => {
-    setLabFiles([...labFiles, file]);
+  const onAddLabSubmission = (index: number, file: File) => {
+    const labFilesCopy = [...labFiles];
+
+    if (labFilesCopy[index]) {
+      labFilesCopy[index] = file;
+    } else {
+      labFilesCopy.push(file);
+    }
+
+    setLabFiles(labFilesCopy);
   };
 
   const onAddQuestionAnswer = (index: number, key: string, value: any) => {
@@ -70,13 +78,14 @@ const TakeLaboratoryPage: React.FC = () => {
 
     console.log(formData);
 
-    // return await submitLaboratory(formData, setLoading);
+    return await submitLaboratory(formData, setLoading);
   };
 
-  // React.useEffect(() => {
-  //   console.log("labs", labs);
-  //   console.log("questions", questions);
-  // }, [labs, questions]);
+  const createPreviewURL = (file: File) => {
+    const previewURL = URL.createObjectURL(file);
+
+    return previewURL;
+  };
 
   React.useEffect(() => {
     if (id) {
@@ -176,9 +185,12 @@ const TakeLaboratoryPage: React.FC = () => {
                           type="file"
                           className="w-full"
                           // @ts-ignore
-                          onChange={(e) => onAddLabSubmission(e.target.files[0])}
+                          onChange={(e) => onAddLabSubmission(index, e.target.files[0])}
                           required
                         />
+                        {labFiles[index] ? (
+                          <img src={createPreviewURL(labFiles[index])} alt="output-preview" className="h-[200px] w-[300px]" />
+                        ) : null}
                       </Flex>
                     </Flex>
                   ))
