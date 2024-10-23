@@ -1,7 +1,7 @@
 import React from "react";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
-import { Flex, Card, Button, TextArea, TextField, Callout } from "@radix-ui/themes";
+import { Flex, Card, Button, TextArea, TextField, Callout, Spinner } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useLecturesService } from "@/services";
 import { useAuth } from "@/hooks";
@@ -15,6 +15,7 @@ const TakeLaboratoryPage: React.FC = () => {
   const [data, setData] = React.useState<any>(null);
   const [questions, setQuestions] = React.useState<any>(null);
   const [labs, setLabs] = React.useState<any>(null);
+  const [labFiles, setLabFiles] = React.useState<any>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const getModuleSrcUrl = (path: string) => {
@@ -22,15 +23,13 @@ const TakeLaboratoryPage: React.FC = () => {
   };
 
   const checkQuizScore = () => {
-    return questions.filter((question: any) => question.isCorrect);
+    const correctAnswers = questions.filter((question: any) => question.isCorrect).length;
+
+    return `${correctAnswers}/${questions.length}`;
   };
 
-  const onAddLabSubmission = (index: number, key: string, value: any) => {
-    const labsCopy = [...labs];
-
-    labsCopy[index][key] = value;
-
-    setLabs(labsCopy);
+  const onAddLabSubmission = (file: File) => {
+    setLabFiles([...labFiles, file]);
   };
 
   const onAddQuestionAnswer = (index: number, key: string, value: any) => {
@@ -47,7 +46,7 @@ const TakeLaboratoryPage: React.FC = () => {
   };
 
   const checkLabSubmissionContent = () => {
-    const flagError = labs.filter((lab: any) => !lab.file).length > 0 || questions.filter((question: any) => !question.submittedAnswer).length > 0;
+    const flagError = labFiles.length === 0 || questions.filter((question: any) => !question.submittedAnswer).length > 0;
 
     return flagError;
   };
@@ -58,7 +57,7 @@ const TakeLaboratoryPage: React.FC = () => {
       return;
     }
 
-    setLoading(true);
+    // setLoading(true);
 
     const quizScore = checkQuizScore();
     const formData = {
@@ -66,7 +65,7 @@ const TakeLaboratoryPage: React.FC = () => {
       lecture_id: +id!,
       questions,
       quizScore,
-      labs,
+      labFiles,
     };
 
     console.log(formData);
@@ -74,10 +73,10 @@ const TakeLaboratoryPage: React.FC = () => {
     // return await submitLaboratory(formData, setLoading);
   };
 
-  React.useEffect(() => {
-    console.log("labs", labs);
-    console.log("questions", questions);
-  }, [labs, questions]);
+  // React.useEffect(() => {
+  //   console.log("labs", labs);
+  //   console.log("questions", questions);
+  // }, [labs, questions]);
 
   React.useEffect(() => {
     if (id) {
@@ -100,7 +99,9 @@ const TakeLaboratoryPage: React.FC = () => {
       <PageHeader title="View Laboratory Details" subtitle="View laboratory detail" />
 
       <Card className="w-full !py-4 !px-5 border border-gray-800 text-zinc-50 bg-zinc-950 shadow-md">
-        {data ? (
+        {loading ? (
+          <Spinner size="3" />
+        ) : data ? (
           <Flex direction="column" gap="2">
             <Flex direction="column" gap="2">
               <Flex direction="row" gap="2">
@@ -175,7 +176,7 @@ const TakeLaboratoryPage: React.FC = () => {
                           type="file"
                           className="w-full"
                           // @ts-ignore
-                          onChange={(e) => onAddLabSubmission(index, "file", e.target.files[0])}
+                          onChange={(e) => onAddLabSubmission(e.target.files[0])}
                           required
                         />
                       </Flex>
