@@ -133,11 +133,11 @@ const TakeLaboratoryPage: React.FC = () => {
 
             <Flex direction="row" gap="2">
               <small>View PDF Instructions</small>
-              <Button variant ="soft" color="blue">
+              <Button variant="soft" color="blue">
                 <a href={getModuleSrcUrl(data.module_src)} target="_blank" className="text-sm text-blue-500 underline">
                   View PDF
                 </a>
-                </Button>
+              </Button>
             </Flex>
 
             <hr />
@@ -170,8 +170,8 @@ const TakeLaboratoryPage: React.FC = () => {
                     <Flex gap="3" key={`lab-${index}`} className="!w-full">
                       <div className="!w-1/3">
                         <p className="text-[11px]">Laboratory environment # {index + 1}</p>
-                        <Button variant ="soft" color="blue">
-                          <a href={lab.url} className="text-blue-600 underline">
+                        <Button variant="soft" color="blue">
+                          <a href={lab.url} className="text-blue-600 underline" target="_blank">
                             View Lab
                           </a>
                         </Button>
