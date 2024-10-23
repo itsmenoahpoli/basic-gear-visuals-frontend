@@ -115,24 +115,26 @@ const TakeLaboratoryPage: React.FC = () => {
             <Flex direction="column" gap="2">
               <Flex direction="row" gap="2">
                 <small>Laboratory #</small>
-                {data.week_no}
+                <small>{data.week_no}</small>
               </Flex>
               <Flex direction="row" gap="2">
                 <small>Laboratory Name</small>
-                {data.title}
+                <small>{data.title}</small>
               </Flex>
             </Flex>
 
             <Flex direction="row" gap="2">
               <small>Laboratory Description</small>
-              {data.description}
+              <small>{data.description}</small>
             </Flex>
 
             <Flex direction="row" gap="2">
               <small>View PDF Instructions</small>
-              <a href={getModuleSrcUrl(data.module_src)} target="_blank" className="text-sm text-blue-500 underline">
-                {getModuleSrcUrl(data.module_src)}
-              </a>
+              <Button variant ="soft" color="blue">
+                <a href={getModuleSrcUrl(data.module_src)} target="_blank" className="text-sm text-blue-500 underline">
+                  View PDF
+                </a>
+                </Button>
             </Flex>
 
             <hr />
@@ -165,9 +167,11 @@ const TakeLaboratoryPage: React.FC = () => {
                     <Flex gap="3" key={`lab-${index}`} className="!w-full">
                       <div className="!w-1/3">
                         <p className="text-[11px]">Laboratory environment # {index + 1}</p>
-                        <a href={lab.url} className="text-blue-600 underline">
-                          {lab.url}
-                        </a>
+                        <Button variant ="soft" color="blue">
+                          <a href={lab.url} className="text-blue-600 underline">
+                            View Lab
+                          </a>
+                        </Button>
                       </div>
 
                       <Flex direction="column" gap="3" className="!w-2/3">
