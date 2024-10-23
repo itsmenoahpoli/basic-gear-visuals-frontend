@@ -74,7 +74,7 @@ const TakeLaboratoryPage: React.FC = () => {
     const formData = {
       user_id: currentUserId,
       lecture_id: +id!,
-      questions,
+      questions: JSON.stringify(questions),
       quiz_score,
       lab_files: labFiles,
     };

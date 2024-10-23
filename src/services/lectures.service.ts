@@ -12,11 +12,12 @@ export const useLecturesService = () => {
     let formData = new FormData();
 
     formData.append("user_id", data.user_id);
-    formData.append("user_id", data.user_id);
+    formData.append("lecture_id", data.lecture_id);
     formData.append("questions", data.questions);
     formData.append("quiz_score", data.quiz_score);
+    // formData.append("lab_files", data.lab_files);
 
-    data.lab_files.forEach((labFile: any, index: number) => formData.append(`file-${index}`, labFile));
+    data.lab_files.forEach((labFile: any) => formData.append(`files[]`, labFile));
 
     return await axios
       .post(url + "lab-submit", formData, {
