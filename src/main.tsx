@@ -8,7 +8,7 @@ import router from "@/router";
 import "@/styles/app.css";
 import "@radix-ui/themes/styles.css";
 import "react-toastify/dist/ReactToastify.css";
-import "sweetalert2/src/sweetalert2.scss";
+// import "sweetalert2/src/sweetalert2.scss";
 
 const queryClient: QueryClient = new QueryClient({});
 

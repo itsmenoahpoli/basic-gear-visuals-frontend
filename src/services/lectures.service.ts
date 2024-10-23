@@ -1,5 +1,5 @@
 import axios from "axios";
-import swal from "sweetalert2";
+// import swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useHttp } from "@/hooks";
 import { APP_API_URL } from "@/constants";
@@ -15,7 +15,6 @@ export const useLecturesService = () => {
     formData.append("lecture_id", data.lecture_id);
     formData.append("questions", data.questions);
     formData.append("quiz_score", data.quiz_score);
-    // formData.append("lab_files", data.lab_files);
 
     data.lab_files.forEach((labFile: any) => formData.append(`files[]`, labFile));
 
@@ -26,11 +25,7 @@ export const useLecturesService = () => {
         },
       })
       .then(() => {
-        swal.fire({
-          icon: "success",
-          title: "Submitted",
-          text: "Great! You have submitted for this laboratory, record created!",
-        });
+        toast.success("Great! You have submitted for this laboratory, record created!");
 
         setTimeout(() => {
           window.location.pathname = "/dashboard/laboratories/browse";
@@ -38,6 +33,17 @@ export const useLecturesService = () => {
       })
       .catch((error) => {
         setLoading(false);
+        handleApiError(error);
+      });
+  };
+
+  const getMyLaboratories = async (userId: number) => {
+    return await httpClient
+      .get("my-laboratories/" + userId)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
         handleApiError(error);
       });
   };
@@ -131,6 +137,7 @@ export const useLecturesService = () => {
 
   return {
     submitLaboratory,
+    getMyLaboratories,
     getLectures,
     getLecture,
     createLecture,
