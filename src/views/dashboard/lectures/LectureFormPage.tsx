@@ -28,7 +28,7 @@ const LectureFormPage: React.FC = () => {
 
   const [formData, setFormData] = React.useState<any>({
     subject_id: "",
-    week_no: 0,
+    week_no: "",
     title: "",
     description: "",
     file: null,
@@ -65,7 +65,7 @@ const LectureFormPage: React.FC = () => {
   };
 
   const populateForm = (data: any) => {
-    setFormData(data);
+    ["week_no", "title", "description"].forEach((key) => (formData[key] = data[key].toString()));
   };
 
   const setValue = (key: string, value: any) => {
@@ -85,6 +85,8 @@ const LectureFormPage: React.FC = () => {
 
     if (isEdit && id) {
       setReplaceInstruction(false);
+
+      if (!formData.file) delete formData.file;
 
       return await updateLecture(+id, {
         ...formData,
@@ -210,8 +212,6 @@ const LectureFormPage: React.FC = () => {
       getLecture(+id!).then((data) => {
         populateForm(data);
 
-        console.log(data);
-
         if (data.questions) {
           setQuestions(JSON.parse(data.questions));
         }
@@ -231,7 +231,7 @@ const LectureFormPage: React.FC = () => {
         <Card className="bg-zinc-950 mb-4">
           <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3 ">
             <Flex direction="column" gap="1">
-              <small className="text-zinc-50">Laboratory Number (week #) </small>
+              <small className="text-zinc-50">Laboratory Number (week #) {formData.week_no}</small>
               <Select.Root value={formData.week_no.toString()} onValueChange={(v) => setValue("week_no", v)} required>
                 <Select.Trigger />
                 <Select.Content color="blue">
