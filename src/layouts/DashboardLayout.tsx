@@ -7,7 +7,7 @@ import { AppBreadcrumb, AdminSidebar, TeacherSidebar, StudentSidebar } from "@/c
 type UserRoles = "admin" | "teacher" | "student";
 
 export const DashboardLayout: React.FC = () => {
-  const { checkAuth, userRole, logout } = useAuth();
+  const { checkAuth, userRole, userFullname, logout } = useAuth();
 
   if (!checkAuth()) {
     return <Navigate to="/auth/signin" />;
@@ -49,6 +49,10 @@ export const DashboardLayout: React.FC = () => {
         <Flex direction="row" className="w-full h-[calc(100vh-60px)] overflow-hidden">
           {/* Sidebar */}
           <Box className="w-[200px] h-[300px] border-r border-zinc-950 px-5 pt-2 overflow-y-auto">
+            <div className="py-4">
+              <small className="font-bold">Logged-in as</small>
+              <Badge size="3">{userFullname}</Badge>
+            </div>
             <p className="text-m text-gray-400 ">Manage &mdash;</p>
             <RenderSidebar userRole={userRole as UserRoles} />
           </Box>
