@@ -232,18 +232,30 @@ const LectureFormPage: React.FC = () => {
           <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3 ">
             <Flex direction="column" gap="1">
               <small className="text-zinc-50">Laboratory Number (week #) {formData.week_no}</small>
-              <Select.Root value={formData.week_no.toString()} onValueChange={(v) => setValue("week_no", v)} required>
+              <select
+                className="!border !border-gray-600 !rounded-md !text-white !p-1"
+                value={formData.week_no}
+                onChange={(v) => setValue("week_no", v.target.value)}
+                required
+              >
+                {weeksOptions.map((week: any) => (
+                  <option key={week.toString()} value={week.toString()}>
+                    {week}
+                  </option>
+                ))}
+              </select>
+              {/* <Select.Root value={formData.week_no} defaultValue={formData.week_no} onValueChange={(v) => setValue("week_no", v)} required>
                 <Select.Trigger />
                 <Select.Content color="blue">
                   <Select.Group>
-                    {weeksOptions.map((week: number[]) => (
+                    {weeksOptions.map((week: any) => (
                       <Select.Item key={week.toString()} value={week.toString()}>
                         {week}
                       </Select.Item>
                     ))}
                   </Select.Group>
                 </Select.Content>
-              </Select.Root>
+              </Select.Root> */}
             </Flex>
 
             <Flex direction="column" gap="1">
