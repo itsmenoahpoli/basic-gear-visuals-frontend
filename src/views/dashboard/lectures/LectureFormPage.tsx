@@ -48,6 +48,8 @@ const LectureFormPage: React.FC = () => {
         const filteredWeeksOpts = weeksOpts.filter((week) => !weekNos.includes(week));
 
         setWeeksOptions(filteredWeeksOpts);
+
+        return;
       }
 
       setWeeksOptions(weeksOpts);
