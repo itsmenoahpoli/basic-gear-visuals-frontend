@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Flex, Card, Button, Callout } from "@radix-ui/themes";
-import { PageHeader, LaboratorySubmissions } from "@/components";
+import { PageHeader } from "@/components";
 import { useLecturesService } from "@/services";
 import { useAuth } from "@/hooks";
 
@@ -10,16 +10,10 @@ const BrowseLaboratoriesPage: React.FC = () => {
   const { currentUserId } = useAuth();
 
   const [data, setData] = React.useState([]);
-  const [selectedLaboratory, setSelectedLaboratory] = React.useState<any>({
-    laboratoryId: null,
-    data: [],
-  });
 
   const fetchLectures = async () => {
     await getLectures().then(async (data) => {
       const myLabs = await getMyLaboratories(+currentUserId!);
-
-      console.log(myLabs);
 
       const dataCopy = data.filter((lecture: any) => !myLabs.some((lab: any) => lab.id === lecture.id));
 
@@ -40,8 +34,6 @@ const BrowseLaboratoriesPage: React.FC = () => {
   return (
     <Flex direction="column" gap="3" className="h-full">
       <PageHeader title="Browse Laboratories" subtitle="View all available laboratories" />
-
-      {selectedLaboratory.laboratoryId && selectedLaboratory.data.length ? <LaboratorySubmissions /> : null}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         {data.length ? (
