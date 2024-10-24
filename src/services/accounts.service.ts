@@ -65,7 +65,7 @@ export const useAccountsService = () => {
     return await httpClient
       .delete("accounts/" + id)
       .then(() => {
-        toast.info("Account  deleted!");
+        toast.info("Account deleted!");
       })
       .catch((error) => {
         handleApiError(error);
