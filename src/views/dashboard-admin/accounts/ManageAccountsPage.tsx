@@ -5,7 +5,7 @@ import { PageHeader } from "@/components";
 import { useAccountsService } from "@/services";
 
 const ManageAccountsPage: React.FC = () => {
-  const { getAccounts, createAccount, deleteAccount } = useAccountsService();
+  const { getAccounts, createAccount, updateAccount, deleteAccount } = useAccountsService();
   const { accountType } = useParams<{ accountType: "teacher" | "student" }>();
 
   const [data, setData] = React.useState<any>([]);
@@ -18,10 +18,23 @@ const ManageAccountsPage: React.FC = () => {
     email: "",
     password: "",
   });
+  const [editAccount, setEditAccount] = React.useState<any>({
+    id: null,
+    name: "",
+    email: "",
+    password: "",
+  });
 
   const onInputNewAccount = (key: string, value: string) => {
     setNewAccount({
       ...newAccount,
+      [key]: value,
+    });
+  };
+
+  const onInputEditAccount = (key: string, value: string) => {
+    setEditAccount({
+      ...editAccount,
       [key]: value,
     });
   };
@@ -38,6 +51,21 @@ const ManageAccountsPage: React.FC = () => {
     });
   };
 
+  const onUpdateAccount = async (e: any) => {
+    e.preventDefault();
+
+    console.log(editAccount);
+    return await updateAccount(editAccount.id, { ...editAccount, account_type: accountType }).then(() => {
+      getAccounts(accountType).then((data) => setData(data));
+      setEditAccount({
+        id: null,
+        name: "",
+        email: "",
+        password: "",
+      });
+    });
+  };
+
   const resetShowDetail = () => {
     setShowDetail({
       show: false,
@@ -46,6 +74,7 @@ const ManageAccountsPage: React.FC = () => {
   };
 
   const onShowDetails = (accountDetails: any) => {
+    setEditAccount({ ...accountDetails, id: +accountDetails.id });
     setShowDetail({
       show: true,
       data: accountDetails,
@@ -162,39 +191,55 @@ const ManageAccountsPage: React.FC = () => {
                               Make changes to the account details.
                             </Dialog.Description>
 
-                            <Flex direction="column" gap="3">
-                              <label>
-                                <Text as="div" size="2" mb="1" weight="bold">
-                                  Name
-                                </Text>
-                                <TextField.Root type="text" defaultValue={showDetail.data.name} placeholder="Enter full name" />
-                              </label>
+                            <form onSubmit={onUpdateAccount}>
+                              <Flex direction="column" gap="3">
+                                <label>
+                                  <Text as="div" size="2" mb="1" weight="bold">
+                                    Name
+                                  </Text>
+                                  <TextField.Root
+                                    type="text"
+                                    defaultValue={showDetail.data.name}
+                                    placeholder="Enter full name"
+                                    onChange={(e) => onInputEditAccount("name", e.target.value)}
+                                  />
+                                </label>
 
-                              <label>
-                                <Text as="div" size="2" mb="1" weight="bold">
-                                  Email
-                                </Text>
-                                <TextField.Root type="email" defaultValue={showDetail.data.email} placeholder="Enter email" />
-                              </label>
+                                <label>
+                                  <Text as="div" size="2" mb="1" weight="bold">
+                                    Email
+                                  </Text>
+                                  <TextField.Root
+                                    type="email"
+                                    defaultValue={showDetail.data.email}
+                                    placeholder="Enter email"
+                                    onChange={(e) => onInputEditAccount("email", e.target.value)}
+                                  />
+                                </label>
 
-                              <label>
-                                <Text as="div" size="2" mb="1" weight="bold">
-                                  New Password
-                                </Text>
-                                <TextField.Root type="password" placeholder="Enter new password" />
-                              </label>
-                            </Flex>
+                                <label>
+                                  <Text as="div" size="2" mb="1" weight="bold">
+                                    New Password
+                                  </Text>
+                                  <TextField.Root
+                                    type="password"
+                                    placeholder="Enter new password"
+                                    onChange={(e) => onInputEditAccount("password", e.target.value)}
+                                  />
+                                </label>
+                              </Flex>
 
-                            <Flex gap="3" mt="4" justify="end">
-                              <Dialog.Close>
-                                <Button variant="soft" color="gray" onClick={resetShowDetail}>
-                                  Cancel
-                                </Button>
-                              </Dialog.Close>
-                              <Dialog.Close>
-                                <Button>Save</Button>
-                              </Dialog.Close>
-                            </Flex>
+                              <Flex gap="3" mt="4" justify="end">
+                                <Dialog.Close>
+                                  <Button variant="soft" color="gray" onClick={resetShowDetail}>
+                                    Cancel
+                                  </Button>
+                                </Dialog.Close>
+                                <Dialog.Close>
+                                  <Button type="submit">Update</Button>
+                                </Dialog.Close>
+                              </Flex>
+                            </form>
                           </Dialog.Content>
                         ) : null}
                       </Dialog.Root>
