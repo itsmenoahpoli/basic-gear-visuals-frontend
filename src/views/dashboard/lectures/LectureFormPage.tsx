@@ -240,6 +240,7 @@ const LectureFormPage: React.FC = () => {
                 onChange={(v) => setValue("week_no", v.target.value)}
                 required
               >
+                <option value="">Choose</option>
                 {weeksOptions.map((week: any) => (
                   <option key={week.toString()} value={week.toString()}>
                     {week}

@@ -26,7 +26,8 @@ const MyLaboratoriesPage: React.FC = () => {
         {data.length ? (
           data.map((d: any) => (
             <Card key={d.id} className="w-full !py-4 !px-5 border border-gray-800 text-zinc-50 bg-zinc-950 shadow-md">
-              <Badge>Taken at - {formatDate(d.created_at)}</Badge>
+              <Badge className="mr-2">Taken at - {formatDate(d.created_at)}</Badge>
+              <Badge color="amber">Week # {d.lecture?.week_no}</Badge>
               <Flex gap="3" className="!w-full pt-5">
                 <Flex direction="column" gap="5" className="!w-full">
                   <Flex direction="column" gap="0">
