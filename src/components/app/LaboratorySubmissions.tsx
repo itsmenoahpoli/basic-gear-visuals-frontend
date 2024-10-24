@@ -73,8 +73,8 @@ export const LaboratorySubmissions: React.FC<Props> = (props) => {
                 props.data.map((d: any) => (
                   <Table.Row key={d.id}>
                     <Table.RowHeaderCell className="text-zinc-900">{d.student.name}</Table.RowHeaderCell>
-                    <Table.RowHeaderCell className="text-zinc-900">{d.quiz_score}</Table.RowHeaderCell>
                     <Table.RowHeaderCell className="text-zinc-900">{formatDate(d.created_at)}</Table.RowHeaderCell>
+                    <Table.RowHeaderCell className="text-zinc-900">{d.quiz_score}</Table.RowHeaderCell>
                     <Table.RowHeaderCell className="text-zinc-900">
                       {renderLaboratoryOutputs(d.laboratories_data, d.lecture.labs)}
                     </Table.RowHeaderCell>
