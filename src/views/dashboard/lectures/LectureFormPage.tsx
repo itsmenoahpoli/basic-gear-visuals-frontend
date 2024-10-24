@@ -40,16 +40,17 @@ const LectureFormPage: React.FC = () => {
   const [weeksOptions, setWeeksOptions] = React.useState<any>([]);
 
   const fetchLaboratories = () => {
-    getTeacherLaboratories(+currentUserId!).then((data) => {
-      console.log(data);
+    const weeksOpts = [1, 2, 3, 4, 5, 6];
 
+    getTeacherLaboratories(+currentUserId!).then((data) => {
       if (data.length) {
-        const weeksOpts = [1, 2, 3, 4, 5, 6];
         const weekNos = data.map((d: any) => +d.week_no);
         const filteredWeeksOpts = weeksOpts.filter((week) => !weekNos.includes(week));
 
         setWeeksOptions(filteredWeeksOpts);
       }
+
+      setWeeksOptions(weeksOpts);
     });
   };
 
@@ -225,6 +226,8 @@ const LectureFormPage: React.FC = () => {
   return (
     <Flex direction="column" gap="2" className="h-full">
       <PageHeader title="Laboratory Details" subtitle="Manage details of the laboratory" />
+
+      {JSON.stringify(weeksOptions)}
 
       <div className="px-3">
         <Card className="bg-zinc-950 mb-4">

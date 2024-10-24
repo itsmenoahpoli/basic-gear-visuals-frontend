@@ -28,11 +28,22 @@ export const useLecturesService = () => {
         toast.success("Great! You have submitted for this laboratory, record created!");
 
         setTimeout(() => {
-          window.location.pathname = "/dashboard/laboratories/browse";
+          window.location.pathname = "/dashboard/my-laboratories";
         }, 2000);
       })
       .catch((error) => {
         setLoading(false);
+        handleApiError(error);
+      });
+  };
+
+  const getLaboratorySubmissions = async (laboratoryId: number) => {
+    return await httpClient
+      .get("get-laboratory-submissions/" + laboratoryId)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
         handleApiError(error);
       });
   };
@@ -148,6 +159,7 @@ export const useLecturesService = () => {
 
   return {
     submitLaboratory,
+    getLaboratorySubmissions,
     getTeacherLaboratories,
     getMyLaboratories,
     getLectures,

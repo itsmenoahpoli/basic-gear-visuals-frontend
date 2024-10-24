@@ -68,7 +68,7 @@ const TakeLaboratoryPage: React.FC = () => {
       return;
     }
 
-    // setLoading(true);
+    setLoading(true);
 
     const quiz_score = checkQuizScore();
     const formData = {
@@ -78,8 +78,6 @@ const TakeLaboratoryPage: React.FC = () => {
       quiz_score,
       lab_files: labFiles,
     };
-
-    console.log(formData);
 
     return await submitLaboratory(formData, setLoading);
   };

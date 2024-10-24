@@ -2,6 +2,7 @@
  * App components
  */
 export { AppBreadcrumb } from "./app/AppBreadcrumb";
+export { LaboratorySubmissions } from "./app/LaboratorySubmissions";
 
 /**
  * Layouts components
