@@ -37,6 +37,17 @@ export const useLecturesService = () => {
       });
   };
 
+  const getTeacherLaboratories = async (userId: number) => {
+    return await httpClient
+      .get("get-teacher-laboratories/" + userId)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        handleApiError(error);
+      });
+  };
+
   const getMyLaboratories = async (userId: number) => {
     return await httpClient
       .get("my-laboratories/" + userId)
@@ -137,6 +148,7 @@ export const useLecturesService = () => {
 
   return {
     submitLaboratory,
+    getTeacherLaboratories,
     getMyLaboratories,
     getLectures,
     getLecture,

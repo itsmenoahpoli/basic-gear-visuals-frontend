@@ -5,6 +5,7 @@ import { TbTrashXFilled } from "react-icons/tb";
 import { Flex, Card, TextField, TextArea, Select, Callout, Button } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useLecturesService } from "@/services";
+import { useAuth } from "@/hooks";
 import { APP_URL } from "@/constants";
 
 type Question = {
@@ -17,8 +18,9 @@ type Lab = {
 };
 
 const LectureFormPage: React.FC = () => {
-  const { createLecture, getLecture, updateLecture, updateLectureModule } = useLecturesService();
+  const { createLecture, getLecture, updateLecture, updateLectureModule, getTeacherLaboratories } = useLecturesService();
   const { id } = useParams<{ id: string }>();
+  const { currentUserId } = useAuth();
   const navigate = useNavigate();
   const isEdit = window.location.pathname.includes("edit");
   const buttonLabel = isEdit ? `Update Lecture` : `Save Lecture`;
@@ -35,6 +37,21 @@ const LectureFormPage: React.FC = () => {
   const [labs, setLabs] = React.useState<Lab[]>([]);
   const [replaceInstruction, setReplaceInstruction] = React.useState<boolean>(false);
   const [replaceInstructionFile, setReplaceInstructionFile] = React.useState<any>(null);
+  const [weeksOptions, setWeeksOptions] = React.useState<any>([]);
+
+  const fetchLaboratories = () => {
+    getTeacherLaboratories(+currentUserId!).then((data) => {
+      console.log(data);
+
+      if (data.length) {
+        const weeksOpts = [1, 2, 3, 4, 5, 6];
+        const weekNos = data.map((d: any) => +d.week_no);
+        const filteredWeeksOpts = weeksOpts.filter((week) => !weekNos.includes(week));
+
+        setWeeksOptions(filteredWeeksOpts);
+      }
+    });
+  };
 
   const checkHasInvalidLabLinks = () => {
     const validUrlHost = "https://play.unity.com/en/games/";
@@ -42,8 +59,6 @@ const LectureFormPage: React.FC = () => {
     const flagError = labs.filter((lab: Lab) => {
       return !lab.url.includes(validUrlHost);
     });
-
-    console.log(flagError.length > 0);
 
     return flagError.length > 0;
   };
@@ -72,6 +87,7 @@ const LectureFormPage: React.FC = () => {
 
       return await updateLecture(+id, {
         ...formData,
+        user_id: +currentUserId!,
         questions: JSON.stringify(questions),
         labs: JSON.stringify(labs),
       });
@@ -84,6 +100,7 @@ const LectureFormPage: React.FC = () => {
 
     return await createLecture({
       ...formData,
+      user_id: +currentUserId!,
       questions: JSON.stringify(questions),
       labs: JSON.stringify(labs),
     }).then(() => navigate("/dashboard/manage/laboratories"));
@@ -186,6 +203,8 @@ const LectureFormPage: React.FC = () => {
   };
 
   React.useEffect(() => {
+    fetchLaboratories();
+
     if (isEdit) {
       getLecture(+id!).then((data) => {
         populateForm(data);
@@ -216,12 +235,11 @@ const LectureFormPage: React.FC = () => {
                 <Select.Trigger />
                 <Select.Content color="blue">
                   <Select.Group>
-                    <Select.Item value="1">1</Select.Item>
-                    <Select.Item value="2">2</Select.Item>
-                    <Select.Item value="3">3</Select.Item>
-                    <Select.Item value="4">4</Select.Item>
-                    <Select.Item value="5">5</Select.Item>
-                    <Select.Item value="6">6</Select.Item>
+                    {weeksOptions.map((week: number[]) => (
+                      <Select.Item key={week.toString()} value={week.toString()}>
+                        {week}
+                      </Select.Item>
+                    ))}
                   </Select.Group>
                 </Select.Content>
               </Select.Root>

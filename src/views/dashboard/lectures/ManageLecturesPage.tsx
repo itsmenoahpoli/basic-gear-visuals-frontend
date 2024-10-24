@@ -3,20 +3,22 @@ import { Link } from "react-router-dom";
 import { Flex, Button, Card } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useLecturesService } from "@/services";
+import { useAuth } from "@/hooks";
 import { APP_URL } from "@/constants";
 
 const ManageLecturesPage: React.FC = () => {
-  const { getLectures, deleteLecture } = useLecturesService();
+  const { getTeacherLaboratories, deleteLecture } = useLecturesService();
+  const { currentUserId } = useAuth();
 
   const [data, setData] = React.useState([]);
 
   const fetchLectures = async () => {
-    await getLectures().then((data) => setData(data));
+    await getTeacherLaboratories(+currentUserId!).then((data) => setData(data));
   };
 
   const confirmDeleteLecture = async (id: number) => {
     if (confirm("Do you confirm to delete this record?")) {
-      await deleteLecture(id).then(() => getLectures());
+      await deleteLecture(id).then(() => fetchLectures());
     }
   };
 
