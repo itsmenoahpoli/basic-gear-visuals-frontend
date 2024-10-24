@@ -14,12 +14,13 @@ const BrowseLaboratoriesPage: React.FC = () => {
   const fetchLectures = async () => {
     await getLectures().then(async (data) => {
       const myLabs = await getMyLaboratories(+currentUserId!);
-
       const dataCopy = data.filter((lecture: any) => myLabs.some((lab: any) => lab.id === lecture.id));
-      console.log(data);
-      console.log(myLabs);
 
-      setData(dataCopy);
+      if (myLabs.length > 0) {
+        setData(dataCopy);
+      } else {
+        setData(data);
+      }
     });
   };
 
