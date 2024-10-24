@@ -1,16 +1,39 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Flex, Button, Card } from "@radix-ui/themes";
-import { PageHeader } from "@/components";
+import { PageHeader, LaboratorySubmissions } from "@/components";
 import { useLecturesService } from "@/services";
 import { useAuth } from "@/hooks";
 import { APP_URL } from "@/constants";
 
 const ManageLecturesPage: React.FC = () => {
-  const { getTeacherLaboratories, deleteLecture } = useLecturesService();
+  const { getLaboratorySubmissions, getTeacherLaboratories, deleteLecture } = useLecturesService();
   const { currentUserId } = useAuth();
 
   const [data, setData] = React.useState([]);
+  const [selectedLab, setSelectedLab] = React.useState<any>({
+    laboratoryId: null,
+    laboratoryTitle: "",
+    data: null,
+  });
+
+  const onViewSubmissions = (laboratoryId: number, laboratoryTitle: string) => {
+    getLaboratorySubmissions(+laboratoryId).then((data) => {
+      setSelectedLab({
+        laboratoryId,
+        laboratoryTitle,
+        data: data,
+      });
+    });
+  };
+
+  const onResetViewSubmission = () => {
+    setSelectedLab({
+      laboratoryId: null,
+      laboratoryTitle: "",
+      data: null,
+    });
+  };
 
   const fetchLectures = async () => {
     await getTeacherLaboratories(+currentUserId!).then((data) => setData(data));
@@ -60,6 +83,10 @@ const ManageLecturesPage: React.FC = () => {
         </Link>
       </PageHeader>
 
+      {selectedLab.laboratoryId ? (
+        <LaboratorySubmissions title={selectedLab.laboratoryTitle} data={selectedLab.data} onClose={onResetViewSubmission} />
+      ) : null}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         {data.length ? (
           data.map((d: any) => (
@@ -78,7 +105,7 @@ const ManageLecturesPage: React.FC = () => {
               <p className="mt-2 justify-center">Has Assessment Quiz? {getQuestionsData(d.questions)}</p>
               <div className="mt-3 flex justify-center gap-2">
                 <Link to={`/dashboard/manage/laboratories`}>
-                  <Button className="text-xs" color="green" variant="soft">
+                  <Button className="text-xs" color="green" variant="soft" onClick={() => onViewSubmissions(d.id, d.title)}>
                     View Submissions
                   </Button>
                 </Link>

@@ -227,8 +227,6 @@ const LectureFormPage: React.FC = () => {
     <Flex direction="column" gap="2" className="h-full">
       <PageHeader title="Laboratory Details" subtitle="Manage details of the laboratory" />
 
-      {JSON.stringify(weeksOptions)}
-
       <div className="px-3">
         <Card className="bg-zinc-950 mb-4">
           <form onSubmit={onFormSubmit} className="flex flex-col gap-y-3 ">
