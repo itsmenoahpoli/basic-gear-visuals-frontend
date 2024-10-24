@@ -1,18 +1,55 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Flex, Button, Table, Badge, Dialog, Text, TextField } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useAccountsService } from "@/services";
 
 const ManageAccountsPage: React.FC = () => {
-  const { getAccounts, deleteAccount } = useAccountsService();
+  const { getAccounts, createAccount, deleteAccount } = useAccountsService();
   const { accountType } = useParams<{ accountType: "teacher" | "student" }>();
 
   const [data, setData] = React.useState<any>([]);
-  const [account, setAccount] = React.useState<any>(null);
+  const [showDetail, setShowDetail] = React.useState<any>({
+    open: false,
+    data: null,
+  });
+  const [newAccount, setNewAccount] = React.useState<any>({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const onInputNewAccount = (key: string, value: string) => {
+    setNewAccount({
+      ...newAccount,
+      [key]: value,
+    });
+  };
+
+  const onCreateAccount = async (e: any) => {
+    e.preventDefault();
+    return await createAccount({ ...newAccount, account_type: accountType }).then(() => {
+      getAccounts(accountType).then((data) => setData(data));
+      setNewAccount({
+        name: "",
+        email: "",
+        password: "",
+      });
+    });
+  };
+
+  const resetShowDetail = () => {
+    setShowDetail({
+      show: false,
+      data: null,
+    });
+  };
 
   const onShowDetails = (accountDetails: any) => {
-    setAccount(accountDetails);
+    setShowDetail({
+      show: true,
+      data: accountDetails,
+    });
   };
 
   const onDeleteAccount = async (id: number) => {
@@ -27,55 +64,64 @@ const ManageAccountsPage: React.FC = () => {
     getAccounts(accountType).then((data) => setData(data));
   }, [accountType]);
 
-  const AccountDetails: React.FC<any> = (props) => {
-    return (
-      <Dialog.Root>
-        <Dialog.Trigger>
-          <Button>Edit profile</Button>
-        </Dialog.Trigger>
-
-        <Dialog.Content maxWidth="450px">
-          <Dialog.Title>Edit profile</Dialog.Title>
-          <Dialog.Description size="2" mb="4">
-            Make changes to your profile.
-          </Dialog.Description>
-
-          <Flex direction="column" gap="3">
-            <label>
-              <Text as="div" size="2" mb="1" weight="bold">
-                Name
-              </Text>
-              <TextField.Root defaultValue="Freja Johnsen" placeholder="Enter your full name" />
-            </label>
-            <label>
-              <Text as="div" size="2" mb="1" weight="bold">
-                Email
-              </Text>
-              <TextField.Root defaultValue="freja@example.com" placeholder="Enter your email" />
-            </label>
-          </Flex>
-
-          <Flex gap="3" mt="4" justify="end">
-            <Dialog.Close>
-              <Button variant="soft" color="gray">
-                Cancel
-              </Button>
-            </Dialog.Close>
-            <Dialog.Close>
-              <Button>Save</Button>
-            </Dialog.Close>
-          </Flex>
-        </Dialog.Content>
-      </Dialog.Root>
-    );
-  };
-
   return (
     <Flex direction="column" gap="3" className="h-full">
       <PageHeader title="Manage Accounts" subtitle="View all and manage user accounts">
-        <Link to="/dashboard/manage/accounts/add">
-          <Button color="blue">Add Account</Button>
-        </Link>
+        <Dialog.Root>
+          <Dialog.Trigger>
+            <Button className="text-xs" color="blue" variant="classic">
+              Add account
+            </Button>
+          </Dialog.Trigger>
+
+          <Dialog.Content maxWidth="450px">
+            <Dialog.Title>Add account</Dialog.Title>
+            <Dialog.Description size="2" mb="4">
+              Please provide account details.
+            </Dialog.Description>
+
+            <form onSubmit={onCreateAccount}>
+              <Flex direction="column" gap="3">
+                <label>
+                  <Text as="div" size="2" mb="1" weight="bold">
+                    Name
+                  </Text>
+                  <TextField.Root type="text" placeholder="Enter full name" onChange={(e) => onInputNewAccount("name", e.target.value)} required />
+                </label>
+
+                <label>
+                  <Text as="div" size="2" mb="1" weight="bold">
+                    Email
+                  </Text>
+                  <TextField.Root type="email" placeholder="Enter email" onChange={(e) => onInputNewAccount("email", e.target.value)} required />
+                </label>
+
+                <label>
+                  <Text as="div" size="2" mb="1" weight="bold">
+                    Password
+                  </Text>
+                  <TextField.Root
+                    type="password"
+                    placeholder="Enter password"
+                    onChange={(e) => onInputNewAccount("password", e.target.value)}
+                    required
+                  />
+                </label>
+              </Flex>
+
+              <Flex gap="3" mt="4" justify="end">
+                <Dialog.Close>
+                  <Button variant="soft" color="gray">
+                    Cancel
+                  </Button>
+                </Dialog.Close>
+                <Dialog.Close>
+                  <Button type="submit">Save</Button>
+                </Dialog.Close>
+              </Flex>
+            </form>
+          </Dialog.Content>
+        </Dialog.Root>
       </PageHeader>
 
       <Flex direction="column" gap="2">
@@ -102,9 +148,57 @@ const ManageAccountsPage: React.FC = () => {
                   <Table.RowHeaderCell className="text-zinc-900">{d.email}</Table.RowHeaderCell>
                   <Table.Cell>
                     <Flex direction="row" gap="2">
-                      <Button className="text-xs" color="blue" variant="classic" onClick={() => onShowDetails(d)}>
-                        Update
-                      </Button>
+                      <Dialog.Root>
+                        <Dialog.Trigger>
+                          <Button className="text-xs" color="blue" variant="classic" onClick={() => onShowDetails(d)}>
+                            Edit account
+                          </Button>
+                        </Dialog.Trigger>
+
+                        {showDetail.show && showDetail.data ? (
+                          <Dialog.Content maxWidth="450px">
+                            <Dialog.Title>Edit account</Dialog.Title>
+                            <Dialog.Description size="2" mb="4">
+                              Make changes to the account details.
+                            </Dialog.Description>
+
+                            <Flex direction="column" gap="3">
+                              <label>
+                                <Text as="div" size="2" mb="1" weight="bold">
+                                  Name
+                                </Text>
+                                <TextField.Root type="text" defaultValue={showDetail.data.name} placeholder="Enter full name" />
+                              </label>
+
+                              <label>
+                                <Text as="div" size="2" mb="1" weight="bold">
+                                  Email
+                                </Text>
+                                <TextField.Root type="email" defaultValue={showDetail.data.email} placeholder="Enter email" />
+                              </label>
+
+                              <label>
+                                <Text as="div" size="2" mb="1" weight="bold">
+                                  New Password
+                                </Text>
+                                <TextField.Root type="password" placeholder="Enter new password" />
+                              </label>
+                            </Flex>
+
+                            <Flex gap="3" mt="4" justify="end">
+                              <Dialog.Close>
+                                <Button variant="soft" color="gray" onClick={resetShowDetail}>
+                                  Cancel
+                                </Button>
+                              </Dialog.Close>
+                              <Dialog.Close>
+                                <Button>Save</Button>
+                              </Dialog.Close>
+                            </Flex>
+                          </Dialog.Content>
+                        ) : null}
+                      </Dialog.Root>
+
                       <Button className="text-xs" color="red" variant="classic" onClick={() => onDeleteAccount(d.id)}>
                         Delete
                       </Button>
