@@ -2,7 +2,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import { useParams, useNavigate } from "react-router-dom";
 import { TbTrashXFilled } from "react-icons/tb";
-import { Flex, Card, TextField, TextArea, Select, Callout, Button } from "@radix-ui/themes";
+import { Flex, Card, TextField, TextArea, Callout, Button } from "@radix-ui/themes";
 import { PageHeader } from "@/components";
 import { useLecturesService } from "@/services";
 import { useAuth } from "@/hooks";
