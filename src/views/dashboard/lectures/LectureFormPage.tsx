@@ -42,18 +42,20 @@ const LectureFormPage: React.FC = () => {
   const fetchLaboratories = () => {
     const weeksOpts = [1, 2, 3, 4, 5, 6];
 
-    getTeacherLaboratories(+currentUserId!).then((data) => {
-      if (data.length) {
-        const weekNos = data.map((d: any) => +d.week_no);
-        const filteredWeeksOpts = weeksOpts.filter((week) => !weekNos.includes(week));
+    // getTeacherLaboratories(+currentUserId!).then((data) => {
+    //   if (data.length) {
+    //     const weekNos = data.map((d: any) => +d.week_no);
+    //     const filteredWeeksOpts = weeksOpts.filter((week) => !weekNos.includes(week));
 
-        setWeeksOptions(filteredWeeksOpts);
+    //     setWeeksOptions(filteredWeeksOpts);
 
-        return;
-      }
+    //     return;
+    //   }
 
-      setWeeksOptions(weeksOpts);
-    });
+    //   setWeeksOptions(weeksOpts);
+    // });
+
+    setWeeksOptions(weeksOpts);
   };
 
   const checkHasInvalidLabLinks = () => {
