@@ -18,7 +18,7 @@ type Lab = {
 };
 
 const LectureFormPage: React.FC = () => {
-  const { createLecture, getLecture, updateLecture, updateLectureModule, getTeacherLaboratories } = useLecturesService();
+  const { createLecture, getLecture, updateLecture, updateLectureModule } = useLecturesService();
   const { id } = useParams<{ id: string }>();
   const { currentUserId } = useAuth();
   const navigate = useNavigate();

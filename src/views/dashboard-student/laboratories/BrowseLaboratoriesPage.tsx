@@ -13,17 +13,18 @@ const BrowseLaboratoriesPage: React.FC = () => {
 
   const fetchLectures = async () => {
     await getLectures().then(async (data) => {
+      let dataCopy = [...data];
       const myLabs = await getMyLaboratories(+currentUserId!);
-      const myLabIds = myLabs.map((item: any) => item.lecture_id);
-      const filteredLabs = data.filter(
-        (item: any) => !myLabIds.includes(item.id)
-      );
+      const myLabIds = myLabs.length ? myLabs.map((lab: any) => lab.lecture_id) : [];
 
-      if (myLabs.length > 0) {
-        setData(filteredLabs);
-      } else {
-        setData(data);
-      }
+      dataCopy = dataCopy.map((d: any) => {
+        return {
+          ...d,
+          isTaken: myLabIds.includes(d.id),
+        };
+      });
+
+      setData(dataCopy as any);
     });
   };
 
@@ -50,12 +51,16 @@ const BrowseLaboratoriesPage: React.FC = () => {
               <p className="text-[12px] mt-2">{d.description}</p>
 
               <p className="text-[12px] justify-center mt-2">Has Assessment Quiz? {getQuestionsData(d.questions)}</p>
-              <div className="mt-3 flex justify-end gap-2">
-                <Link to={`/dashboard/laboratories/${d.id}`}>
-                  <Button className="text-xs" color="blue" variant="soft">
-                    Take/View
-                  </Button>
-                </Link>
+              <div className="mt-5 flex justify-end gap-2">
+                {d.isTaken ? (
+                  <Badge color="red">You've already taken this laboratory</Badge>
+                ) : (
+                  <Link to={`/dashboard/laboratories/${d.id}`}>
+                    <Button className="text-xs" color="blue" variant="soft">
+                      Take/View
+                    </Button>
+                  </Link>
+                )}
               </div>
             </Card>
           ))
