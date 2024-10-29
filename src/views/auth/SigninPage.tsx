@@ -47,9 +47,7 @@ const SigninPage: React.FC = () => {
           </Button>
 
           <Flex direction="column" gap="4"  className="!w-full px-3 mt-4">
-            <Button size="3" variant="ghost" color="blue" className="!w-full py-3">
-              Forgot your password?
-            </Button>
+
             <Button size="3" variant="ghost" color="blue" className="!w-full py-3" onClick={handleRedirectToSignup}>
               Create Account
             </Button>
