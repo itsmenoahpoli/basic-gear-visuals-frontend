@@ -130,12 +130,22 @@ const TakeLaboratoryPage: React.FC = () => {
             </Flex>
 
             <Flex direction="row" gap="2">
+              <small>Laboratory Objective</small>
+              <small>{data.objective}</small>
+            </Flex>
+
+            <Flex direction="row" gap="2">
               <small>View PDF Instructions</small>
               <Button variant="soft" color="blue">
                 <a href={getModuleSrcUrl(data.module_src)} target="_blank" className="text-sm text-blue-500 underline">
                   View PDF
                 </a>
               </Button>
+            </Flex>
+
+            <Flex direction="row" gap="2">
+              <small>Laboratory Instruction</small>
+              <small>{data.instruction}</small>
             </Flex>
 
             <hr />

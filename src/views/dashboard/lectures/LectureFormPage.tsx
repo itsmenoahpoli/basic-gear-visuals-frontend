@@ -31,7 +31,9 @@ const LectureFormPage: React.FC = () => {
     week_no: "",
     title: "",
     description: "",
+    objective: "",
     file: null,
+    instruction: ""
   });
   const [questions, setQuestions] = React.useState<Question[]>([]);
   const [labs, setLabs] = React.useState<Lab[]>([]);
@@ -121,7 +123,7 @@ const LectureFormPage: React.FC = () => {
     }
   };
 
-  const onFileSelect = (file: File) => {
+  const onFileSelect = (file: File | null) => {
     if (file) {
       if (file.type !== "application/pdf") {
         if (fileInputRef.current) {
@@ -136,12 +138,12 @@ const LectureFormPage: React.FC = () => {
 
       setFormData({
         ...formData,
-        file,
+        file: file || null,
       });
     }
   };
 
-  const onReplaceFileSelect = (file: File) => {
+  const onReplaceFileSelect = (file: File | null) => {
     if (file) {
       if (file.type !== "application/pdf") {
         if (fileInputRef.current) {
@@ -154,7 +156,7 @@ const LectureFormPage: React.FC = () => {
         return;
       }
 
-      setReplaceInstructionFile(file);
+      setReplaceInstructionFile(file || null);
     }
   };
 
@@ -274,7 +276,12 @@ const LectureFormPage: React.FC = () => {
             </Flex>
 
             <Flex direction="column" gap="1">
-              <small className="text-zinc-50">Laboratory Instructions</small>
+              <small className="text-zinc-50">Laboratory Objective</small>
+              <TextArea defaultValue={formData.objective} rows={5} onChange={(v) => setValue("objective", v.target.value)} required />
+            </Flex>
+
+            <Flex direction="column" gap="1">
+              <small className="text-zinc-50">Laboratory Lecture (Optional)</small>
 
               {isEdit ? (
                 <Flex gap="2">
@@ -286,7 +293,6 @@ const LectureFormPage: React.FC = () => {
                         ref={fileInputRef}
                         defaultValue={undefined}
                         onChange={(v) => onReplaceFileSelect(v.target.files![0])}
-                        required
                       />
                       {replaceInstructionFile ? (
                         <Button size="1" color="green" variant="soft" type="button" onClick={onUpdateInstruction}>
@@ -317,9 +323,13 @@ const LectureFormPage: React.FC = () => {
                   ref={fileInputRef}
                   defaultValue={formData.file}
                   onChange={(v) => onFileSelect(v.target.files![0])}
-                  required
                 />
               )}
+            </Flex>
+
+            <Flex direction="column" gap="1">
+              <small className="text-zinc-50">Laboratory Instruction</small>
+              <TextArea defaultValue={formData.instruction} rows={10} onChange={(v) => setValue("instruction", v.target.value)} required />
             </Flex>
 
             <Flex direction="column" gap="3" className="border-t-2 border-zinc-700 py-5 mt-4">
