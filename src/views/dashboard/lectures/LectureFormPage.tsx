@@ -33,7 +33,8 @@ const LectureFormPage: React.FC = () => {
     description: "",
     objective: "",
     file: null,
-    instruction: ""
+    instruction: "",
+    module_src: "",
   });
   const [questions, setQuestions] = React.useState<Question[]>([]);
   const [labs, setLabs] = React.useState<Lab[]>([]);
@@ -71,10 +72,15 @@ const LectureFormPage: React.FC = () => {
   };
 
   const populateForm = (data: any) => {
-    ["week_no", "title", "description"].forEach((key) => (formData[key] = data[key].toString()));
+    const fields = ["week_no", "title", "description", "objective", "instruction"];
+
+    fields.map((key: any) => {
+      setValue(key, data[key]);
+    });
   };
 
   const setValue = (key: string, value: any) => {
+    // console.log("setValue", { key, value });
     setFormData({
       ...formData,
       [key]: value,
@@ -251,7 +257,7 @@ const LectureFormPage: React.FC = () => {
                   </option>
                 ))}
               </select>
-              {/* <Select.Root value={formData.week_no} defaultValue={formData.week_no} onValueChange={(v) => setValue("week_no", v)} required>
+              {/* <Select.Root value={formData.week_no} value={formData.week_no} onValueChange={(v) => setValue("week_no", v)} required>
                 <Select.Trigger />
                 <Select.Content color="blue">
                   <Select.Group>
@@ -267,17 +273,18 @@ const LectureFormPage: React.FC = () => {
 
             <Flex direction="column" gap="1">
               <small className="text-zinc-50">Laboratory Name</small>
-              <TextField.Root type="text" defaultValue={formData.title} onChange={(v) => setValue("title", v.target.value)} required />
+              <TextField.Root type="text" value={formData.title} onChange={(v) => setValue("title", v.target.value)} required />
             </Flex>
 
             <Flex direction="column" gap="1">
               <small className="text-zinc-50">Description</small>
-              <TextArea defaultValue={formData.description} rows={10} onChange={(v) => setValue("description", v.target.value)} required />
+              <TextArea value={formData.description} rows={10} onChange={(v) => setValue("description", v.target.value)} required />
             </Flex>
 
             <Flex direction="column" gap="1">
               <small className="text-zinc-50">Laboratory Objective</small>
-              <TextArea defaultValue={formData.objective} rows={5} onChange={(v) => setValue("objective", v.target.value)} required />
+              objective - {formData.objective}
+              <TextArea value={formData.objective} rows={5} onChange={(v) => setValue("objective", v.target.value)} required />
             </Flex>
 
             <Flex direction="column" gap="1">
@@ -291,7 +298,7 @@ const LectureFormPage: React.FC = () => {
                         // @ts-ignore
                         type="file"
                         ref={fileInputRef}
-                        defaultValue={undefined}
+                        value={undefined}
                         onChange={(v) => onReplaceFileSelect(v.target.files![0])}
                       />
                       {replaceInstructionFile ? (
@@ -321,7 +328,7 @@ const LectureFormPage: React.FC = () => {
                   // @ts-ignore
                   type="file"
                   ref={fileInputRef}
-                  defaultValue={formData.file}
+                  value={formData.file}
                   onChange={(v) => onFileSelect(v.target.files![0])}
                 />
               )}
@@ -329,7 +336,7 @@ const LectureFormPage: React.FC = () => {
 
             <Flex direction="column" gap="1">
               <small className="text-zinc-50">Laboratory Instruction</small>
-              <TextArea defaultValue={formData.instruction} rows={10} onChange={(v) => setValue("instruction", v.target.value)} required />
+              <TextArea value={formData.instruction} rows={10} onChange={(v) => setValue("instruction", v.target.value)} required />
             </Flex>
 
             <Flex direction="column" gap="3" className="border-t-2 border-zinc-700 py-5 mt-4">
